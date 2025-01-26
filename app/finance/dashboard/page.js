@@ -1,14 +1,21 @@
-import { InputBox } from "../components/dashboard";
+'use client'
+
 import {
   Grid2,
   Paper,
   Box,
-  Typography
+  Typography,
+  Button
 } from "@mui/material";
+import { InputBox } from "@/app/components/dashboard";
 
-import Link from "next/link";
+import { useAuth } from "@/app/authContext";
 
 export default function Dashboard() {
+  const { user, loading } = useAuth()
+
+  if (loading) return <p>Loading...</p>;
+
   const inputListData = [
     {
       type: 'income',
@@ -18,9 +25,10 @@ export default function Dashboard() {
       selectLists: ['food', 'entertainmen']
     }
   ]
+
   return (
     <>
-      <Link href="/">Home</Link>
+      <h1>{user ? user.email : 'No user logged in'}</h1>
       <Grid2 container spacing={6}>
         <Grid2 size={12}>
           <DashboardContainer></DashboardContainer>
