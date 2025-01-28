@@ -10,7 +10,7 @@ import {
 
 import { addData } from "./actions"
 
-export const InputBox = ({ type, selectLists, uid }) => {
+export const InputBox = ({ type, selectLists, uid, month }) => {
     const [selectedValue, setSelectedValue] = useState('select type')
     const handleChange = (event) => {
         setSelectedValue(event.target.value)
@@ -25,7 +25,7 @@ export const InputBox = ({ type, selectLists, uid }) => {
             category: data.get('category')
         }
         console.log('data from user : ', listData)
-        const response = await addData(listData)
+        const response = await addData(listData, month)
         console.log(response)
         window.location.reload()
     }

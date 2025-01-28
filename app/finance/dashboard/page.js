@@ -25,9 +25,20 @@ export default function Dashboard() {
     change: 0
   })
 
-  const fetchData = async (uid) => {
+  const getCurrentMonth = (date = new Date()) => {
+    const options = {
+      month: 'short',
+      year: 'numeric'
+    }
+    return date.toLocaleDateString("en-US", options)
+  }
 
-    const response = await getData(uid)
+  const [monthPreriod, setMonthPreriod] = useState(getCurrentMonth())
+
+
+  const fetchData = async (uid, month) => {
+
+    const response = await getData(uid, month)
     // const convert = Object.entries(response)
     const convertResponse = JSON.parse(response)
     console.log('get data', convertResponse)
@@ -41,8 +52,9 @@ export default function Dashboard() {
 
   useEffect(() => {
     if (user) {
+      
       setUserId(user.uid)
-      fetchData(user.uid)
+      fetchData(user.uid, monthPreriod)
     }
   }, [user])
 
@@ -74,8 +86,8 @@ export default function Dashboard() {
       selectLists: ['food', 'entertainmen']
     }
   ]
-  const deleteBtnIsClick = async (uid, docId) => {
-    const response = await deleteDocFormId(uid, docId)
+  const deleteBtnIsClick = async (uid, docId, month) => {
+    const response = await deleteDocFormId(uid, docId, month)
     if (response === 'success') {
       alert('data is deleted')
       window.location.reload()
@@ -97,7 +109,7 @@ export default function Dashboard() {
               <div key={index}>
                 {item.data.amout} {item.data.type} {item.data.category}
                 <button>Edit</button>
-                <button onClick={() => deleteBtnIsClick(userId, item.id)}>Delete</button>
+                <button onClick={() => deleteBtnIsClick(userId, item.id, monthPreriod)}>Delete</button>
               </div>
             ))}
           </Paper>
@@ -106,7 +118,7 @@ export default function Dashboard() {
           <Paper elevation={2} variant="outlined" sx={{ padding: 4 }}>
             <Grid2 container spacing={2} direction="column">
               {
-                inputListData.map((data, index) => <InputBox key={index} type={data.type} uid={userId} selectLists={data.selectLists}></InputBox>)
+                inputListData.map((data, index) => <InputBox key={index} type={data.type} uid={userId} month={monthPreriod} selectLists={data.selectLists}></InputBox>)
               }
             </Grid2>
           </Paper>
