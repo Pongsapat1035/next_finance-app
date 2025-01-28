@@ -2,6 +2,7 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase";
+import { storeCredential } from "./actions";
 
 const AuthContext = createContext();
 
@@ -9,10 +10,17 @@ export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
 
+    const storeCookie = async (accessToken) => {
+        await storeCredential(accessToken)
+    }
+
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
             console.log('from context ', user)
             setUser(user);
+            if (user) {
+                storeCookie(user.accessToken)
+            }
             setLoading(false);
         });
 

@@ -1,7 +1,7 @@
 "use client"
 
 import { auth } from '../firebase'
-import { signInWithPopup, GoogleAuthProvider, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { signInWithPopup, GoogleAuthProvider, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile, setPersistence, browserLocalPersistence } from "firebase/auth";
 
 import { Paper, Grid2, TextField, Button, Typography } from '@mui/material'
 import { useState } from 'react'
@@ -9,7 +9,7 @@ import { useRouter } from 'next/navigation';
 import { storeCredential } from './action';
 import Link from 'next/link'
 
-export default  function AuthenPage() {
+export default function AuthenPage() {
     const router = useRouter()
     const [mode, SetMode] = useState(false)
 
@@ -29,9 +29,18 @@ export default  function AuthenPage() {
         const { email, password } = userData
 
         try {
+            // setPersistence(auth, browserLocalPersistence).then(async () => {
+            //     console.log('create persistion')
+            //     const response = await signInWithEmailAndPassword(auth, email, password)
+            //     console.log('login result', response)
+            //     return response
+            // }).catch((error)=>{
+            //     console.log(error)
+            // })
+
             const response = await signInWithEmailAndPassword(auth, email, password)
             const uid = response.user.uid
-            await storeCredential(uid)
+            // await storeCredential(uid)
             console.log(response)
         } catch (error) {
             console.log('login error : ', error)

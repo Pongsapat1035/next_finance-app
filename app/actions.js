@@ -1,13 +1,12 @@
 "use server"
 import { cookies } from "next/headers";
 
-
-export async function storeCredential(uid) {
+export async function storeCredential(accessToken) {
     const cookieStore = await cookies()
     cookieStore.set({
         name: 'auth',
-        value: uid,
-        maxAge: '5'
+        value: accessToken,
+        maxAge: 86400
     })
     console.log('set cookies')
 }
