@@ -4,10 +4,32 @@ import { doc, collection, getDoc, getDocs, addDoc, deleteDoc } from "firebase/fi
 import { db } from "@/app/firebase";
 
 
-export async function getData(uid, month) {
+export async function getAllData(uid, month) {
     try {
         console.log('check uid ', uid)
 
+        const docRef = collection(db, "financeTrack", uid, month)
+        const docSnap = await getDocs(docRef);
+        const result = docSnap.docs.map((doc) => {
+            const convertData = {
+                id: doc.id,
+                data: doc.data()
+            }
+            return convertData
+        })
+
+        const convertResult = JSON.stringify(result)
+        console.log(result)
+        return convertResult
+    } catch (error) {
+        console.log('error from get doc : ', error)
+        // return error
+    }
+}
+
+export async function getData(params) {
+    try {
+        console.log('check uid ', uid)
         const docRef = collection(db, "financeTrack", uid, month)
         const docSnap = await getDocs(docRef);
         const result = docSnap.docs.map((doc) => {
@@ -80,7 +102,7 @@ export async function addData(data, month) {
             // console.log('add from create new month')
         }
         return 'data added'
-      
+
     } catch (error) {
         console.log('add error : ', error)
         return error
