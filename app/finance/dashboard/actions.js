@@ -1,12 +1,12 @@
 "use server"
 
-import { doc, collection, getDoc, getDocs, addDoc, deleteDoc } from "firebase/firestore";
+import { doc, collection, getDoc, getDocs, addDoc, deleteDoc, updateDoc, setDoc  } from "firebase/firestore";
 import { db } from "@/app/firebase";
 
 
 export async function getAllData(uid, month) {
     try {
-        console.log('check uid ', uid)
+        // console.log('check uid ', uid)
 
         const docRef = collection(db, "financeTrack", uid, month)
         const docSnap = await getDocs(docRef);
@@ -19,7 +19,7 @@ export async function getAllData(uid, month) {
         })
 
         const convertResult = JSON.stringify(result)
-        console.log(result)
+        // console.log(result)
         return convertResult
     } catch (error) {
         console.log('error from get doc : ', error)
@@ -76,32 +76,56 @@ export async function deleteDocFormId(uid, docId, month) {
     }
 }
 
-export async function addData(data, month) {
+export async function addData(data) {
     try {
         const userId = data.userid
+        console.log('check recieve date : ', data.createdDate)
+        console.log('check recieve date : ', typeof(data.createdDate))
+        const date = new Date(data.createdDate)
+        const getMonth = date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
+
         const convertData = {
             type: data.type,
             category: data.category,
             amout: data.amout,
-            createdDate: new Date()
+            createdDate: date
         }
-        const checkUser = await checkUserDoc(userId)
+        const docRef = collection(db, "financeTrack", userId, getMonth)
+        const response = await addDoc(docRef, convertData)
+        console.log('add from exit success')
 
-        if (checkUser) {
-            // has user doc
-            const docRef = collection(db, "financeTrack", userId, month)
-            const response = await addDoc(docRef, convertData)
-            console.log('add from exit success')
-
-
-        } else {
-            // new user
-            console.log('new user')
-            const docRef = collection(db, "financeTrack", userId, month)
-            const response = await addDoc(docRef, convertData)
-            // console.log('add from create new month')
-        }
         return 'data added'
+
+    } catch (error) {
+        console.log('add error : ', error)
+        return error
+    }
+}
+
+export async function updateData(data) {
+    try {
+        console.log('check recieve data : ', data)
+        console.log('check recieve data : ', data.createdDate)
+        console.log('check type : ', typeof(data.createdDate))
+        const userId = data.userid
+        const docId = data.docid
+        const date = new Date(data.createdDate)
+        const getMonth = date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
+        console.log('check month : ', getMonth)
+        const convertData = {
+            type: data.type,
+            category: data.category,
+            amout: data.amout,
+            createdDate: data.createdDate
+        }
+        console.log('check send data : ', convertData)
+        const docRef = doc(db, "financeTrack", userId, getMonth, docId)
+        const response = await setDoc(docRef, convertData);
+        console.log('check response : ', response)
+        return 'data updated'
+       
+
+        
 
     } catch (error) {
         console.log('add error : ', error)

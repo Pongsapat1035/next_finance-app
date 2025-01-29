@@ -26,7 +26,13 @@ export default function Dashboard() {
     change: 0
   })
   const [editData, setEditData] = useState({
-
+    id: '',
+    data: {
+      type: '',
+      amout: '',
+      category: '',
+      month: '',
+    }
   })
 
   const getCurrentMonth = (recieveDate) => {
@@ -96,7 +102,7 @@ export default function Dashboard() {
   return (
     <>
       <h1>{user ? user.email : 'No user logged in'}</h1>
-      <button onClick={() => testMonth()}>test btn</button>
+
       <Grid2 container spacing={6}>
         <Grid2 size={12}>
           <DashboardContainer data={dashboardData}></DashboardContainer>
@@ -116,12 +122,13 @@ export default function Dashboard() {
         <Grid2 size="auto">
           <Paper elevation={2} variant="outlined" sx={{ padding: 4 }}>
             <Grid2 container spacing={2} direction="column">
-              <InputBox configData={inputListData} uid={userId} month={monthPreriod}></InputBox>
+              <InputBox configData={inputListData} uid={userId}></InputBox>
+              <EditContainer data={editData} category={inputListData} uid={userId}></EditContainer>
             </Grid2>
           </Paper>
         </Grid2>
       </Grid2>
-      <EditContainer data={editData} category={inputListData}></EditContainer>
+
     </>
   );
 }
