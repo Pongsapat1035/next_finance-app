@@ -29,18 +29,8 @@ export default function AuthenPage() {
         const { email, password } = userData
 
         try {
-            // setPersistence(auth, browserLocalPersistence).then(async () => {
-            //     console.log('create persistion')
-            //     const response = await signInWithEmailAndPassword(auth, email, password)
-            //     console.log('login result', response)
-            //     return response
-            // }).catch((error)=>{
-            //     console.log(error)
-            // })
-
             const response = await signInWithEmailAndPassword(auth, email, password)
             const uid = response.user.uid
-            // await storeCredential(uid)
             console.log(response)
         } catch (error) {
             console.log('login error : ', error)
@@ -103,7 +93,6 @@ export default function AuthenPage() {
             Auhten page<br></br>
             <Link href="/">Home page</Link><br></br>
             <Link href="/finance/dashboard">Dashboard</Link>
-            <Button onClick={() => testLogin()}>Test login</Button>
         </div>
     )
 } 

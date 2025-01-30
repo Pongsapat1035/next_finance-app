@@ -5,6 +5,8 @@ import { AuthProvider } from "./authContext";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
+import './style/main.css'
+
 export default function RootLayout({ children }) {
   console.log('this is from root layout')
   return (

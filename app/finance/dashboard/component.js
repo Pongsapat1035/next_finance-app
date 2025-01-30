@@ -8,9 +8,11 @@ import {
     Button,
     Paper,
     Box,
-    Typography
+    Typography,
+    Alert
 } from "@mui/material"
 
+import { CheckIcon, ClearIcon } from '@mui/icons-material';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import dayjs from 'dayjs';
 import { addData, updateData } from "./actions"
@@ -43,9 +45,9 @@ export const InputBox = ({ configData, uid }) => {
         window.location.reload()
     }
     useEffect(() => {
-        console.log(date.format())
+        // console.log(date.format())
     }, [date])
-    console.log(type)
+    // console.log(type)
     return (
         <Grid2 container spacing={2} direction={"column"}>
             <form onSubmit={submitForm}>
@@ -99,10 +101,11 @@ export const DashboardContainer = ({ data }) => {
     )
 }
 
-export const EditContainer = ({ data, category, uid }) => {
-    console.log(data)
+export const EditContainer = ({ recieveData, category, uid, deleteFunction }) => {
+    // console.log(data)
+    const data = JSON.parse(JSON.stringify(recieveData));
     const createdDate = data.data.timeStamp
-    console.log(createdDate)
+    // console.log(createdDate)
     const [date, setDate] = useState(dayjs(createdDate * 1000))
 
     const docId = data.id
@@ -113,7 +116,6 @@ export const EditContainer = ({ data, category, uid }) => {
         category: docData.category,
         amout: docData.amout,
         month: docData.month,
-
     })
 
     const changeType = (e) => {
@@ -125,7 +127,7 @@ export const EditContainer = ({ data, category, uid }) => {
             ...prevState,
             [name]: value
         }))
-       
+
 
     }
     const submitForm = async (e) => {
@@ -156,7 +158,7 @@ export const EditContainer = ({ data, category, uid }) => {
             month: docData.month
         }))
         setDate(dayjs(createdDate * 1000))
-    }, [data])
+    }, [recieveData])
 
 
 
@@ -177,9 +179,21 @@ export const EditContainer = ({ data, category, uid }) => {
                             category[type].map((item, index) => <MenuItem value={item} key={index}>{item}</MenuItem>)
                         }
                     </Select>
-                    <Button type="submit" variant="contained">Add</Button>
+                    <Button type="submit" variant="contained">Update</Button>
+                    <Button variant="contained" onClick={() => deleteFunction(uid, docId, formData.month)}>Delete</Button>
                 </Grid2>
             </form>
         </div>
+    )
+}
+
+export function AlertBox({ type, msg }) {
+    
+    return (
+        <Alert  severity={type}>
+            Here is a gentle confirmation that your action was successful.
+            {type}
+            {msg}
+        </Alert>
     )
 }

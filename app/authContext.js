@@ -2,7 +2,7 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase";
-import { storeCredential } from "./actions";
+import { storeCredential } from "./action";
 
 const AuthContext = createContext();
 
@@ -19,6 +19,7 @@ export const AuthProvider = ({ children }) => {
             console.log('from context ', user)
             setUser(user);
             if (user) {
+                console.log(user.getIdToken())
                 storeCookie(user.accessToken)
             }
             setLoading(false);

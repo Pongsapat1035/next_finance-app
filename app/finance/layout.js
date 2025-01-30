@@ -2,7 +2,7 @@
 import { auth } from "../firebase"
 import { signOut } from "firebase/auth"
 import { useRouter } from 'next/navigation'
-import { deleteCookie } from "../actions"
+import { deleteCookie } from "../action"
 export default function HomeLayout({ children }) {
     const router = useRouter()
 
