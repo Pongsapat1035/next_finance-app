@@ -12,7 +12,6 @@ import {
   TableBody,
   TableHead,
   TableRow,
-  Alert
 } from "@mui/material";
 
 import { InputBox, DashboardContainer, EditContainer, AlertBox } from "./component";
