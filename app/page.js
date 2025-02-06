@@ -99,7 +99,7 @@ export default function Home() {
             </Grid2>
             <AuthenForm status={open} ModalHandle={handleClose} formHandle={handleSubmit} login={LoginWithGoogle}></AuthenForm>
             Home page
-            <AlertBadge type="error" msg="Test msg"></AlertBadge>
+            <AlertBadge state={true} type="success" msg="Test msg success"></AlertBadge>
         </div >
     )
 }

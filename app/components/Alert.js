@@ -1,26 +1,67 @@
-import { Box, Paper, Typography, Grid2 } from "@mui/material"
+"use client"
+import { Paper, Typography, Grid2, Button } from "@mui/material"
 import { Close, Done } from '@mui/icons-material';
-export default function AlertBadge({ type, msg }) {
-    // const style = 
+import { useState, useEffect } from "react";
 
-    // }
-    const symbol = type === 'error' ? <Close></Close> : <Done></Done>
+export default function AlertBadge({ state, type, msg }) {
+    const [openState, setOpenState] = useState(false)
+    const symbol = type === 'error' ? <Close sx={{ color: "#C72424" }}></Close> : <Done sx={{ color: "#5AAE25" }}></Done>
 
+    useEffect(() => {
+
+        if (state === true) {
+            setOpenState(true)
+            setTimeout(() => setOpenState(false), 3000)
+        }
+    }, [state])
+
+    useEffect(() => {
+        console.log(openState)
+    }, [openState])
+
+    const bgSymbol = type === 'error' ? "#FFF2F2" : "#E5F8D6"
+
+    const symbolStyle = {
+        borderRadius: '100%',
+        bgcolor: bgSymbol,
+        width: 50,
+        height: 50
+    }
+
+    const closeBtnStyle = {
+        position: "absolute",
+        top: 10,
+        right: 10,
+        cursor: "pointer",
+        minWidth: 0,
+        width: 30,
+        height: 30,
+        borderRadius: "50%"
+    }
     return (
-        <Paper elevation={1} sx={{ width: 1 / 3, borderRadius: 5 }}>
-            <Grid2 container spacing={2}>
-                <Grid2 container justifyContent="center" alignItems="center" >
-                    {/* <Close></Close> */}
+        <>
+            {
+                openState === true ? (<Paper elevation={1} sx={{ width: 1 / 4, borderRadius: 5, p: 3, position: "fixed", bottom: 30, right: 20 }}>
+                    <Grid2 container alignItems="center" spacing={4}>
+                        <Grid2 size={2}>
+                            <Grid2 container justifyContent="center" alignItems="center" sx={symbolStyle}>
+                                {symbol}
+                            </Grid2>
+                        </Grid2>
+                        <Grid2 size={10}>
+                            <Typography variant="h5" fontWeight="bold">{type === 'error' ? 'Error' : 'Success'}</Typography>
+                            <Typography variant="body1">{msg}</Typography>
+                        </Grid2>
+                    </Grid2>
+                    <Button onClick={() => setOpenState(false)} sx={closeBtnStyle}>
+                        <Grid2 container justifyContent="center" alignItems="center">
+                            <Close></Close>
+                        </Grid2>
+                    </Button>
+                </Paper>) : ''
+            }
 
-                    <Box sx={{ p: 1,  border: 1, borderRadius: '50%' }}>
-                        {symbol}
-                    </Box>
-                </Grid2>
-                <Grid2>
-                    <Typography>{type}</Typography>
-                    {msg}
-                </Grid2>
-            </Grid2>
-        </Paper>
+        </>
+
     )
 }
