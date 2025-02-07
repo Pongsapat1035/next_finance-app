@@ -94,12 +94,12 @@ export default function Home() {
                 </Box>
                 <Grid2 container spacing={2} sx={{ p: 2 }}>
                     <Button onClick={() => router.push('/finance/dashboard')} variant="contained">Try Demo</Button>
-                    <Button onClick={handleOpen} variant="outlined">Sign in</Button>
+                    <Button onClick={() => router.push('/auth')} variant="outlined">Sign in</Button>
                 </Grid2>
             </Grid2>
             <AuthenForm status={open} ModalHandle={handleClose} formHandle={handleSubmit} login={LoginWithGoogle}></AuthenForm>
             Home page
-            <AlertBadge state={true} type="success" msg="Test msg success"></AlertBadge>
+            < AlertBadge state={true} type="success" msg="Test msg success" ></AlertBadge >
         </div >
     )
 }

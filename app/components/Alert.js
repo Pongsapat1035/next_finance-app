@@ -1,5 +1,5 @@
 "use client"
-import { Paper, Typography, Grid2, Button } from "@mui/material"
+import { Paper, Typography, Grid2, Button, IconButton } from "@mui/material"
 import { Close, Done } from '@mui/icons-material';
 import { useState, useEffect } from "react";
 
@@ -8,16 +8,11 @@ export default function AlertBadge({ state, type, msg }) {
     const symbol = type === 'error' ? <Close sx={{ color: "#C72424" }}></Close> : <Done sx={{ color: "#5AAE25" }}></Done>
 
     useEffect(() => {
-
         if (state === true) {
             setOpenState(true)
             setTimeout(() => setOpenState(false), 3000)
         }
     }, [state])
-
-    useEffect(() => {
-        console.log(openState)
-    }, [openState])
 
     const bgSymbol = type === 'error' ? "#FFF2F2" : "#E5F8D6"
 
@@ -41,7 +36,7 @@ export default function AlertBadge({ state, type, msg }) {
     return (
         <>
             {
-                openState === true ? (<Paper elevation={1} sx={{ width: 1 / 4, borderRadius: 5, p: 3, position: "fixed", bottom: 30, right: 20 }}>
+                openState === true ? (<Paper elevation={0} sx={{ width: 1 / 4, borderRadius: 5, p: 3, position: "fixed", bottom: 30, right: 20 }}>
                     <Grid2 container alignItems="center" spacing={4}>
                         <Grid2 size={2}>
                             <Grid2 container justifyContent="center" alignItems="center" sx={symbolStyle}>
@@ -53,11 +48,11 @@ export default function AlertBadge({ state, type, msg }) {
                             <Typography variant="body1">{msg}</Typography>
                         </Grid2>
                     </Grid2>
-                    <Button onClick={() => setOpenState(false)} sx={closeBtnStyle}>
+                    <IconButton onClick={() => setOpenState(false)} size="small" sx={{ position: 'absolute', top: 10, right: 10 }} >
                         <Grid2 container justifyContent="center" alignItems="center">
                             <Close></Close>
                         </Grid2>
-                    </Button>
+                    </IconButton>
                 </Paper>) : ''
             }
 
