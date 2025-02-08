@@ -15,7 +15,7 @@ import {
 } from "firebase/auth";
 
 import { storeCredential } from './action';
-import AuthenForm from './components/AuthenForm'
+
 import { AlertBox } from './finance/dashboard/component';
 import AlertBadge from './components/Alert'
 
@@ -99,7 +99,7 @@ export default function Home() {
                     <Button onClick={() => router.push('/auth')} variant="outlined">Sign in</Button>
                 </Grid2>
             </Grid2>
-            <AuthenForm status={open} ModalHandle={handleClose} formHandle={handleSubmit} login={LoginWithGoogle}></AuthenForm>
+          
             Home page
             < AlertBadge state={true} type="success" msg="Test msg success" ></AlertBadge >
         </div >

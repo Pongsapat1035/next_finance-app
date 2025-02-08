@@ -17,11 +17,11 @@ export async function Login(userData) {
         const response = await signInWithEmailAndPassword(auth, email, password)
         const token = await response.user.getIdToken()
         storeCookie(token)
-        return { status: 'success', message: `login success token : ${token}`, token }
+        return { status: true, message: `login success!!`, token }
 
     } catch (error) {
         console.log('login error : ', error)
-        return { status: 'fail', message: error }
+        return { status: false, message: error }
     }
 }
 export async function testEnv() {
@@ -36,11 +36,11 @@ export async function Register(userData) {
         })
         const token = await response.user.getIdToken()
         storeCookie(token)
-        return { status: 'success', message: `Register success token : ${token}` }
+        return { status: true, message: `Register success!!"`, token }
 
     } catch (error) {
         console.log('register error : ', error)
-        return { status: 'fail', message: error }
+        return { status: false, message: error }
     }
 }
 

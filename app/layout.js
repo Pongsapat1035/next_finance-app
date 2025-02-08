@@ -92,8 +92,7 @@ const theme = createTheme({
 });
 
 export default function RootLayout({ children }) {
-  // console.log('this is from root layout')
-  console.log('env check : ', process.env.APIKEY)
+
   return (
     <html lang="en" suppressHydrationWarning>
       <head>

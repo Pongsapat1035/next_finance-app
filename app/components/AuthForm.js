@@ -35,14 +35,15 @@ export default function AuthForm() {
     async function LoginWithGoogle() {
         try {
             const provider = new GoogleAuthProvider();
-
             const result = await signInWithPopup(auth, provider)
-            console.log(result.user)
+            const token = await result.user.getIdToken()
+            console.log('google login', result)
+            storeCookie(token)
+
         } catch (error) {
             console.log(error)
         }
     }
-
 
     const validateInput = (data) => {
 
@@ -118,7 +119,7 @@ export default function AuthForm() {
                         Login with google
                     </Button>
                 </Stack>
-                <Button onClick={()=>checkVertifyToken()}>test vertify</Button>
+                <Button onClick={() => checkVertifyToken()}>test vertify</Button>
                 {
                     mode ?
                         <Stack gap={1} direction="row">

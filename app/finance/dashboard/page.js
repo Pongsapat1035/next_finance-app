@@ -15,14 +15,13 @@ import {
 } from "@mui/material";
 
 import { InputBox, DashboardContainer, EditContainer, AlertBox } from "./component";
-import { useAuth } from "@/app/authContext";
 
 import { useEffect, useState } from "react";
 import { getAllData, deleteDocFormId } from "./actions";
 
 export default function Dashboard() {
 
-  const { user, loading } = useAuth()
+
   const [lists, setLists] = useState([])
   const [userId, setUserId] = useState('')
   const [editModal, setEditModal] = useState(false)
