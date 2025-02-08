@@ -25,7 +25,9 @@ export default function Home() {
 
     const handleOpen = () => setOpen(true)
     const handleClose = () => setOpen(false)
-
+  
+    const env = process.env.FB_APIKEY
+    console.log('test env : ', env)
     const login = async (userData) => {
         const { email, password } = userData
 

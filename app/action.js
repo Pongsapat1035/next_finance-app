@@ -17,3 +17,7 @@ export async function deleteCookie() {
     console.log('delete cookies')
 
 }
+
+export async function testEnv() {
+    console.log(process.env.FB_APIKEY)
+}
