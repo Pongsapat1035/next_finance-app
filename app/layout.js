@@ -1,6 +1,6 @@
 "use client"
 import { Container } from "@mui/material";
-import { AuthProvider } from "./authContext";
+// import { AuthProvider } from "./authContext";
 
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -99,7 +99,7 @@ export default function RootLayout({ children }) {
         <title>Finance track</title>
       </head>
       <body>
-        <AuthProvider>
+        {/* <AuthProvider> */}
           <ThemeProvider theme={theme}>
             <Container>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -107,7 +107,7 @@ export default function RootLayout({ children }) {
               </LocalizationProvider>
             </Container>
           </ThemeProvider>
-        </AuthProvider>
+        {/* </AuthProvider> */}
       </body>
     </html>
   );

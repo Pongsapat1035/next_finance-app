@@ -2,10 +2,10 @@ import FormHelperText from "@mui/material/FormHelperText";
 import FormControl from "@mui/material/FormControl";
 import InputBase from "@mui/material/InputBase";
 import InputLabel from "@mui/material/InputLabel";
-
+import React, { useRef } from "react";
 import { alpha, styled } from '@mui/material/styles';
 
-export default function InputBox({ label, nameTag, typeTag, placeHolder, errorMsg }) {
+function InputBox({ label, nameTag, typeTag, placeHolder, errorMsg, onChangeVal }) {
     const InputTag = styled(InputBase)(({ theme }) => ({
         'label + &': {
             marginTop: theme.spacing(3),
@@ -37,6 +37,7 @@ export default function InputBox({ label, nameTag, typeTag, placeHolder, errorMs
             }),
         },
     }));
+
     return (
         <FormControl variant="standard" fullWidth>
             <InputLabel shrink>
@@ -47,3 +48,5 @@ export default function InputBox({ label, nameTag, typeTag, placeHolder, errorMs
         </FormControl>
     )
 }
+
+export default React.memo(InputBox);

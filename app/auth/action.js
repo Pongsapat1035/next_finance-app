@@ -2,13 +2,12 @@
 import { cookies } from "next/headers";
 import { auth } from '../firebase'
 import { authAdmin } from "../firebase-admin";
-// import { auth } from "@/lib/firebase-admin"; // Firebase Admin SDK
+
 import {
-    signInWithPopup,
-    GoogleAuthProvider,
     signInWithEmailAndPassword,
     createUserWithEmailAndPassword,
     updateProfile,
+    signOut
 } from "firebase/auth";
 
 export async function Login(userData) {
@@ -24,9 +23,7 @@ export async function Login(userData) {
         return { status: false, message: error }
     }
 }
-export async function testEnv() {
-    console.log(process.env.FB_APIKEY)
-}
+
 export async function Register(userData) {
     const { email, password, name } = userData
     try {
@@ -63,6 +60,17 @@ export async function storeCookie(token) {
 
 export async function deleteCookie() {
     const cookieStore = await cookies()
-    cookieStore.delete('auth')
-    console.log('delete cookies')
+    cookieStore.delete('authToken')
+    console.log('delete cookies success')
+}
+
+export const userSignout = async () => {
+    try {
+        //signout and redirect to home page
+        await signOut(auth)
+        await deleteCookie()
+        return { status: 'success' }
+    } catch (error) {
+        console.log('signout error : ', error)
+    }
 }

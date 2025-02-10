@@ -1,16 +1,18 @@
 "use client"
-import { auth } from "../firebase"
-import { signOut } from "firebase/auth"
+
 import { useRouter } from 'next/navigation'
-import { deleteCookie } from "../action"
+import { userSignout } from "../auth/action"
+
 export default function HomeLayout({ children }) {
     const router = useRouter()
-
     const signoutClick = async () => {
         try {
             //signout and redirect to home page
-            await signOut(auth)
-            await deleteCookie()
+            const { status } = await userSignout()
+            if (status) {
+                console.log('user sign out')
+            }
+            alert('logout success !!')
             router.push('/')
         } catch (error) {
             console.log('signout error : ', error)
@@ -24,7 +26,6 @@ export default function HomeLayout({ children }) {
                 <button onClick={() => router.push('/')}>goto home page</button>
             </div>
             {children}
-
         </>
     )
 }

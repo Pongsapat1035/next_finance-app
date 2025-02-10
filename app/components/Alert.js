@@ -3,7 +3,7 @@ import { Paper, Typography, Grid2, Button, IconButton } from "@mui/material"
 import { Close, Done } from '@mui/icons-material';
 import { useState, useEffect } from "react";
 
-export default function AlertBadge({ state, type, msg }) {
+export default function AlertBadge({ state, type, msg, }) {
     const [openState, setOpenState] = useState(false)
     const symbol = type === 'error' ? <Close sx={{ color: "#C72424" }}></Close> : <Done sx={{ color: "#5AAE25" }}></Done>
 

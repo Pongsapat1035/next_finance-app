@@ -12,10 +12,9 @@ import {
     Alert
 } from "@mui/material"
 
-import { CheckIcon, ClearIcon } from '@mui/icons-material';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import dayjs from 'dayjs';
-import { addData, updateData } from "./actions"
+import { addData, updateData } from "@/app/finance/dashboard/actions"
 
 export const InputBox = ({ configData, uid }) => {
     const [selectedValue, setSelectedValue] = useState('select type')
@@ -187,13 +186,3 @@ export const EditContainer = ({ recieveData, category, uid, deleteFunction }) =>
     )
 }
 
-export function AlertBox({ type, msg }) {
-    
-    return (
-        <Alert  severity={type}>
-            Here is a gentle confirmation that your action was successful.
-            {type}
-            {msg}
-        </Alert>
-    )
-}
