@@ -16,7 +16,11 @@ import {
     MenuItem,
     TextField,
     Button,
+    Stack
 } from "@mui/material";
+import TransectionBadge from "./TransectionBadge";
+import { styled } from '@mui/material/styles';
+import LinearProgress, { linearProgressClasses } from '@mui/material/LinearProgress';
 
 import { useEffect, useState } from "react";
 
@@ -35,7 +39,7 @@ export default function Dashboard({ userData }) {
     const [dashboardData, setDashboardData] = useState({
         expend: 0,
         income: 0,
-        change: 0
+        balance: 0
     })
     const [editData, setEditData] = useState({
         id: '',
@@ -87,12 +91,12 @@ export default function Dashboard({ userData }) {
         if (lists.length > 0) {
             const expendSum = lists.filter((list) => list.data.type === 'expend').reduce((acc, currectVal) => acc + currectVal.data.amout, 0,)
             const incomeSum = lists.filter((list) => list.data.type === 'income').reduce((acc, currectVal) => acc + currectVal.data.amout, 0,)
-            const change = incomeSum - expendSum
+            const balance = incomeSum - expendSum
 
             setDashboardData({
                 income: incomeSum,
                 expend: expendSum,
-                change: change
+                balance: balance
             })
         }
     }, [lists])
@@ -131,8 +135,27 @@ export default function Dashboard({ userData }) {
 
 
     return (
-        <>
+        <Box>
             <Typography variant="h4">{userData ? `Hello, ${userData.name}` : 'No user logged in'}</Typography>
+
+            <Grid2 container direction="row" spacing={2} sx={{ width: '100%' }}>
+                <Grid2 size={7}>
+                    <Stack spacing={4}>
+                        <Stack direction="row" gap={2}>
+                            <TotalBox type="income" amount={dashboardData.income}></TotalBox>
+                            <TotalBox type="expend" amount={dashboardData.expend}></TotalBox>
+                        </Stack>
+                        <TransectionBox></TransectionBox>
+                    </Stack>
+                </Grid2>
+                <Grid2 size={4} direction="column">
+                    <Stack spacing={2}>
+                        <TotalBalanceBox></TotalBalanceBox>
+                        <SpendingBox></SpendingBox>
+                        <WeeklyBox></WeeklyBox>
+                    </Stack>
+                </Grid2>
+            </Grid2>
             <Grid2 container spacing={6}>
                 <Grid2 size={12}>
                     <DashboardContainer data={dashboardData}></DashboardContainer>
@@ -159,7 +182,7 @@ export default function Dashboard({ userData }) {
                 </Box>
             </Modal>
 
-        </>
+        </Box>
     );
 }
 
@@ -216,6 +239,167 @@ function ListContainer({ data, action }) {
     )
 }
 
+const TotalBox = ({ type = 'income', amount = 200 }) => {
+    return (
+        <Paper sx={{ p: 3 }}>
+            <Stack direction="row" columnGap={2}>
+                <Stack direction="column" rowGap={2}>
+                    <Typography variant="h6" color="primary.light" fontWeight="light">
+                        Total.{type}
+                    </Typography>
+                    <Typography variant="h3">
+                        $ {amount}
+                    </Typography>
+                </Stack>
+                <Stack justifyContent="center" alignItems="center"
+                    sx={{ p: 1, bgcolor: 'primary.main', borderRadius: '100%', width: 50, height: 50 }}>
+                    <img src="https://placehold.co/30"></img>
+                </Stack>
+            </Stack>
+        </Paper>
+    )
+}
+
+const TransectionBox = () => {
+
+    function createData(name, type, fat, carbs) {
+        return { name, type, fat, carbs };
+    }
+
+    const rows = [
+        createData('12 Fri', 'income', 'Salary', 24, 4.0),
+        createData('14 Sun', 'income', 'Special', 37, 4.3),
+        createData('15 Mon', 'expend', 'Shoping', 24, 6.0),
+        createData('20 Thur', 'income', 'Special', 67, 4.3),
+    ];
+
+    return (
+        <Paper sx={{ p: 3 }}>
+            <Stack direction="row" justifyContent="space-between">
+                <Typography variant="h4">Transection</Typography>
+                <Button variant="contained">Jan 25</Button>
+            </Stack>
+            <TableContainer>
+                <Table sx={{ width: "100%" }} aria-label="simple table">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell sx={{ fontWeight: 'bold', fontSize: '1.1rem' }}>Date</TableCell>
+                            <TableCell sx={{ fontWeight: 'bold', fontSize: '1.1rem' }} align="center">Type</TableCell>
+                            <TableCell sx={{ fontWeight: 'bold', fontSize: '1.1rem' }} align="center">Category</TableCell>
+                            <TableCell sx={{ fontWeight: 'bold', fontSize: '1.1rem' }} align="right">Amout</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {rows.map((row) => (
+                            <TableRow
+                                key={row.name}
+                                sx={{ '&:last-child td, &:last-child th': { border: 0 }, '&hover': { bgcolor: 'primary.light' } }}
+                            >
+                                <TableCell component="th" scope="row" sx={{ fontSize: '0.9rem', fontWeight: 'bold' }}>
+                                    {row.name}
+                                </TableCell>
+                                <TableCell align="center" sx={{ fontSize: '0.9rem', fontWeight: 'bold' }}>
+                                    <Stack alignItems="center">
+                                        <TransectionBadge type={row.type}></TransectionBadge>
+                                    </Stack>
+                                </TableCell>
+                                <TableCell align="center" sx={{ fontSize: '0.9rem' }}>{row.fat}</TableCell>
+                                <TableCell align="right"
+                                    color={row.type === 'income' ? 'success.main' : 'error.main'}
+                                    sx={{ fontSize: '0.9rem', fontWeight: 'bold' }}>
+                                    $ {row.carbs}
+                                </TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+        </Paper>
+    )
+}
+
+const TotalBalanceBox = ({ amout = 200 }) => {
+    return (
+        <Paper>
+            <Stack padding={3} rowGap={2}>
+                <Stack justifyContent="center" alignItems="center"
+                    sx={{ p: 1, bgcolor: 'primary.main', borderRadius: '100%', width: 50, height: 50 }}>
+                    <img src="https://placehold.co/30"></img>
+                </Stack>
+                <Typography variant="h6" color="primary.light" fontWeight="light">
+                    Balance
+                </Typography>
+                <Typography variant="h3">
+                    $ {amout}
+                </Typography>
+                <Button variant="contained" sx={{ borderRadius: 2 }}>
+                    New transection
+                </Button>
+            </Stack>
+        </Paper>
+    )
+}
+
+const SpendingBox = () => {
+    const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
+        height: 10,
+        borderRadius: 5,
+        marginTop: 5,
+        [`&.${linearProgressClasses.colorPrimary}`]: {
+            backgroundColor: theme.palette.grey[200],
+            ...theme.applyStyles('dark', {
+                backgroundColor: theme.palette.grey[800],
+            }),
+        },
+        [`& .${linearProgressClasses.bar}`]: {
+            borderRadius: 5,
+            backgroundColor: '#FBA957',
+            ...theme.applyStyles('dark', {
+                backgroundColor: '#FBA957',
+            }),
+        },
+    }));
+    return (
+        <Paper sx={{ p: 3 }}>
+            {/* this is spendingbox */}
+            <Stack spacing={1}                                  >
+                <Stack direction="row" justifyContent="space-between">
+                    <Stack>
+                        <Typography variant="h5">
+                            Spending Limit
+                        </Typography>
+                        <Typography variant="body1" color="primary.light">
+                            Data form 1-23 Feb 2025
+                        </Typography>
+                    </Stack>
+                    <Button variant="outlined" sx={{ py: '5px' }}>View report</Button>
+                </Stack>
+                <Stack direction="row" alignItems="flex-end" spacing={1}>
+                    <Typography variant="h4">
+                        250
+                    </Typography>
+                    <Typography variant="body1" color="primary.light">
+                        of
+                    </Typography>
+                    <Typography variant="body1" color="primary.light">
+                        4000
+                    </Typography>
+                </Stack>
+                <Box>
+                    <BorderLinearProgress variant="determinate" value={50} />
+                </Box>
+            </Stack>
+        </Paper>
+    )
+}
+
+const WeeklyBox = () => {
+    return (
+        <Paper>
+            WeeklyBox
+        </Paper>
+    )
+}
 
 export const InputBox = ({ configData, uid }) => {
     const [selectedValue, setSelectedValue] = useState('select type')

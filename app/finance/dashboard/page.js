@@ -7,8 +7,8 @@ export default async function Page() {
   console.log('check user ', userInfo)
 
   return (
-    <div>
+    <>
       <Dashboard userData={userInfo}></Dashboard>
-    </div>
+    </>
   )
 }

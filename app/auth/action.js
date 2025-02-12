@@ -1,7 +1,6 @@
 "use server"
 import { cookies } from "next/headers";
 import { auth } from '../firebase'
-import { authAdmin } from "../firebase-admin";
 
 import {
     signInWithEmailAndPassword,
@@ -41,16 +40,7 @@ export async function Register(userData) {
     }
 }
 
-export async function vertifyToken(token) {
-    try {
-        const response = await authAdmin.verifyIdToken(token)
-        const { name, user_id } = response
-        return { name, uid: user_id }
-    } catch (error) {
-        console.log(error)
-        return false
-    }
-}
+
 
 export async function storeCookie(token) {
     cookies().set("authToken", token, { httpOnly: true, secure: true });

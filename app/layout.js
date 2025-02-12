@@ -1,6 +1,5 @@
 "use client"
 import { Container } from "@mui/material";
-// import { AuthProvider } from "./authContext";
 
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -21,7 +20,7 @@ const theme = createTheme({
     },
     success: {
       main: '#5AAE25',
-      light: '#E5F8D6',
+      light: '#F1F8E9',
       dark: '#46B693'
     }
   },
@@ -99,15 +98,13 @@ export default function RootLayout({ children }) {
         <title>Finance track</title>
       </head>
       <body>
-        {/* <AuthProvider> */}
-          <ThemeProvider theme={theme}>
-            <Container>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                {children}
-              </LocalizationProvider>
-            </Container>
-          </ThemeProvider>
-        {/* </AuthProvider> */}
+        <ThemeProvider theme={theme}>
+          <Container>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              {children}
+            </LocalizationProvider>
+          </Container>
+        </ThemeProvider>
       </body>
     </html>
   );

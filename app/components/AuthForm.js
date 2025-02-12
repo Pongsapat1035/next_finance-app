@@ -34,6 +34,7 @@ export default function AuthForm() {
             console.log('google login', result)
             storeCookie(token)
             alert('login success !!')
+            router.push('/finance/dashboard')
         } catch (error) {
             console.log(error)
         }

@@ -16,7 +16,6 @@ import {
 
 import { storeCredential } from './action';
 
-import { AlertBox } from './finance/dashboard/component';
 import AlertBadge from './components/Alert'
 
 export default function Home() {
