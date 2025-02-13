@@ -6,8 +6,6 @@ import { db } from "@/app/firebase";
 
 export async function getAllData(uid, month) {
     try {
-        // console.log('check uid ', uid)
-
         const docRef = collection(db, "financeTrack", uid, month)
         const docSnap = await getDocs(docRef);
         const result = docSnap.docs.map((doc) => {
@@ -17,9 +15,7 @@ export async function getAllData(uid, month) {
             }
             return convertData
         })
-
         const convertResult = JSON.stringify(result)
-        // console.log(result)
         return convertResult
     } catch (error) {
         console.log('error from get doc : ', error)

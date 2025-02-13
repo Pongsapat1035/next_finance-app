@@ -49,4 +49,4 @@ function InputBox({ label, nameTag, typeTag, placeHolder, errorMsg, onChangeVal 
     )
 }
 
-export default React.memo(InputBox);
+export default InputBox;

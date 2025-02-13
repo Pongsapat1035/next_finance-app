@@ -11,12 +11,9 @@ export async function middleware(request) {
         name: '',
         uuid: ''
     }
-    // console.log('middleware')
     const cookieStore = await cookies();
     const token = cookieStore.get('authToken');
-    // if (!token) throw new Error('no cookie found')
-    // console.log(`token check from middleware ${request.nextUrl} : `, token)
-   
+
     if (token) {
         try {
 
@@ -26,7 +23,7 @@ export async function middleware(request) {
                 body: JSON.stringify({ token: token.value }),
             });
             const userData = await res.json()
-            console.log('reponse vertify check : ', userData)
+            // console.log('reponse vertify check : ', userData)
             result.name = userData.user.name
             result.uuid = userData.user.user_id
             result.isLogin = true

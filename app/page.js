@@ -1,109 +1,48 @@
 'use client'
-import { Grid2, Box, Button, Modal, Typography, TextField, Link } from '@mui/material';
+
+import Grid2 from '@mui/material/Grid2';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
 
 import { useRouter } from "next/navigation";
-import { useState } from 'react';
-
-import { auth } from './firebase'
-
-import {
-    signInWithPopup,
-    GoogleAuthProvider,
-    signInWithEmailAndPassword,
-    createUserWithEmailAndPassword,
-    updateProfile,
-} from "firebase/auth";
-
-import { storeCredential } from './action';
-
-import AlertBadge from './components/Alert'
 
 export default function Home() {
     const router = useRouter()
-    const [open, setOpen] = useState(false)
-
-    const handleOpen = () => setOpen(true)
-    const handleClose = () => setOpen(false)
-  
-    const env = process.env.FB_APIKEY
-    console.log('test env : ', env)
-    const login = async (userData) => {
-        const { email, password } = userData
-
-        try {
-            const response = await signInWithEmailAndPassword(auth, email, password)
-            const token = response.user.accessToken
-            // console.log(response)
-            await storeCredential(token)
-            console.log('login success')
-
-        } catch (error) {
-            console.log('login error : ', error)
-        }
-    }
-    async function LoginWithGoogle() {
-        try {
-            const provider = new GoogleAuthProvider();
-            const result = await signInWithPopup(auth, provider)
-            const token = result.user.accessToken
-            console.log(result.user)
-            await storeCredential(token)
-            router.push('/finance/dashboard')
-        } catch (error) {
-            console.log(error)
-        }
-    }
-    const register = async (userData) => {
-        const { email, password, name } = userData
-
-        try {
-            const response = await createUserWithEmailAndPassword(auth, email, password)
-            await updateProfile(auth.currentUser, {
-                displayName: name
-            })
-            const token = response.user.accessToken
-            await storeCredential(token)
-            // console.log(response)
-            console.log('register success')
-        } catch (error) {
-            console.log('register error : ', error)
-        }
-    }
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        const formData = new FormData(e.target);
-        const userData = {
-            email: formData.get('email'),
-            password: formData.get('password')
-        }
-
-        if (mode === false) {
-            await login(userData)
-        } else {
-            userData.name = formData.get('name')
-            await register(userData)
-        }
-        router.push('/finance/dashboard')
-    }
 
     return (
         <div>
-            <Grid2 container justifyContent={"space-between"}>
-                <Box>
-                    <h1>Logo</h1>
-                </Box>
-                <Grid2 container spacing={2} sx={{ p: 2 }}>
-                    <Button onClick={() => router.push('/finance/dashboard')} variant="contained">Try Demo</Button>
-                    <Button onClick={() => router.push('/auth')} variant="outlined">Sign in</Button>
+            <Navbar></Navbar>
+            <Grid2 container sx={{ my: 10 }}>
+                <Grid2 container gap={5} size={6} sx={{ pt: 6, pb: 10, pr: 6 }}>
+                    <Typography variant='h2' fontWeight="bold">
+                        Finance track app
+                    </Typography>
+                    <Typography variant='body1'>
+                        A recent graduate with a bachelor's degree in Information Technology, bringing a strong foundation in computer skills, including Microsoft Office and web development. Recently discharged
+                    </Typography>
+                    <Button variant='contained' onClick={() => router.push('/auth')} sx={{ px: 5 }}>Get started</Button>
+                </Grid2>
+                <Grid2 size={6} padding={2}>
+                    <Box sx={{ borderRadius: '20px', bgcolor: 'primary.light', width: '100%', height: '100%' }}>
+                    </Box>
                 </Grid2>
             </Grid2>
-          
-            Home page
-            < AlertBadge state={true} type="success" msg="Test msg success" ></AlertBadge >
         </div >
     )
 }
-
+const Navbar = () => {
+    const router = useRouter()
+    return (
+        <Grid2 container alignItems="center" justifyContent={"space-between"} paddingY={2}>
+            <Box>
+                <Typography variant='h4' fontWeight="bold">Finance</Typography>
+            </Box>
+            <Grid2 container spacing={2} sx={{ p: 2 }}>
+                <Button onClick={() => router.push('/auth')} variant="outlined">Get started</Button>
+            </Grid2>
+        </Grid2>
+    )
+}
 
 

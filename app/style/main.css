@@ -1,9 +1,19 @@
 @import url("https://fonts.googleapis.com/css2?family=Inria+Sans:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap");
 body {
   margin: 0;
-  background-color: #DBDEE7;
+  background-color: #dbdee7;
 }
 * {
   font-family: "Inria sans";
   box-sizing: border-box;
 }
+/* .rotate {
+  transform: rotate(180deg);
+} */
+.logo-icon {
+  transform: rotate(-180deg);
+  &.rotate {
+    transform: rotate(0deg);
+  }
+}
+
