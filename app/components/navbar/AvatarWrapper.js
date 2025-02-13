@@ -14,7 +14,7 @@ const AvatarWrapper = () => {
                 height="100px"
                 margin="auto"
                 sx={{ borderRadius: 100, bgcolor: '#EFEFEF', overflow: 'hidden' }}>
-                <Image src={ProfileIcon} borderRadius="100%" alt="profile"></Image>
+                <Image src={ProfileIcon} alt="profile"></Image>
             </Stack>
             <Typography variant='body1'>Username</Typography>
         </Stack>

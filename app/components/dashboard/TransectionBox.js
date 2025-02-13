@@ -12,12 +12,13 @@ import {
     Button,
     Stack
 } from "@mui/material";
-
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import TransectionBadge from "../TransectionBadge";
 import { useEffect } from "react";
+import dayjs from 'dayjs';
 
 const TransectionBox = ({ lists, toggleEdit, handleEdit }) => {
-
+    const currentYear = dayjs();
     function createData(name, type, fat, carbs) {
         return { name, type, fat, carbs };
     }
@@ -44,7 +45,16 @@ const TransectionBox = ({ lists, toggleEdit, handleEdit }) => {
         <Paper sx={{ height: '100%', p: 3 }}>
             <Stack direction="row" justifyContent="space-between">
                 <Typography variant="h5" fontWeight="bold">Transection</Typography>
-                <Button variant="contained">Jan 25</Button>
+                {/* <Button variant="contained">Jan 25</Button> */}
+                <DatePicker
+                    label="Month"
+                    maxDate={currentYear}
+                    value={currentYear}
+                    openTo="year"
+                    views={['year', 'month']}
+                    yearsOrder="desc"
+                    sx={{ width: 200, borderRadius: '15px' }}
+                />
             </Stack>
             <TableContainer component={Paper}>
                 <Table sx={{ width: "100%" }} aria-label="simple table">
