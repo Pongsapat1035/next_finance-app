@@ -41,7 +41,15 @@ export default function Dashboard({ userData }) {
     })
     const toggleNewModal = () => setNewTranModal(!newTranModal)
     const toggleEditModal = () => setEditModal(!editModal)
-
+    const handleMonthSelect = async (month) => {
+        // console.log('recieved month : ', month)
+        try {
+            console.log('load data from : ', month)
+            await fetchData(userId, month)
+        } catch (error) {
+            console.log('error from fetch data : ', error)
+        }
+    }
     const getCurrentMonth = (recieveDate) => {
         const date = recieveDate ? new Date(recieveDate * 1000) : new Date()
         const options = {
@@ -68,7 +76,6 @@ export default function Dashboard({ userData }) {
     useEffect(() => {
         if (userData) {
             setUserId(userData.uuid)
-            fetchData(userData.uuid, getCurrentMonth())
         }
     }, [userData])
 
@@ -117,7 +124,7 @@ export default function Dashboard({ userData }) {
                                 <TotalBox type="expend" amount={dashboardData.expend}></TotalBox>
                             </Grid2>
                         </Grid2>
-                        <TransectionBox lists={lists} toggleEdit={toggleEditModal} handleEdit={handleEdit}></TransectionBox>
+                        <TransectionBox lists={lists} handleMonth={handleMonthSelect} handleEdit={handleEdit}></TransectionBox>
                     </Stack>
                 </Grid2>
                 <Grid2 size={4} container direction="column" spacing={3}>
