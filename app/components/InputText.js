@@ -2,7 +2,6 @@ import FormHelperText from "@mui/material/FormHelperText";
 import FormControl from "@mui/material/FormControl";
 import InputBase from "@mui/material/InputBase";
 import InputLabel from "@mui/material/InputLabel";
-import React, { useRef } from "react";
 import { alpha, styled } from '@mui/material/styles';
 
 function InputBox({ label, nameTag, typeTag, placeHolder, errorMsg, onChangeVal }) {

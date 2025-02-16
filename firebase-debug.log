@@ -1,137 +1,61 @@
-[debug] [2025-02-12T14:56:57.883Z] ----------------------------------------------------------------------
-[debug] [2025-02-12T14:56:57.885Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\pongs\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js emulators:start --import ./firebase-data --export-on-exit ./firebase-data
-[debug] [2025-02-12T14:56:57.885Z] CLI Version:   13.29.1
-[debug] [2025-02-12T14:56:57.886Z] Platform:      win32
-[debug] [2025-02-12T14:56:57.886Z] Node Version:  v20.17.0
-[debug] [2025-02-12T14:56:57.886Z] Time:          Wed Feb 12 2025 21:56:57 GMT+0700 (Indochina Time)
-[debug] [2025-02-12T14:56:57.886Z] ----------------------------------------------------------------------
+[debug] [2025-02-15T14:48:56.439Z] ----------------------------------------------------------------------
+[debug] [2025-02-15T14:48:56.442Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\pongs\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js emulators:start --import ./firebase-data --export-on-exit ./firebase-data
+[debug] [2025-02-15T14:48:56.442Z] CLI Version:   13.29.1
+[debug] [2025-02-15T14:48:56.442Z] Platform:      win32
+[debug] [2025-02-15T14:48:56.442Z] Node Version:  v20.17.0
+[debug] [2025-02-15T14:48:56.443Z] Time:          Sat Feb 15 2025 21:48:56 GMT+0700 (Indochina Time)
+[debug] [2025-02-15T14:48:56.443Z] ----------------------------------------------------------------------
 [debug] 
-[debug] [2025-02-12T14:56:57.889Z] >>> [apiv2][query] GET https://firebase-public.firebaseio.com/cli.json [none]
-[debug] [2025-02-12T14:56:58.001Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
-[debug] [2025-02-12T14:56:58.001Z] > authorizing via signed-in user (pongsapat357@gmail.com)
-[debug] [2025-02-12T14:56:58.199Z] java version "23.0.1" 2024-10-15
+[debug] [2025-02-15T14:48:56.446Z] >>> [apiv2][query] GET https://firebase-public.firebaseio.com/cli.json [none]
+[debug] [2025-02-15T14:48:56.561Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-02-15T14:48:56.562Z] > authorizing via signed-in user (pongsapat357@gmail.com)
+[debug] [2025-02-15T14:48:57.162Z] <<< [apiv2][status] GET https://firebase-public.firebaseio.com/cli.json 200
+[debug] [2025-02-15T14:48:57.162Z] <<< [apiv2][body] GET https://firebase-public.firebaseio.com/cli.json {"cloudBuildErrorAfter":1594252800000,"cloudBuildWarnAfter":1590019200000,"defaultNode10After":1594252800000,"minVersion":"3.0.5","node8DeploysDisabledAfter":1613390400000,"node8RuntimeDisabledAfter":1615809600000,"node8WarnAfter":1600128000000}
+[debug] [2025-02-15T14:48:57.821Z] java version "23.0.1" 2024-10-15
 
-[debug] [2025-02-12T14:56:58.199Z] Java(TM) SE Runtime Environment (build 23.0.1+11-39)
+[debug] [2025-02-15T14:48:57.822Z] Java(TM) SE Runtime Environment (build 23.0.1+11-39)
 Java HotSpot(TM) 64-Bit Server VM (build 23.0.1+11-39, mixed mode, sharing)
 
-[debug] [2025-02-12T14:56:58.216Z] Parsed Java major version: 23
+[debug] [2025-02-15T14:48:57.843Z] Parsed Java major version: 23
 [info] i  emulators: Starting emulators: auth, firestore, hosting {"metadata":{"emulator":{"name":"hub"},"message":"Starting emulators: auth, firestore, hosting"}}
-[debug] [2025-02-12T14:56:58.230Z] [logging] Logging Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
-[debug] [2025-02-12T14:56:58.230Z] [auth] Authentication Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
-[debug] [2025-02-12T14:56:58.230Z] [firestore] Firestore Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
-[debug] [2025-02-12T14:56:58.230Z] [hosting] Hosting Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
-[debug] [2025-02-12T14:56:58.231Z] [firestore.websocket] websocket server for firestore only supports listening on one address (127.0.0.1). Not listening on ::1
-[debug] [2025-02-12T14:56:58.231Z] assigned listening specs for emulators {"user":{"hub":[{"address":"127.0.0.1","family":"IPv4","port":4400},{"address":"::1","family":"IPv6","port":4400}],"ui":[{"address":"127.0.0.1","family":"IPv4","port":4000},{"address":"::1","family":"IPv6","port":4000}],"logging":[{"address":"127.0.0.1","family":"IPv4","port":4500}],"auth":[{"address":"127.0.0.1","family":"IPv4","port":9099}],"firestore":[{"address":"127.0.0.1","family":"IPv4","port":8090}],"hosting":[{"address":"127.0.0.1","family":"IPv4","port":5000}],"firestore.websocket":[{"address":"127.0.0.1","family":"IPv4","port":9151}]},"metadata":{"message":"assigned listening specs for emulators"}}
-[debug] [2025-02-12T14:56:58.235Z] [hub] writing locator at C:\Users\pongs\AppData\Local\Temp\hub-finance-app-fc057.json
+[debug] [2025-02-15T14:48:57.857Z] [logging] Logging Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2025-02-15T14:48:57.857Z] [auth] Authentication Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2025-02-15T14:48:57.857Z] [firestore] Firestore Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2025-02-15T14:48:57.857Z] [firestore.websocket] websocket server for firestore only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2025-02-15T14:48:57.857Z] [hosting] Hosting Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2025-02-15T14:48:57.857Z] assigned listening specs for emulators {"user":{"hub":[{"address":"127.0.0.1","family":"IPv4","port":4400},{"address":"::1","family":"IPv6","port":4400}],"ui":[{"address":"127.0.0.1","family":"IPv4","port":4000},{"address":"::1","family":"IPv6","port":4000}],"logging":[{"address":"127.0.0.1","family":"IPv4","port":4500}],"auth":[{"address":"127.0.0.1","family":"IPv4","port":9099}],"firestore":[{"address":"127.0.0.1","family":"IPv4","port":8090}],"firestore.websocket":[{"address":"127.0.0.1","family":"IPv4","port":9150}],"hosting":[{"address":"127.0.0.1","family":"IPv4","port":5000}]},"metadata":{"message":"assigned listening specs for emulators"}}
+[debug] [2025-02-15T14:48:57.862Z] [hub] writing locator at C:\Users\pongs\AppData\Local\Temp\hub-finance-app-fc057.json
 [info] i  firestore: Importing data from D:\Coding\Project\next_finance\firebase-data\firestore_export\firestore_export.overall_export_metadata {"metadata":{"emulator":{"name":"firestore"},"message":"Importing data from D:\\Coding\\Project\\next_finance\\firebase-data\\firestore_export\\firestore_export.overall_export_metadata"}}
-[debug] [2025-02-12T14:56:58.249Z] Ignoring unsupported arg: auto_download {"metadata":{"emulator":{"name":"firestore"},"message":"Ignoring unsupported arg: auto_download"}}
-[debug] [2025-02-12T14:56:58.249Z] Ignoring unsupported arg: single_project_mode_error {"metadata":{"emulator":{"name":"firestore"},"message":"Ignoring unsupported arg: single_project_mode_error"}}
-[debug] [2025-02-12T14:56:58.249Z] Starting Firestore Emulator with command {"binary":"java","args":["-Dgoogle.cloud_firestore.debug_log_level=FINE","-Duser.language=en","-jar","C:\\Users\\pongs\\.cache\\firebase\\emulators\\cloud-firestore-emulator-v1.19.8.jar","--host","127.0.0.1","--port",8090,"--websocket_port",9151,"--project_id","finance-app-fc057","--seed_from_export","D:\\Coding\\Project\\next_finance\\firebase-data\\firestore_export\\firestore_export.overall_export_metadata","--rules","D:\\Coding\\Project\\next_finance\\firestore.rules","--single_project_mode",true],"optionalArgs":["port","webchannel_port","host","rules","websocket_port","functions_emulator","seed_from_export","project_id","single_project_mode"],"joinArgs":false,"shell":false,"port":8090} {"metadata":{"emulator":{"name":"firestore"},"message":"Starting Firestore Emulator with command {\"binary\":\"java\",\"args\":[\"-Dgoogle.cloud_firestore.debug_log_level=FINE\",\"-Duser.language=en\",\"-jar\",\"C:\\\\Users\\\\pongs\\\\.cache\\\\firebase\\\\emulators\\\\cloud-firestore-emulator-v1.19.8.jar\",\"--host\",\"127.0.0.1\",\"--port\",8090,\"--websocket_port\",9151,\"--project_id\",\"finance-app-fc057\",\"--seed_from_export\",\"D:\\\\Coding\\\\Project\\\\next_finance\\\\firebase-data\\\\firestore_export\\\\firestore_export.overall_export_metadata\",\"--rules\",\"D:\\\\Coding\\\\Project\\\\next_finance\\\\firestore.rules\",\"--single_project_mode\",true],\"optionalArgs\":[\"port\",\"webchannel_port\",\"host\",\"rules\",\"websocket_port\",\"functions_emulator\",\"seed_from_export\",\"project_id\",\"single_project_mode\"],\"joinArgs\":false,\"shell\":false,\"port\":8090}"}}
-[info] i  firestore: Firestore Emulator logging to firestore-debug.log {"metadata":{"emulator":{"name":"firestore"},"message":"Firestore Emulator logging to \u001b[1mfirestore-debug.log\u001b[22m"}}
-[debug] [2025-02-12T14:56:58.672Z] <<< [apiv2][status] GET https://firebase-public.firebaseio.com/cli.json 200
-[debug] [2025-02-12T14:56:58.672Z] <<< [apiv2][body] GET https://firebase-public.firebaseio.com/cli.json {"cloudBuildErrorAfter":1594252800000,"cloudBuildWarnAfter":1590019200000,"defaultNode10After":1594252800000,"minVersion":"3.0.5","node8DeploysDisabledAfter":1613390400000,"node8RuntimeDisabledAfter":1615809600000,"node8WarnAfter":1600128000000}
-[info] +  firestore: Firestore Emulator UI websocket is running on 9151. {"metadata":{"emulator":{"name":"firestore"},"message":"Firestore Emulator UI websocket is running on 9151."}}
-[info] i  auth: Importing config from D:\Coding\Project\next_finance\firebase-data\auth_export\config.json {"metadata":{"emulator":{"name":"auth"},"message":"Importing config from D:\\Coding\\Project\\next_finance\\firebase-data\\auth_export\\config.json"}}
-[info] i  auth: Importing accounts from D:\Coding\Project\next_finance\firebase-data\auth_export\accounts.json {"metadata":{"emulator":{"name":"auth"},"message":"Importing accounts from D:\\Coding\\Project\\next_finance\\firebase-data\\auth_export\\accounts.json"}}
-[debug] [2025-02-12T14:57:06.854Z] Checked if tokens are valid: false, expires at: 1739368049018
-[debug] [2025-02-12T14:57:06.854Z] Checked if tokens are valid: false, expires at: 1739368049018
-[debug] [2025-02-12T14:57:06.854Z] > refreshing access token with scopes: []
-[debug] [2025-02-12T14:57:06.855Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
-[debug] [2025-02-12T14:57:06.855Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
-[debug] [2025-02-12T14:57:07.046Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
-[debug] [2025-02-12T14:57:07.046Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
-[debug] [2025-02-12T14:57:07.052Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/finance-app-fc057/sites 
-[debug] [2025-02-12T14:57:07.941Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/finance-app-fc057/sites 200
-[debug] [2025-02-12T14:57:07.941Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/finance-app-fc057/sites {"sites":[{"name":"projects/finance-app-fc057/sites/finance-app-fc057","defaultUrl":"https://finance-app-fc057.web.app","type":"DEFAULT_SITE"}]}
-[debug] [2025-02-12T14:57:07.941Z] Checked if tokens are valid: true, expires at: 1739375826046
-[debug] [2025-02-12T14:57:07.941Z] Checked if tokens are valid: true, expires at: 1739375826046
-[debug] [2025-02-12T14:57:07.942Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/finance-app-fc057/webApps/-/config [none]
-[debug] [2025-02-12T14:57:09.039Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/finance-app-fc057/webApps/-/config 200
-[debug] [2025-02-12T14:57:09.039Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/finance-app-fc057/webApps/-/config {"projectId":"finance-app-fc057","appId":"1:548963231458:web:d1a6b6792535282e32e0bb","storageBucket":"finance-app-fc057.firebasestorage.app","apiKey":"AIzaSyCHdG7_k4fLvQ6SAAiSLOLx3Q8-X-9PNbE","authDomain":"finance-app-fc057.firebaseapp.com","messagingSenderId":"548963231458"}
-[debug] [2025-02-12T14:57:09.045Z] Checked if tokens are valid: true, expires at: 1739375826046
-[debug] [2025-02-12T14:57:09.045Z] Checked if tokens are valid: true, expires at: 1739375826046
-[debug] [2025-02-12T14:57:09.045Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/finance-app-fc057 [none]
-[debug] [2025-02-12T14:57:09.439Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/finance-app-fc057 200
-[debug] [2025-02-12T14:57:09.439Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/finance-app-fc057 {"projectId":"finance-app-fc057","projectNumber":"548963231458","displayName":"finance-app","name":"projects/finance-app-fc057","resources":{"hostingSite":"finance-app-fc057"},"state":"ACTIVE","etag":"1_c0454666-4de5-4522-a810-55853373e997"}
-[info] i  hosting[finance-app-fc057]: Serving hosting files from: public {"metadata":{"emulator":{"name":"hosting"},"message":"Serving hosting files from: \u001b[1mpublic\u001b[22m"}}
-[info] +  hosting[finance-app-fc057]: Local server: http://127.0.0.1:5000 {"metadata":{"emulator":{"name":"hosting"},"message":"Local server: \u001b[4m\u001b[1mhttp://127.0.0.1:5000\u001b[22m\u001b[24m"}}
-[debug] [2025-02-12T14:57:09.467Z] Could not find VSCode notification endpoint: FetchError: request to http://localhost:40001/vscode/notify failed, reason: . If you are not running the Firebase Data Connect VSCode extension, this is expected and not an issue.
-[info] 
-┌─────────────────────────────────────────────────────────────┐
-│ ✔  All emulators ready! It is now safe to connect your app. │
-│ i  View Emulator UI at http://127.0.0.1:4000/               │
-└─────────────────────────────────────────────────────────────┘
-
-┌────────────────┬────────────────┬─────────────────────────────────┐
-│ Emulator       │ Host:Port      │ View in Emulator UI             │
-├────────────────┼────────────────┼─────────────────────────────────┤
-│ Authentication │ 127.0.0.1:9099 │ http://127.0.0.1:4000/auth      │
-├────────────────┼────────────────┼─────────────────────────────────┤
-│ Firestore      │ 127.0.0.1:8090 │ http://127.0.0.1:4000/firestore │
-├────────────────┼────────────────┼─────────────────────────────────┤
-│ Hosting        │ 127.0.0.1:5000 │ n/a                             │
-└────────────────┴────────────────┴─────────────────────────────────┘
-  Emulator Hub running at 127.0.0.1:4400
-  Other reserved ports: 4500, 9151
-
-Issues? Report them at https://github.com/firebase/firebase-tools/issues and attach the *-debug.log files.
- 
-[debug] [2025-02-13T03:19:42.593Z] ----------------------------------------------------------------------
-[debug] [2025-02-13T03:19:42.596Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\pongs\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js emulators:start --import ./firebase-data --export-on-exit ./firebase-data
-[debug] [2025-02-13T03:19:42.596Z] CLI Version:   13.29.1
-[debug] [2025-02-13T03:19:42.596Z] Platform:      win32
-[debug] [2025-02-13T03:19:42.596Z] Node Version:  v20.17.0
-[debug] [2025-02-13T03:19:42.597Z] Time:          Thu Feb 13 2025 10:19:42 GMT+0700 (Indochina Time)
-[debug] [2025-02-13T03:19:42.597Z] ----------------------------------------------------------------------
-[debug] 
-[debug] [2025-02-13T03:19:42.816Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
-[debug] [2025-02-13T03:19:42.817Z] > authorizing via signed-in user (pongsapat357@gmail.com)
-[debug] [2025-02-13T03:19:42.979Z] java version "23.0.1" 2024-10-15
-
-[debug] [2025-02-13T03:19:42.979Z] Java(TM) SE Runtime Environment (build 23.0.1+11-39)
-Java HotSpot(TM) 64-Bit Server VM (build 23.0.1+11-39, mixed mode, sharing)
-
-[debug] [2025-02-13T03:19:43.023Z] Parsed Java major version: 23
-[info] i  emulators: Starting emulators: auth, firestore, hosting {"metadata":{"emulator":{"name":"hub"},"message":"Starting emulators: auth, firestore, hosting"}}
-[debug] [2025-02-13T03:19:43.040Z] [logging] Logging Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
-[debug] [2025-02-13T03:19:43.040Z] [auth] Authentication Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
-[debug] [2025-02-13T03:19:43.041Z] [firestore] Firestore Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
-[debug] [2025-02-13T03:19:43.041Z] [firestore.websocket] websocket server for firestore only supports listening on one address (127.0.0.1). Not listening on ::1
-[debug] [2025-02-13T03:19:43.041Z] [hosting] Hosting Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
-[debug] [2025-02-13T03:19:43.041Z] assigned listening specs for emulators {"user":{"hub":[{"address":"127.0.0.1","family":"IPv4","port":4400},{"address":"::1","family":"IPv6","port":4400}],"ui":[{"address":"127.0.0.1","family":"IPv4","port":4000},{"address":"::1","family":"IPv6","port":4000}],"logging":[{"address":"127.0.0.1","family":"IPv4","port":4500}],"auth":[{"address":"127.0.0.1","family":"IPv4","port":9099}],"firestore":[{"address":"127.0.0.1","family":"IPv4","port":8090}],"firestore.websocket":[{"address":"127.0.0.1","family":"IPv4","port":9150}],"hosting":[{"address":"127.0.0.1","family":"IPv4","port":5000}]},"metadata":{"message":"assigned listening specs for emulators"}}
-[warn] !  emulators: It seems that you are running multiple instances of the emulator suite for project finance-app-fc057. This may result in unexpected behavior. 
-[debug] [2025-02-13T03:19:43.046Z] [hub] writing locator at C:\Users\pongs\AppData\Local\Temp\hub-finance-app-fc057.json
-[info] i  firestore: Importing data from D:\Coding\Project\next_finance\firebase-data\firestore_export\firestore_export.overall_export_metadata {"metadata":{"emulator":{"name":"firestore"},"message":"Importing data from D:\\Coding\\Project\\next_finance\\firebase-data\\firestore_export\\firestore_export.overall_export_metadata"}}
-[debug] [2025-02-13T03:19:43.193Z] Ignoring unsupported arg: auto_download {"metadata":{"emulator":{"name":"firestore"},"message":"Ignoring unsupported arg: auto_download"}}
-[debug] [2025-02-13T03:19:43.194Z] Ignoring unsupported arg: single_project_mode_error {"metadata":{"emulator":{"name":"firestore"},"message":"Ignoring unsupported arg: single_project_mode_error"}}
-[debug] [2025-02-13T03:19:43.194Z] Starting Firestore Emulator with command {"binary":"java","args":["-Dgoogle.cloud_firestore.debug_log_level=FINE","-Duser.language=en","-jar","C:\\Users\\pongs\\.cache\\firebase\\emulators\\cloud-firestore-emulator-v1.19.8.jar","--host","127.0.0.1","--port",8090,"--websocket_port",9150,"--project_id","finance-app-fc057","--seed_from_export","D:\\Coding\\Project\\next_finance\\firebase-data\\firestore_export\\firestore_export.overall_export_metadata","--rules","D:\\Coding\\Project\\next_finance\\firestore.rules","--single_project_mode",true],"optionalArgs":["port","webchannel_port","host","rules","websocket_port","functions_emulator","seed_from_export","project_id","single_project_mode"],"joinArgs":false,"shell":false,"port":8090} {"metadata":{"emulator":{"name":"firestore"},"message":"Starting Firestore Emulator with command {\"binary\":\"java\",\"args\":[\"-Dgoogle.cloud_firestore.debug_log_level=FINE\",\"-Duser.language=en\",\"-jar\",\"C:\\\\Users\\\\pongs\\\\.cache\\\\firebase\\\\emulators\\\\cloud-firestore-emulator-v1.19.8.jar\",\"--host\",\"127.0.0.1\",\"--port\",8090,\"--websocket_port\",9150,\"--project_id\",\"finance-app-fc057\",\"--seed_from_export\",\"D:\\\\Coding\\\\Project\\\\next_finance\\\\firebase-data\\\\firestore_export\\\\firestore_export.overall_export_metadata\",\"--rules\",\"D:\\\\Coding\\\\Project\\\\next_finance\\\\firestore.rules\",\"--single_project_mode\",true],\"optionalArgs\":[\"port\",\"webchannel_port\",\"host\",\"rules\",\"websocket_port\",\"functions_emulator\",\"seed_from_export\",\"project_id\",\"single_project_mode\"],\"joinArgs\":false,\"shell\":false,\"port\":8090}"}}
+[debug] [2025-02-15T14:48:57.903Z] Ignoring unsupported arg: auto_download {"metadata":{"emulator":{"name":"firestore"},"message":"Ignoring unsupported arg: auto_download"}}
+[debug] [2025-02-15T14:48:57.903Z] Ignoring unsupported arg: single_project_mode_error {"metadata":{"emulator":{"name":"firestore"},"message":"Ignoring unsupported arg: single_project_mode_error"}}
+[debug] [2025-02-15T14:48:57.903Z] Starting Firestore Emulator with command {"binary":"java","args":["-Dgoogle.cloud_firestore.debug_log_level=FINE","-Duser.language=en","-jar","C:\\Users\\pongs\\.cache\\firebase\\emulators\\cloud-firestore-emulator-v1.19.8.jar","--host","127.0.0.1","--port",8090,"--websocket_port",9150,"--project_id","finance-app-fc057","--seed_from_export","D:\\Coding\\Project\\next_finance\\firebase-data\\firestore_export\\firestore_export.overall_export_metadata","--rules","D:\\Coding\\Project\\next_finance\\firestore.rules","--single_project_mode",true],"optionalArgs":["port","webchannel_port","host","rules","websocket_port","functions_emulator","seed_from_export","project_id","single_project_mode"],"joinArgs":false,"shell":false,"port":8090} {"metadata":{"emulator":{"name":"firestore"},"message":"Starting Firestore Emulator with command {\"binary\":\"java\",\"args\":[\"-Dgoogle.cloud_firestore.debug_log_level=FINE\",\"-Duser.language=en\",\"-jar\",\"C:\\\\Users\\\\pongs\\\\.cache\\\\firebase\\\\emulators\\\\cloud-firestore-emulator-v1.19.8.jar\",\"--host\",\"127.0.0.1\",\"--port\",8090,\"--websocket_port\",9150,\"--project_id\",\"finance-app-fc057\",\"--seed_from_export\",\"D:\\\\Coding\\\\Project\\\\next_finance\\\\firebase-data\\\\firestore_export\\\\firestore_export.overall_export_metadata\",\"--rules\",\"D:\\\\Coding\\\\Project\\\\next_finance\\\\firestore.rules\",\"--single_project_mode\",true],\"optionalArgs\":[\"port\",\"webchannel_port\",\"host\",\"rules\",\"websocket_port\",\"functions_emulator\",\"seed_from_export\",\"project_id\",\"single_project_mode\"],\"joinArgs\":false,\"shell\":false,\"port\":8090}"}}
 [info] i  firestore: Firestore Emulator logging to firestore-debug.log {"metadata":{"emulator":{"name":"firestore"},"message":"Firestore Emulator logging to \u001b[1mfirestore-debug.log\u001b[22m"}}
 [info] +  firestore: Firestore Emulator UI websocket is running on 9150. {"metadata":{"emulator":{"name":"firestore"},"message":"Firestore Emulator UI websocket is running on 9150."}}
 [info] i  auth: Importing config from D:\Coding\Project\next_finance\firebase-data\auth_export\config.json {"metadata":{"emulator":{"name":"auth"},"message":"Importing config from D:\\Coding\\Project\\next_finance\\firebase-data\\auth_export\\config.json"}}
 [info] i  auth: Importing accounts from D:\Coding\Project\next_finance\firebase-data\auth_export\accounts.json {"metadata":{"emulator":{"name":"auth"},"message":"Importing accounts from D:\\Coding\\Project\\next_finance\\firebase-data\\auth_export\\accounts.json"}}
-[debug] [2025-02-13T03:19:53.314Z] Checked if tokens are valid: false, expires at: 1739375826046
-[debug] [2025-02-13T03:19:53.314Z] Checked if tokens are valid: false, expires at: 1739375826046
-[debug] [2025-02-13T03:19:53.314Z] > refreshing access token with scopes: []
-[debug] [2025-02-13T03:19:53.315Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
-[debug] [2025-02-13T03:19:53.315Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
-[debug] [2025-02-13T03:19:53.540Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
-[debug] [2025-02-13T03:19:53.540Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
-[debug] [2025-02-13T03:19:53.547Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/finance-app-fc057/sites 
-[debug] [2025-02-13T03:19:54.515Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/finance-app-fc057/sites 200
-[debug] [2025-02-13T03:19:54.516Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/finance-app-fc057/sites {"sites":[{"name":"projects/finance-app-fc057/sites/finance-app-fc057","defaultUrl":"https://finance-app-fc057.web.app","type":"DEFAULT_SITE"}]}
-[debug] [2025-02-13T03:19:54.516Z] Checked if tokens are valid: true, expires at: 1739420392540
-[debug] [2025-02-13T03:19:54.516Z] Checked if tokens are valid: true, expires at: 1739420392540
-[debug] [2025-02-13T03:19:54.516Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/finance-app-fc057/webApps/-/config [none]
-[debug] [2025-02-13T03:19:55.326Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/finance-app-fc057/webApps/-/config 200
-[debug] [2025-02-13T03:19:55.326Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/finance-app-fc057/webApps/-/config {"projectId":"finance-app-fc057","appId":"1:548963231458:web:d1a6b6792535282e32e0bb","storageBucket":"finance-app-fc057.firebasestorage.app","apiKey":"AIzaSyCHdG7_k4fLvQ6SAAiSLOLx3Q8-X-9PNbE","authDomain":"finance-app-fc057.firebaseapp.com","messagingSenderId":"548963231458"}
-[debug] [2025-02-13T03:19:55.329Z] Checked if tokens are valid: true, expires at: 1739420392540
-[debug] [2025-02-13T03:19:55.329Z] Checked if tokens are valid: true, expires at: 1739420392540
-[debug] [2025-02-13T03:19:55.330Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/finance-app-fc057 [none]
-[debug] [2025-02-13T03:19:55.661Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/finance-app-fc057 200
-[debug] [2025-02-13T03:19:55.662Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/finance-app-fc057 {"projectId":"finance-app-fc057","projectNumber":"548963231458","displayName":"finance-app","name":"projects/finance-app-fc057","resources":{"hostingSite":"finance-app-fc057"},"state":"ACTIVE","etag":"1_c0454666-4de5-4522-a810-55853373e997"}
+[debug] [2025-02-15T14:49:06.517Z] Checked if tokens are valid: false, expires at: 1739538822330
+[debug] [2025-02-15T14:49:06.517Z] Checked if tokens are valid: false, expires at: 1739538822330
+[debug] [2025-02-15T14:49:06.517Z] > refreshing access token with scopes: []
+[debug] [2025-02-15T14:49:06.518Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2025-02-15T14:49:06.518Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2025-02-15T14:49:06.705Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
+[debug] [2025-02-15T14:49:06.705Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2025-02-15T14:49:06.712Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/finance-app-fc057/sites 
+[debug] [2025-02-15T14:49:07.581Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/finance-app-fc057/sites 200
+[debug] [2025-02-15T14:49:07.582Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/finance-app-fc057/sites {"sites":[{"name":"projects/finance-app-fc057/sites/finance-app-fc057","defaultUrl":"https://finance-app-fc057.web.app","type":"DEFAULT_SITE"}]}
+[debug] [2025-02-15T14:49:07.582Z] Checked if tokens are valid: true, expires at: 1739634545705
+[debug] [2025-02-15T14:49:07.582Z] Checked if tokens are valid: true, expires at: 1739634545705
+[debug] [2025-02-15T14:49:07.582Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/finance-app-fc057/webApps/-/config [none]
+[debug] [2025-02-15T14:49:08.444Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/finance-app-fc057/webApps/-/config 200
+[debug] [2025-02-15T14:49:08.445Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/finance-app-fc057/webApps/-/config {"projectId":"finance-app-fc057","appId":"1:548963231458:web:d1a6b6792535282e32e0bb","storageBucket":"finance-app-fc057.firebasestorage.app","apiKey":"AIzaSyCHdG7_k4fLvQ6SAAiSLOLx3Q8-X-9PNbE","authDomain":"finance-app-fc057.firebaseapp.com","messagingSenderId":"548963231458"}
+[debug] [2025-02-15T14:49:08.449Z] Checked if tokens are valid: true, expires at: 1739634545705
+[debug] [2025-02-15T14:49:08.449Z] Checked if tokens are valid: true, expires at: 1739634545705
+[debug] [2025-02-15T14:49:08.449Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/finance-app-fc057 [none]
+[debug] [2025-02-15T14:49:08.814Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/finance-app-fc057 200
+[debug] [2025-02-15T14:49:08.814Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/finance-app-fc057 {"projectId":"finance-app-fc057","projectNumber":"548963231458","displayName":"finance-app","name":"projects/finance-app-fc057","resources":{"hostingSite":"finance-app-fc057"},"state":"ACTIVE","etag":"1_c0454666-4de5-4522-a810-55853373e997"}
 [info] i  hosting[finance-app-fc057]: Serving hosting files from: public {"metadata":{"emulator":{"name":"hosting"},"message":"Serving hosting files from: \u001b[1mpublic\u001b[22m"}}
 [info] +  hosting[finance-app-fc057]: Local server: http://127.0.0.1:5000 {"metadata":{"emulator":{"name":"hosting"},"message":"Local server: \u001b[4m\u001b[1mhttp://127.0.0.1:5000\u001b[22m\u001b[24m"}}
-[debug] [2025-02-13T03:19:55.692Z] Could not find VSCode notification endpoint: FetchError: request to http://localhost:40001/vscode/notify failed, reason: . If you are not running the Firebase Data Connect VSCode extension, this is expected and not an issue.
+[debug] [2025-02-15T14:49:08.844Z] Could not find VSCode notification endpoint: FetchError: request to http://localhost:40001/vscode/notify failed, reason: . If you are not running the Firebase Data Connect VSCode extension, this is expected and not an issue.
 [info] 
 ┌─────────────────────────────────────────────────────────────┐
 │ ✔  All emulators ready! It is now safe to connect your app. │
@@ -152,65 +76,62 @@ Java HotSpot(TM) 64-Bit Server VM (build 23.0.1+11-39, mixed mode, sharing)
 
 Issues? Report them at https://github.com/firebase/firebase-tools/issues and attach the *-debug.log files.
  
-[debug] [2025-02-14T12:13:34.328Z] ----------------------------------------------------------------------
-[debug] [2025-02-14T12:13:34.331Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\pongs\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js emulators:start --import ./firebase-data --export-on-exit ./firebase-data
-[debug] [2025-02-14T12:13:34.332Z] CLI Version:   13.29.1
-[debug] [2025-02-14T12:13:34.332Z] Platform:      win32
-[debug] [2025-02-14T12:13:34.332Z] Node Version:  v20.17.0
-[debug] [2025-02-14T12:13:34.333Z] Time:          Fri Feb 14 2025 19:13:34 GMT+0700 (Indochina Time)
-[debug] [2025-02-14T12:13:34.333Z] ----------------------------------------------------------------------
+[debug] [2025-02-16T12:22:58.428Z] ----------------------------------------------------------------------
+[debug] [2025-02-16T12:22:58.431Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\pongs\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js emulators:start --import ./firebase-data --export-on-exit ./firebase-data
+[debug] [2025-02-16T12:22:58.431Z] CLI Version:   13.29.1
+[debug] [2025-02-16T12:22:58.431Z] Platform:      win32
+[debug] [2025-02-16T12:22:58.431Z] Node Version:  v20.17.0
+[debug] [2025-02-16T12:22:58.432Z] Time:          Sun Feb 16 2025 19:22:58 GMT+0700 (Indochina Time)
+[debug] [2025-02-16T12:22:58.432Z] ----------------------------------------------------------------------
 [debug] 
-[debug] [2025-02-14T12:13:34.336Z] >>> [apiv2][query] GET https://firebase-public.firebaseio.com/cli.json [none]
-[debug] [2025-02-14T12:13:34.477Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
-[debug] [2025-02-14T12:13:34.477Z] > authorizing via signed-in user (pongsapat357@gmail.com)
-[debug] [2025-02-14T12:13:34.689Z] java version "23.0.1" 2024-10-15
+[debug] [2025-02-16T12:22:58.544Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-02-16T12:22:58.544Z] > authorizing via signed-in user (pongsapat357@gmail.com)
+[debug] [2025-02-16T12:22:58.789Z] java version "23.0.1" 2024-10-15
 
-[debug] [2025-02-14T12:13:34.690Z] Java(TM) SE Runtime Environment (build 23.0.1+11-39)
+[debug] [2025-02-16T12:22:58.790Z] Java(TM) SE Runtime Environment (build 23.0.1+11-39)
 Java HotSpot(TM) 64-Bit Server VM (build 23.0.1+11-39, mixed mode, sharing)
 
-[debug] [2025-02-14T12:13:34.739Z] Parsed Java major version: 23
+[debug] [2025-02-16T12:22:58.807Z] Parsed Java major version: 23
 [info] i  emulators: Starting emulators: auth, firestore, hosting {"metadata":{"emulator":{"name":"hub"},"message":"Starting emulators: auth, firestore, hosting"}}
-[debug] [2025-02-14T12:13:34.751Z] [logging] Logging Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
-[debug] [2025-02-14T12:13:34.751Z] [auth] Authentication Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
-[debug] [2025-02-14T12:13:34.752Z] [firestore] Firestore Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
-[debug] [2025-02-14T12:13:34.752Z] [firestore.websocket] websocket server for firestore only supports listening on one address (127.0.0.1). Not listening on ::1
-[debug] [2025-02-14T12:13:34.752Z] [hosting] Hosting Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
-[debug] [2025-02-14T12:13:34.752Z] assigned listening specs for emulators {"user":{"hub":[{"address":"127.0.0.1","family":"IPv4","port":4400},{"address":"::1","family":"IPv6","port":4400}],"ui":[{"address":"127.0.0.1","family":"IPv4","port":4000},{"address":"::1","family":"IPv6","port":4000}],"logging":[{"address":"127.0.0.1","family":"IPv4","port":4500}],"auth":[{"address":"127.0.0.1","family":"IPv4","port":9099}],"firestore":[{"address":"127.0.0.1","family":"IPv4","port":8090}],"firestore.websocket":[{"address":"127.0.0.1","family":"IPv4","port":9150}],"hosting":[{"address":"127.0.0.1","family":"IPv4","port":5000}]},"metadata":{"message":"assigned listening specs for emulators"}}
+[debug] [2025-02-16T12:22:58.821Z] [logging] Logging Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2025-02-16T12:22:58.821Z] [auth] Authentication Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2025-02-16T12:22:58.821Z] [firestore] Firestore Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2025-02-16T12:22:58.821Z] [firestore.websocket] websocket server for firestore only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2025-02-16T12:22:58.821Z] [hosting] Hosting Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2025-02-16T12:22:58.822Z] assigned listening specs for emulators {"user":{"hub":[{"address":"127.0.0.1","family":"IPv4","port":4400},{"address":"::1","family":"IPv6","port":4400}],"ui":[{"address":"127.0.0.1","family":"IPv4","port":4000},{"address":"::1","family":"IPv6","port":4000}],"logging":[{"address":"127.0.0.1","family":"IPv4","port":4500}],"auth":[{"address":"127.0.0.1","family":"IPv4","port":9099}],"firestore":[{"address":"127.0.0.1","family":"IPv4","port":8090}],"firestore.websocket":[{"address":"127.0.0.1","family":"IPv4","port":9150}],"hosting":[{"address":"127.0.0.1","family":"IPv4","port":5000}]},"metadata":{"message":"assigned listening specs for emulators"}}
 [warn] !  emulators: It seems that you are running multiple instances of the emulator suite for project finance-app-fc057. This may result in unexpected behavior. 
-[debug] [2025-02-14T12:13:34.757Z] [hub] writing locator at C:\Users\pongs\AppData\Local\Temp\hub-finance-app-fc057.json
+[debug] [2025-02-16T12:22:58.826Z] [hub] writing locator at C:\Users\pongs\AppData\Local\Temp\hub-finance-app-fc057.json
 [info] i  firestore: Importing data from D:\Coding\Project\next_finance\firebase-data\firestore_export\firestore_export.overall_export_metadata {"metadata":{"emulator":{"name":"firestore"},"message":"Importing data from D:\\Coding\\Project\\next_finance\\firebase-data\\firestore_export\\firestore_export.overall_export_metadata"}}
-[debug] [2025-02-14T12:13:34.804Z] Ignoring unsupported arg: auto_download {"metadata":{"emulator":{"name":"firestore"},"message":"Ignoring unsupported arg: auto_download"}}
-[debug] [2025-02-14T12:13:34.804Z] Ignoring unsupported arg: single_project_mode_error {"metadata":{"emulator":{"name":"firestore"},"message":"Ignoring unsupported arg: single_project_mode_error"}}
-[debug] [2025-02-14T12:13:34.804Z] Starting Firestore Emulator with command {"binary":"java","args":["-Dgoogle.cloud_firestore.debug_log_level=FINE","-Duser.language=en","-jar","C:\\Users\\pongs\\.cache\\firebase\\emulators\\cloud-firestore-emulator-v1.19.8.jar","--host","127.0.0.1","--port",8090,"--websocket_port",9150,"--project_id","finance-app-fc057","--seed_from_export","D:\\Coding\\Project\\next_finance\\firebase-data\\firestore_export\\firestore_export.overall_export_metadata","--rules","D:\\Coding\\Project\\next_finance\\firestore.rules","--single_project_mode",true],"optionalArgs":["port","webchannel_port","host","rules","websocket_port","functions_emulator","seed_from_export","project_id","single_project_mode"],"joinArgs":false,"shell":false,"port":8090} {"metadata":{"emulator":{"name":"firestore"},"message":"Starting Firestore Emulator with command {\"binary\":\"java\",\"args\":[\"-Dgoogle.cloud_firestore.debug_log_level=FINE\",\"-Duser.language=en\",\"-jar\",\"C:\\\\Users\\\\pongs\\\\.cache\\\\firebase\\\\emulators\\\\cloud-firestore-emulator-v1.19.8.jar\",\"--host\",\"127.0.0.1\",\"--port\",8090,\"--websocket_port\",9150,\"--project_id\",\"finance-app-fc057\",\"--seed_from_export\",\"D:\\\\Coding\\\\Project\\\\next_finance\\\\firebase-data\\\\firestore_export\\\\firestore_export.overall_export_metadata\",\"--rules\",\"D:\\\\Coding\\\\Project\\\\next_finance\\\\firestore.rules\",\"--single_project_mode\",true],\"optionalArgs\":[\"port\",\"webchannel_port\",\"host\",\"rules\",\"websocket_port\",\"functions_emulator\",\"seed_from_export\",\"project_id\",\"single_project_mode\"],\"joinArgs\":false,\"shell\":false,\"port\":8090}"}}
+[debug] [2025-02-16T12:22:58.849Z] Ignoring unsupported arg: auto_download {"metadata":{"emulator":{"name":"firestore"},"message":"Ignoring unsupported arg: auto_download"}}
+[debug] [2025-02-16T12:22:58.849Z] Ignoring unsupported arg: single_project_mode_error {"metadata":{"emulator":{"name":"firestore"},"message":"Ignoring unsupported arg: single_project_mode_error"}}
+[debug] [2025-02-16T12:22:58.849Z] Starting Firestore Emulator with command {"binary":"java","args":["-Dgoogle.cloud_firestore.debug_log_level=FINE","-Duser.language=en","-jar","C:\\Users\\pongs\\.cache\\firebase\\emulators\\cloud-firestore-emulator-v1.19.8.jar","--host","127.0.0.1","--port",8090,"--websocket_port",9150,"--project_id","finance-app-fc057","--seed_from_export","D:\\Coding\\Project\\next_finance\\firebase-data\\firestore_export\\firestore_export.overall_export_metadata","--rules","D:\\Coding\\Project\\next_finance\\firestore.rules","--single_project_mode",true],"optionalArgs":["port","webchannel_port","host","rules","websocket_port","functions_emulator","seed_from_export","project_id","single_project_mode"],"joinArgs":false,"shell":false,"port":8090} {"metadata":{"emulator":{"name":"firestore"},"message":"Starting Firestore Emulator with command {\"binary\":\"java\",\"args\":[\"-Dgoogle.cloud_firestore.debug_log_level=FINE\",\"-Duser.language=en\",\"-jar\",\"C:\\\\Users\\\\pongs\\\\.cache\\\\firebase\\\\emulators\\\\cloud-firestore-emulator-v1.19.8.jar\",\"--host\",\"127.0.0.1\",\"--port\",8090,\"--websocket_port\",9150,\"--project_id\",\"finance-app-fc057\",\"--seed_from_export\",\"D:\\\\Coding\\\\Project\\\\next_finance\\\\firebase-data\\\\firestore_export\\\\firestore_export.overall_export_metadata\",\"--rules\",\"D:\\\\Coding\\\\Project\\\\next_finance\\\\firestore.rules\",\"--single_project_mode\",true],\"optionalArgs\":[\"port\",\"webchannel_port\",\"host\",\"rules\",\"websocket_port\",\"functions_emulator\",\"seed_from_export\",\"project_id\",\"single_project_mode\"],\"joinArgs\":false,\"shell\":false,\"port\":8090}"}}
 [info] i  firestore: Firestore Emulator logging to firestore-debug.log {"metadata":{"emulator":{"name":"firestore"},"message":"Firestore Emulator logging to \u001b[1mfirestore-debug.log\u001b[22m"}}
-[debug] [2025-02-14T12:13:35.068Z] <<< [apiv2][status] GET https://firebase-public.firebaseio.com/cli.json 200
-[debug] [2025-02-14T12:13:35.068Z] <<< [apiv2][body] GET https://firebase-public.firebaseio.com/cli.json {"cloudBuildErrorAfter":1594252800000,"cloudBuildWarnAfter":1590019200000,"defaultNode10After":1594252800000,"minVersion":"3.0.5","node8DeploysDisabledAfter":1613390400000,"node8RuntimeDisabledAfter":1615809600000,"node8WarnAfter":1600128000000}
 [info] +  firestore: Firestore Emulator UI websocket is running on 9150. {"metadata":{"emulator":{"name":"firestore"},"message":"Firestore Emulator UI websocket is running on 9150."}}
 [info] i  auth: Importing config from D:\Coding\Project\next_finance\firebase-data\auth_export\config.json {"metadata":{"emulator":{"name":"auth"},"message":"Importing config from D:\\Coding\\Project\\next_finance\\firebase-data\\auth_export\\config.json"}}
 [info] i  auth: Importing accounts from D:\Coding\Project\next_finance\firebase-data\auth_export\accounts.json {"metadata":{"emulator":{"name":"auth"},"message":"Importing accounts from D:\\Coding\\Project\\next_finance\\firebase-data\\auth_export\\accounts.json"}}
-[debug] [2025-02-14T12:13:43.161Z] Checked if tokens are valid: false, expires at: 1739420392540
-[debug] [2025-02-14T12:13:43.161Z] Checked if tokens are valid: false, expires at: 1739420392540
-[debug] [2025-02-14T12:13:43.161Z] > refreshing access token with scopes: []
-[debug] [2025-02-14T12:13:43.162Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
-[debug] [2025-02-14T12:13:43.162Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
-[debug] [2025-02-14T12:13:43.329Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
-[debug] [2025-02-14T12:13:43.330Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
-[debug] [2025-02-14T12:13:43.336Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/finance-app-fc057/sites 
-[debug] [2025-02-14T12:13:44.183Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/finance-app-fc057/sites 200
-[debug] [2025-02-14T12:13:44.183Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/finance-app-fc057/sites {"sites":[{"name":"projects/finance-app-fc057/sites/finance-app-fc057","defaultUrl":"https://finance-app-fc057.web.app","type":"DEFAULT_SITE"}]}
-[debug] [2025-02-14T12:13:44.183Z] Checked if tokens are valid: true, expires at: 1739538822330
-[debug] [2025-02-14T12:13:44.184Z] Checked if tokens are valid: true, expires at: 1739538822330
-[debug] [2025-02-14T12:13:44.184Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/finance-app-fc057/webApps/-/config [none]
-[debug] [2025-02-14T12:13:44.992Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/finance-app-fc057/webApps/-/config 200
-[debug] [2025-02-14T12:13:44.992Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/finance-app-fc057/webApps/-/config {"projectId":"finance-app-fc057","appId":"1:548963231458:web:d1a6b6792535282e32e0bb","storageBucket":"finance-app-fc057.firebasestorage.app","apiKey":"AIzaSyCHdG7_k4fLvQ6SAAiSLOLx3Q8-X-9PNbE","authDomain":"finance-app-fc057.firebaseapp.com","messagingSenderId":"548963231458"}
-[debug] [2025-02-14T12:13:44.996Z] Checked if tokens are valid: true, expires at: 1739538822330
-[debug] [2025-02-14T12:13:44.996Z] Checked if tokens are valid: true, expires at: 1739538822330
-[debug] [2025-02-14T12:13:44.996Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/finance-app-fc057 [none]
-[debug] [2025-02-14T12:13:45.274Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/finance-app-fc057 200
-[debug] [2025-02-14T12:13:45.274Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/finance-app-fc057 {"projectId":"finance-app-fc057","projectNumber":"548963231458","displayName":"finance-app","name":"projects/finance-app-fc057","resources":{"hostingSite":"finance-app-fc057"},"state":"ACTIVE","etag":"1_c0454666-4de5-4522-a810-55853373e997"}
+[debug] [2025-02-16T12:23:07.946Z] Checked if tokens are valid: false, expires at: 1739634545705
+[debug] [2025-02-16T12:23:07.946Z] Checked if tokens are valid: false, expires at: 1739634545705
+[debug] [2025-02-16T12:23:07.946Z] > refreshing access token with scopes: []
+[debug] [2025-02-16T12:23:07.948Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2025-02-16T12:23:07.948Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2025-02-16T12:23:08.152Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
+[debug] [2025-02-16T12:23:08.152Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2025-02-16T12:23:08.160Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/finance-app-fc057/sites 
+[debug] [2025-02-16T12:23:09.029Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/finance-app-fc057/sites 200
+[debug] [2025-02-16T12:23:09.029Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/finance-app-fc057/sites {"sites":[{"name":"projects/finance-app-fc057/sites/finance-app-fc057","defaultUrl":"https://finance-app-fc057.web.app","type":"DEFAULT_SITE"}]}
+[debug] [2025-02-16T12:23:09.030Z] Checked if tokens are valid: true, expires at: 1739712187152
+[debug] [2025-02-16T12:23:09.030Z] Checked if tokens are valid: true, expires at: 1739712187152
+[debug] [2025-02-16T12:23:09.030Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/finance-app-fc057/webApps/-/config [none]
+[debug] [2025-02-16T12:23:10.083Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/finance-app-fc057/webApps/-/config 200
+[debug] [2025-02-16T12:23:10.083Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/finance-app-fc057/webApps/-/config {"projectId":"finance-app-fc057","appId":"1:548963231458:web:d1a6b6792535282e32e0bb","storageBucket":"finance-app-fc057.firebasestorage.app","apiKey":"AIzaSyCHdG7_k4fLvQ6SAAiSLOLx3Q8-X-9PNbE","authDomain":"finance-app-fc057.firebaseapp.com","messagingSenderId":"548963231458"}
+[debug] [2025-02-16T12:23:10.087Z] Checked if tokens are valid: true, expires at: 1739712187152
+[debug] [2025-02-16T12:23:10.087Z] Checked if tokens are valid: true, expires at: 1739712187152
+[debug] [2025-02-16T12:23:10.087Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/finance-app-fc057 [none]
+[debug] [2025-02-16T12:23:10.610Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/finance-app-fc057 200
+[debug] [2025-02-16T12:23:10.610Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/finance-app-fc057 {"projectId":"finance-app-fc057","projectNumber":"548963231458","displayName":"finance-app","name":"projects/finance-app-fc057","resources":{"hostingSite":"finance-app-fc057"},"state":"ACTIVE","etag":"1_c0454666-4de5-4522-a810-55853373e997"}
 [info] i  hosting[finance-app-fc057]: Serving hosting files from: public {"metadata":{"emulator":{"name":"hosting"},"message":"Serving hosting files from: \u001b[1mpublic\u001b[22m"}}
 [info] +  hosting[finance-app-fc057]: Local server: http://127.0.0.1:5000 {"metadata":{"emulator":{"name":"hosting"},"message":"Local server: \u001b[4m\u001b[1mhttp://127.0.0.1:5000\u001b[22m\u001b[24m"}}
-[debug] [2025-02-14T12:13:45.301Z] Could not find VSCode notification endpoint: FetchError: request to http://localhost:40001/vscode/notify failed, reason: . If you are not running the Firebase Data Connect VSCode extension, this is expected and not an issue.
+[debug] [2025-02-16T12:23:10.638Z] Could not find VSCode notification endpoint: FetchError: request to http://localhost:40001/vscode/notify failed, reason: . If you are not running the Firebase Data Connect VSCode extension, this is expected and not an issue.
 [info] 
 ┌─────────────────────────────────────────────────────────────┐
 │ ✔  All emulators ready! It is now safe to connect your app. │

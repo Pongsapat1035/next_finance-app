@@ -7,8 +7,10 @@ import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box'
 import Paper from '@mui/material/Paper'
 import Button from '@mui/material/Button';
+import { useRouter } from 'next/navigation';
 
 const SpendingBox = ({ spend = 0 }) => {
+    const router = useRouter()
     const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
         height: 10,
         borderRadius: 5,
@@ -40,7 +42,7 @@ const SpendingBox = ({ spend = 0 }) => {
                             Data form 1-23 Feb 2025
                         </Typography>
                     </Stack>
-                    <Button variant="outlined" sx={{ py: '0px' }}>View report</Button>
+                    <Button variant="outlined" sx={{ py: '0px' }} onClick={() => router.push('/finance/report')}>View report</Button>
                 </Stack>
                 <Stack direction="row" alignItems="flex-end" spacing={1}>
                     <Typography variant="h4">

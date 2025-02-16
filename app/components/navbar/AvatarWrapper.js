@@ -1,10 +1,11 @@
 "use client"
 
-import { Stack, Typography } from '@mui/material'
 import Image from 'next/image'
 import ProfileIcon from '../icons/person.png'
+import Stack from '@mui/material/Stack'
+import Typography from '@mui/material/Typography'
 
-const AvatarWrapper = () => {
+export default function AvatarWrapper() {
     return (
         <Stack alignItems="center" spacing={2} marginTop={2}>
             <Stack
@@ -21,4 +22,3 @@ const AvatarWrapper = () => {
     )
 }
 
-export default AvatarWrapper

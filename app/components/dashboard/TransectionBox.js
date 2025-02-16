@@ -1,32 +1,31 @@
 'use client'
 
-import {
-    Paper,
-    Typography,
-    Table,
-    TableContainer,
-    TableCell,
-    TableBody,
-    TableHead,
-    TableRow,
-    Button,
-    Stack
-} from "@mui/material";
+import Paper from "@mui/material/Paper";
+import Typography from "@mui/material/Typography";
+import Table from "@mui/material/Table";
+import TableContainer from "@mui/material/TableContainer";
+import TableCell from "@mui/material/TableCell";
+import TableBody from "@mui/material/TableBody";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Stack from "@mui/material/Stack";
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import dayjs from 'dayjs';
+
 import TransectionBadge from "../TransectionBadge";
 import { useEffect, useState } from "react";
-import dayjs from 'dayjs';
+
 
 const TransectionBox = ({ lists, handleMonth, handleEdit }) => {
     const [date, setDate] = useState(dayjs())
-    const handleChangeMonth = (event) => {
-        setDate(event)
-        const date = new Date(event)
+
+    const handleChangeMonth = (data) => {
+        setDate(data)
+        const date = new Date(data)
         const getMonth = date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
         handleMonth(getMonth)
     }
-
-    useEffect(() => {
+    const convertTimestamp = () => {
         if (lists.length > 0) {
             lists.forEach(list => {
                 const convertToDate = new Date(list.data.timeStamp * 1000)
@@ -34,6 +33,10 @@ const TransectionBox = ({ lists, handleMonth, handleEdit }) => {
                 list.data.day = getDay
             });
         }
+    }
+
+    useEffect(() => {
+        convertTimestamp()
     }, [lists])
 
     return (

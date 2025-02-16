@@ -62,6 +62,7 @@ export async function addData(data) {
     }
 }
 
+
 export async function updateData(data) {
     try {
         console.log('check recieve data : ', data)
@@ -84,11 +85,21 @@ export async function updateData(data) {
         console.log('check response : ', response)
         return 'data updated'
 
-
-
-
     } catch (error) {
         console.log('add error : ', error)
         return error
+    }
+}
+
+export async function loadCategory(userId) {
+    try {
+        const docRef = doc(db, "userCategory", userId);
+       
+        const querySnapshot = await getDoc(docRef);
+        const result = querySnapshot.data()
+        console.log(querySnapshot.data())
+        return result
+    } catch (error) {
+        console.log('error')
     }
 }

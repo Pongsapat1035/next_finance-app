@@ -1,21 +1,17 @@
 "use client"
 import { auth } from '../firebase'
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { Login, Register, storeCookie, CreateCategoryConfig } from '../auth/action';
 
-import { Login, Register, storeCookie } from '../auth/action';
-
-import { useEffect, useState, useRef, useCallback } from 'react'
+import { useState } from 'react'
 import { useRouter } from 'next/navigation';
 import Image from 'next/image'
 
-import {
-    Grid2,
-    Button,
-    Typography,
-    Stack,
-    Divider
-} from '@mui/material'
-
+import Grid2 from '@mui/material/Grid2'
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import Stack from '@mui/material/Stack';
+import Divider from '@mui/material/Divider';
 import InputText from './InputText'
 import ggIcon from "./icons/gg_icon.png"
 
@@ -25,14 +21,15 @@ export default function AuthForm() {
     const [errorEmailMsg, setErrorEmailMsg] = useState(' ')
     const [errorPassMsg, setErrorPassMsg] = useState(' ')
 
-
     async function LoginWithGoogle() {
         try {
             const provider = new GoogleAuthProvider();
             const result = await signInWithPopup(auth, provider)
             const token = await result.user.getIdToken()
+            const userId = result.user.uid
+            await CreateCategoryConfig(userId)
             console.log('google login', result)
-            storeCookie(token)
+            await storeCookie(token)
             alert('login success !!')
             router.push('/finance/dashboard')
         } catch (error) {

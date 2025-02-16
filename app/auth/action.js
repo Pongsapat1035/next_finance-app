@@ -1,6 +1,6 @@
 "use server"
 import { cookies } from "next/headers";
-import { auth } from '../firebase'
+import { auth, db } from '../firebase'
 
 import {
     signInWithEmailAndPassword,
@@ -8,6 +8,7 @@ import {
     updateProfile,
     signOut
 } from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
 
 export async function Login(userData) {
     const { email, password } = userData
@@ -31,7 +32,10 @@ export async function Register(userData) {
             displayName: name
         })
         const token = await response.user.getIdToken()
+        console.log(response)
         storeCookie(token)
+        CreateCategoryConfig(response.user.uid)
+        console.log(response)
         return { status: true, message: `Register success!!"`, token }
 
     } catch (error) {
@@ -40,6 +44,19 @@ export async function Register(userData) {
     }
 }
 
+export async function CreateCategoryConfig(userId) {
+    try {
+        // console.log('check recieved id : ', userId)
+        const defaultCategory = {
+            expend: ['shopping', 'entertainment', 'grocery'],
+            income: ['salary', 'specail']
+        }
+        const response = await setDoc(doc(db, 'userCategory', userId), defaultCategory)
+        // console.log('resposne set default cate : ', response)
+    } catch (error) {
+        console.log('error : ', error)
+    }
+}
 
 
 export async function storeCookie(token) {

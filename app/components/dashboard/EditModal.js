@@ -3,9 +3,9 @@ import { useState, useEffect } from "react";
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import dayjs from 'dayjs';
 import { Modal, Box, Grid2, Typography, TextField, Select, MenuItem, Button } from "@mui/material";
-import {  updateData } from "@/app/finance/dashboard/actions"
+import { updateData } from "@/app/finance/dashboard/actions"
 
-const EditModal = ({ state, category, toggleState, recieveData }) => {
+const EditModal = ({ state, category, toggleState, recieveData, uid }) => {
     const cloneData = JSON.parse(JSON.stringify(recieveData));
     const createdDate = cloneData.data.timeStamp
 

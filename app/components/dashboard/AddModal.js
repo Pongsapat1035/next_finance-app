@@ -1,21 +1,19 @@
 "use client"
 
-import { useState } from "react";
-import {
-    Grid2,
-    Paper,
-    Typography,
-    Modal,
-    Select,
-    MenuItem,
-    TextField,
-    Button,
-    IconButton
-} from "@mui/material";
+import Grid2 from "@mui/material/Grid2";
+import Paper from "@mui/material/Paper";
+import Typography from "@mui/material/Typography";
+import Modal from "@mui/material/Modal";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
 import CloseIcon from '@mui/icons-material/Close';
-
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import dayjs from 'dayjs';
+
+import { useState } from "react";
 import { addData } from "@/app/finance/dashboard/actions"
 
 const AddModal = ({ state = false, setState, configData, uid }) => {
@@ -36,10 +34,15 @@ const AddModal = ({ state = false, setState, configData, uid }) => {
             category: data.get('category'),
             createdDate: data.get('date')
         }
-        console.log('data from user : ', listData)
-        const response = await addData(listData)
-        console.log(response)
-        window.location.reload()
+        // console.log('data from user : ', listData)
+        try {
+            const response = await addData(listData)
+            console.log(response)
+            window.location.reload()
+        } catch (error) {
+            console.log('add transection error : ', error)
+        }
+
     }
 
     return (
@@ -50,7 +53,7 @@ const AddModal = ({ state = false, setState, configData, uid }) => {
             aria-describedby="modal-modal-description"
             sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
         >
-            <Paper sx={{ p: 8, borderRadius: '20px', bgcolor: "#FFFEFE", width: 1 / 4, position: 'relative' }}>
+            <Paper sx={{ p: 8, borderRadius: '20px', bgcolor: "#FFFEFE", minWidth: '400px', width: 1 / 4, position: 'relative' }}>
                 <Grid2 container spacing={2} direction={"column"}>
                     <Typography variant="h4" marginBottom="1rem">
                         New transection
