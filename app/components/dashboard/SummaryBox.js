@@ -4,9 +4,9 @@ import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
 
-import IncomeIcon from '@/app/components/icons/file_download.png'
-import ExpendIcon from '@/app/components/icons/file_upload.png'
-import TotalIcon from '@/app/components/icons/account_balance_wallet.png'
+import IncomeIcon from '@/public/icons/file_download.png'
+import ExpendIcon from '@/public/icons/file_upload.png'
+import TotalIcon from '@/public/icons/account_balance_wallet.png'
 
 import Image from "next/image";
 

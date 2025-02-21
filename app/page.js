@@ -4,15 +4,19 @@ import Grid2 from '@mui/material/Grid2';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-
+import { useAlert } from './alertContext';
 import { useRouter } from "next/navigation";
 
 export default function Home() {
     const router = useRouter()
-
+    const { handleAlert } = useAlert()
+    const testAlert = (type, message) => {
+        handleAlert(type, message)
+    }
     return (
         <div>
             <Navbar></Navbar>
+            <Button onClick={() => testAlert('error', 'hello world')}>asdasd</Button>
             <Grid2 container sx={{ my: 10 }}>
                 <Grid2 container gap={5} size={6} sx={{ pt: 6, pb: 10, pr: 6 }}>
                     <Typography variant='h2' fontWeight="bold">

@@ -9,12 +9,12 @@ import ListItemText from '@mui/material/ListItemText';
 import Divider from '@mui/material/Divider';
 import InboxIcon from '@mui/icons-material/Inbox';
 
-export default function NavButttonList({ handleNav }) {
+export default function NavButttonList({ signOut,  handleNav }) {
     return (
         <Box sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
             <List>
                 <ListMenu name="Dashboard" path='/finance/dashboard' handleNav={handleNav}></ListMenu>
-                <ListMenu name="Report" path='/finance/report' handleNav={handleNav}></ListMenu>
+                <ListMenu name="Report[unstable]" path='/finance/report' handleNav={handleNav}></ListMenu>
                 <ListMenu name="Setting" path='/finance/setting' handleNav={handleNav}></ListMenu>
             </List>
             <Divider />
@@ -25,7 +25,7 @@ export default function NavButttonList({ handleNav }) {
                     </ListItemButton>
                 </ListItem>
             </List>
-        </Box >
+        </Box>
     )
 }
 

@@ -6,7 +6,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 import './style/main.css'
-
+import { AlertProvider } from "./alertContext";
 const theme = createTheme({
   palette: {
     primary: {
@@ -104,12 +104,15 @@ export default function RootLayout({ children }) {
       </head>
       <body>
         <ThemeProvider theme={theme}>
-          <Container>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              {children}
-            </LocalizationProvider>
-          </Container>
+          <AlertProvider>
+            <Container>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                {children}
+              </LocalizationProvider>
+            </Container>
+          </AlertProvider>
         </ThemeProvider>
+        {/* <AlertBadge></AlertBadge> */}
       </body>
     </html>
   );

@@ -1,7 +1,7 @@
 "use client"
 
 import Image from 'next/image'
-import ProfileIcon from '../icons/person.png'
+import ProfileIcon from '@/public/icons/person.png'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 

@@ -4,7 +4,12 @@ import { userSignout } from "../auth/action"
 import { AuthProvider } from './authContext'
 import Navbar from "../components/navbar/Navbar"
 
+import { useAlert } from "../alertContext"
+import { useRouter } from "next/navigation"
+
 export default function HomeLayout({ children }) {
+    const router = useRouter()
+    const { handleAlert } = useAlert()
 
     const handleSignout = async () => {
         try {
@@ -13,7 +18,7 @@ export default function HomeLayout({ children }) {
             if (status) {
                 console.log('user sign out')
             }
-            alert('logout success !!')
+            handleAlert('success', 'logout success !')
             router.push('/')
         } catch (error) {
             console.log('signout error : ', error)

@@ -1,5 +1,5 @@
 "use client"
-import CloseNavbarIcon from '@/app/components/icons/first_page.png'
+import CloseNavbarIcon from '@/public/icons/first_page.png'
 
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';

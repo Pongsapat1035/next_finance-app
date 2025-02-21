@@ -34,7 +34,7 @@ export async function Register(userData) {
         const token = await response.user.getIdToken()
         console.log(response)
         storeCookie(token)
-        CreateCategoryConfig(response.user.uid)
+        CreateUserConfig(response.user.uid)
         console.log(response)
         return { status: true, message: `Register success!!"`, token }
 
@@ -44,17 +44,18 @@ export async function Register(userData) {
     }
 }
 
-export async function CreateCategoryConfig(userId) {
+export async function CreateUserConfig(userId) {
     try {
         // console.log('check recieved id : ', userId)
         const defaultCategory = {
             expend: ['shopping', 'entertainment', 'grocery'],
-            income: ['salary', 'specail']
+            income: ['salary', 'specail'],
+            spendingLimit: 10000
         }
-        const response = await setDoc(doc(db, 'userCategory', userId), defaultCategory)
-        // console.log('resposne set default cate : ', response)
+        const response = await setDoc(doc(db, 'userConfig', userId), defaultCategory)
+        console.log('resposne set default cate : ', response)
     } catch (error) {
-        console.log('error : ', error)
+        console.log('create default category error : ', error)
     }
 }
 

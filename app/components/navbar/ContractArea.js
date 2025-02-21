@@ -4,9 +4,9 @@ import Typography from '@mui/material/Typography'
 import Stack from '@mui/material/Stack'
 import Image from 'next/image'
 
-import Google_icon from '@/app/components/icons/gg_icon.png'
-import Github_icon from '@/app/components/icons/github_icon.png'
-import Linkedin_icon from '@/app/components/icons/linkedin_icon.png'
+import Google_icon from '@/public/icons/gg_icon.png'
+import Github_icon from '@/public/icons/github_icon.png'
+import Linkedin_icon from '@/public/icons/linkedin_icon.png'
 
 export default function ContractArea() {
     return (

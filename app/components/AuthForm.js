@@ -1,7 +1,7 @@
 "use client"
 import { auth } from '../firebase'
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
-import { Login, Register, storeCookie, CreateCategoryConfig } from '../auth/action';
+import { Login, Register, storeCookie, CreateUserConfig } from '../auth/action';
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation';
@@ -13,10 +13,13 @@ import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import Divider from '@mui/material/Divider';
 import InputText from './InputText'
-import ggIcon from "./icons/gg_icon.png"
+import ggIcon from "@/public/icons/gg_icon.png"
+
+import { useAlert } from '../alertContext';
 
 export default function AuthForm() {
     const router = useRouter()
+    const { handleAlert } = useAlert()
     const [mode, SetMode] = useState(false)
     const [errorEmailMsg, setErrorEmailMsg] = useState(' ')
     const [errorPassMsg, setErrorPassMsg] = useState(' ')
@@ -27,10 +30,10 @@ export default function AuthForm() {
             const result = await signInWithPopup(auth, provider)
             const token = await result.user.getIdToken()
             const userId = result.user.uid
-            await CreateCategoryConfig(userId)
+            await CreateUserConfig(userId)
             console.log('google login', result)
             await storeCookie(token)
-            alert('login success !!')
+            handleAlert('success', 'Login success')
             router.push('/finance/dashboard')
         } catch (error) {
             console.log(error)

@@ -12,14 +12,14 @@ import EditModal from "@/app/components/dashboard/EditModal";
 import { TotalBox, TotalBalanceBox } from '@/app/components/dashboard/SummaryBox'
 
 import { useEffect, useState } from "react";
-import { getAllData, deleteDocFormId, loadCategory } from "@/app/finance/dashboard/actions";
+import { getAllData, deleteDocFormId, loadUserConfig } from "@/app/finance/dashboard/actions";
 import { useAuth } from '../authContext';
 
 export default function Page() {
   const user = useAuth()
-
   const [lists, setLists] = useState([])
   const [userId, setUserId] = useState('')
+  const [isLoading, setIsLoading] = useState(true)
   const [editModal, setEditModal] = useState(false)
   const [newTranModal, setNewTranModal] = useState(false)
   const [dashboardData, setDashboardData] = useState({
@@ -53,16 +53,23 @@ export default function Page() {
   }
 
   const fetchData = async (uid, month) => {
-    const response = await getAllData(uid, month)
-    const fetchCategory = await loadCategory(uid)
-    const convertResponse = JSON.parse(response)
-    // console.log('check fetch result : ', convertResponse)
-    convertResponse.forEach(element => {
-      element.data.amout = parseInt(element.data.amout)
-      element.data.timeStamp = element.data.createdDate.seconds
-    });
-    setLists(convertResponse)
-    setCategoryLists(fetchCategory)
+    try {
+      const response = await getAllData(uid, month)
+      const fetchCategory = await loadUserConfig(uid)
+
+      const convertResponse = JSON.parse(response)
+      // console.log('check fetch result : ', convertResponse)
+      convertResponse.forEach(element => {
+        element.data.amout = parseInt(element.data.amout)
+        element.data.timeStamp = element.data.createdDate.seconds
+      });
+      setLists(convertResponse)
+      setIsLoading(false)
+      setCategoryLists(fetchCategory)
+    } catch (error) {
+      console.log(error)
+    }
+
   }
 
   useEffect(() => {
@@ -70,13 +77,11 @@ export default function Page() {
     if (user) {
       const date = new Date()
       const month = date.toLocaleDateString("en-US", { month: 'short', year: 'numeric' })
-
       fetchData(user.uuid, month)
       setUserId(user.uuid)
-
     }
   }, [user])
-  console.log('check cat', categoryLists)
+  // console.log('check cat', categoryLists)
   useEffect(() => {
     if (lists.length > 0) {
       // if have data calculate total
@@ -123,13 +128,13 @@ export default function Page() {
                 <TotalBox type="expend" amount={dashboardData.expend}></TotalBox>
               </Grid2>
             </Grid2>
-            <TransectionBox lists={lists} handleMonth={handleMonthSelect} handleEdit={handleEdit}></TransectionBox>
+            <TransectionBox checkLoading={isLoading} lists={lists} handleMonth={handleMonthSelect} handleEdit={handleEdit}></TransectionBox>
           </Stack>
         </Grid2>
         <Grid2 size={4} container direction="column" spacing={3}>
           <TotalBalanceBox amout={dashboardData.balance} toggleModal={toggleNewModal}></TotalBalanceBox>
-          <SpendingBox spend={dashboardData.expend}></SpendingBox>
-          <WeeklyWrapper></WeeklyWrapper>
+          <SpendingBox spend={dashboardData.expend} limit={categoryLists.spendingLimit}></SpendingBox>
+          <WeeklyWrapper totalExpend={dashboardData.expend} lists={lists} categoryLists={categoryLists.expend}></WeeklyWrapper>
         </Grid2>
       </Grid2>
       <EditModal

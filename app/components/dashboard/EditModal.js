@@ -5,34 +5,49 @@ import dayjs from 'dayjs';
 import { Modal, Box, Grid2, Typography, TextField, Select, MenuItem, Button } from "@mui/material";
 import { updateData } from "@/app/finance/dashboard/actions"
 
+import { deleteDocFormId } from "@/app/finance/dashboard/actions";
+import { useAlert } from "@/app/alertContext";
+
 const EditModal = ({ state, category, toggleState, recieveData, uid }) => {
     const cloneData = JSON.parse(JSON.stringify(recieveData));
     const createdDate = cloneData.data.timeStamp
-
-    const [date, setDate] = useState(dayjs(createdDate * 1000))
+    const { handleAlert } = useAlert()
+    const [date, setDate] = useState(dayjs())
 
     const docId = cloneData.id
     const docData = cloneData.data
-    const [type, setType] = useState('expend')
+    // const [type, setType] = useState('expend')
     const [formData, setFormData] = useState({
-        type: docData.type,
-        category: docData.category,
-        amout: docData.amout,
-        month: docData.month,
+        type: '',
+        category: '',
+        amout: '',
+        month: '',
     })
+    // console.log('check form data : ', formData)
 
-    const changeType = (e) => {
-        setType(e.target.value)
-    }
+
     const handleChange = (e) => {
         const { name, value } = e.target
         setFormData(prevState => ({
             ...prevState,
             [name]: value
         }))
+    }
+    const handleDelete = async (uid, docId, month) => {
+        const resposne = await deleteDocFormId(uid, docId, month)
 
+        if (resposne === 'success') {
+            handleAlert('success', 'Transection is deleted')
+        } else {
+            handleAlert('error', `Can't delete transection`)
+        }
+        toggleState()
+        setTimeout(() => {
+            window.location.reload()
+        }, 1000);
 
     }
+
     const submitForm = async (e) => {
         e.preventDefault();
         const data = new FormData(e.target)
@@ -53,14 +68,16 @@ const EditModal = ({ state, category, toggleState, recieveData, uid }) => {
 
     useEffect(() => {
         // setType(docData.type)
+        setDate(dayjs(createdDate * 1000))
+        const date = new Date(createdDate * 1000)
+        const getMonth = date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
         setFormData(prevState => ({
             ...prevState,
             type: docData.type,
             category: docData.category,
             amout: docData.amout,
-            month: docData.month
+            month: getMonth
         }))
-        setDate(dayjs(createdDate * 1000))
     }, [recieveData])
 
     const style = {
@@ -95,11 +112,12 @@ const EditModal = ({ state, category, toggleState, recieveData, uid }) => {
                             <Select name="category" value={formData.category} onChange={handleChange}>
                                 <MenuItem value="select type" disabled>select type</MenuItem>
                                 {
-                                    category[type].map((item, index) => <MenuItem value={item} key={index}>{item}</MenuItem>)
+                                    category[formData.type] ?
+                                        category[formData.type].map((item, index) => <MenuItem value={item} key={index}>{item}</MenuItem>) : ''
                                 }
                             </Select>
                             <Button type="submit" variant="contained">Update</Button>
-                            <Button variant="contained" onClick={() => deleteFunction(uid, docId, formData.month)}>Delete</Button>
+                            <Button variant="contained" onClick={() => handleDelete(uid, docId, formData.month)}>Delete</Button>
                         </Grid2>
                     </form>
                 </div>

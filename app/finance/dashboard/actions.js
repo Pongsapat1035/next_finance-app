@@ -26,8 +26,8 @@ export async function getAllData(uid, month) {
 
 export async function deleteDocFormId(uid, docId, month) {
     try {
-        console.log('recieve data', uid)
-        console.log('recieve data', docId)
+
+        console.log(`delete data ${uid} / ${docId} / ${month}`)
         const response = await deleteDoc(doc(db, "financeTrack", uid, month, docId));
         // console.log(response)
         return 'success'
@@ -91,10 +91,9 @@ export async function updateData(data) {
     }
 }
 
-export async function loadCategory(userId) {
+export async function loadUserConfig(userId) {
     try {
-        const docRef = doc(db, "userCategory", userId);
-       
+        const docRef = doc(db, "userConfig", userId);
         const querySnapshot = await getDoc(docRef);
         const result = querySnapshot.data()
         console.log(querySnapshot.data())

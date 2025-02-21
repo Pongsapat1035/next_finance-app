@@ -16,7 +16,10 @@ import dayjs from 'dayjs';
 import { useState } from "react";
 import { addData } from "@/app/finance/dashboard/actions"
 
+import { useAlert } from "@/app/alertContext";
+
 const AddModal = ({ state = false, setState, configData, uid }) => {
+    const { handleAlert } = useAlert()
     const [selectedValue, setSelectedValue] = useState('select type')
     const [type, setType] = useState('expend')
     const [date, setDate] = useState(dayjs())
@@ -34,12 +37,17 @@ const AddModal = ({ state = false, setState, configData, uid }) => {
             category: data.get('category'),
             createdDate: data.get('date')
         }
-        // console.log('data from user : ', listData)
         try {
             const response = await addData(listData)
             console.log(response)
-            window.location.reload()
+            handleAlert('success', 'add new transection success')
+            setState()
+            setTimeout(() => {
+                window.location.reload()
+            }, 1000);
         } catch (error) {
+            handleAlert('error', "can't add new transection")
+
             console.log('add transection error : ', error)
         }
 

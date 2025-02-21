@@ -15,7 +15,6 @@ export async function deleteCookie() {
     const cookieStore = await cookies()
     cookieStore.delete('auth')
     console.log('delete cookies')
-
 }
 
 export async function testEnv() {

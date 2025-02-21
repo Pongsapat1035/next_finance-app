@@ -8,9 +8,12 @@ import Box from '@mui/material/Box'
 import Paper from '@mui/material/Paper'
 import Button from '@mui/material/Button';
 import { useRouter } from 'next/navigation';
-
-const SpendingBox = ({ spend = 0 }) => {
+import { useState, useEffect } from 'react';
+import dayjs from 'dayjs';
+const SpendingBox = ({ spend = 0, limit }) => {
     const router = useRouter()
+    const [progressValue, setProgressValue] = useState(0)
+    const [dateText, setDateText] = useState('')
     const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
         height: 10,
         borderRadius: 5,
@@ -29,6 +32,17 @@ const SpendingBox = ({ spend = 0 }) => {
             }),
         },
     }));
+    // console.log(date)
+    useEffect(() => {
+        const progressPercent = (spend / limit) * 100
+        console.log('progress percent : ', progressPercent)
+        setProgressValue(progressPercent)
+        const date = new Date()
+        const convertDate = date.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })
+        console.log('check date : ', convertDate)
+        setDateText(convertDate)
+    }, [spend])
+
     return (
         <Paper sx={{ p: 3 }}>
             {/* this is spendingbox */}
@@ -39,7 +53,7 @@ const SpendingBox = ({ spend = 0 }) => {
                             Spending Limit
                         </Typography>
                         <Typography variant="body1" color="primary.light">
-                            Data form 1-23 Feb 2025
+                            Data form 1 - {dateText}
                         </Typography>
                     </Stack>
                     <Button variant="outlined" sx={{ py: '0px' }} onClick={() => router.push('/finance/report')}>View report</Button>
@@ -52,11 +66,11 @@ const SpendingBox = ({ spend = 0 }) => {
                         of
                     </Typography>
                     <Typography variant="body1" color="primary.light">
-                        4000
+                        {limit}
                     </Typography>
                 </Stack>
                 <Box>
-                    <BorderLinearProgress variant="determinate" value={50} />
+                    <BorderLinearProgress variant="determinate" value={progressValue} />
                 </Box>
             </Stack>
         </Paper>

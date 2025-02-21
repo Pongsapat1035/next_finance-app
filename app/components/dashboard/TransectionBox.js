@@ -16,7 +16,7 @@ import TransectionBadge from "../TransectionBadge";
 import { useEffect, useState } from "react";
 
 
-const TransectionBox = ({ lists, handleMonth, handleEdit }) => {
+const TransectionBox = ({ checkLoading, lists, handleMonth, handleEdit }) => {
     const [date, setDate] = useState(dayjs())
 
     const handleChangeMonth = (data) => {
@@ -25,6 +25,7 @@ const TransectionBox = ({ lists, handleMonth, handleEdit }) => {
         const getMonth = date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
         handleMonth(getMonth)
     }
+    
     const convertTimestamp = () => {
         if (lists.length > 0) {
             lists.forEach(list => {
@@ -65,39 +66,50 @@ const TransectionBox = ({ lists, handleMonth, handleEdit }) => {
                         </TableRow>
                     </TableHead>
                     {
-                        lists.length > 0 ?
-                            <TableBody>
-                                {lists.map((row, index) => (
-                                    <TableRow
-                                        hover
-                                        key={index}
-                                        sx={{ '&:last-child td, &:last-child th': { border: 0 }, cursor: "pointer" }} onClick={() => handleEdit(row)}
-                                    >
-                                        <TableCell component="th" scope="row" sx={{ fontSize: '0.9rem', fontWeight: 'bold' }}>
-                                            {row.data.day}
-                                        </TableCell>
-                                        <TableCell align="center" sx={{ fontSize: '0.9rem', fontWeight: 'bold' }}>
-                                            <Stack alignItems="center">
-                                                <TransectionBadge type={row.data.type}></TransectionBadge>
-                                            </Stack>
-                                        </TableCell>
-                                        <TableCell align="center" sx={{ fontSize: '0.9rem' }}>{row.data.category}</TableCell>
-                                        <TableCell align="right"
-                                            sx={{ fontSize: '0.9rem', fontWeight: 'bold', color: row.data.type === 'income' ? 'success.main' : 'error.main' }}>
-                                            {row.data.type === 'income' ? '+' : '-'} {row.data.amout} THB
-                                        </TableCell>
-                                    </TableRow>
-                                ))}
-                            </TableBody> :
+                        checkLoading ?
                             <TableBody>
                                 <TableRow >
                                     <TableCell colSpan={4} sx={{ border: 0, pt: 8 }}>
                                         <Stack justifyContent="center" alignItems="center" sx={{ fontWeight: 'bold', fontSize: '1rem' }}>
-                                            😊 "Your transaction history is empty. Let's track your finances!"
+                                            "Loading"
                                         </Stack>
                                     </TableCell>
                                 </TableRow>
-                            </TableBody>
+                            </TableBody> :
+                            lists.length > 0 ?
+                                <TableBody>
+                                    {lists.map((row, index) => (
+                                        <TableRow
+                                            hover
+                                            key={index}
+                                            sx={{ '&:last-child td, &:last-child th': { border: 0 }, cursor: "pointer" }}
+                                            onClick={() => handleEdit(row)}
+                                        >
+                                            <TableCell component="th" scope="row" sx={{ fontSize: '0.9rem', fontWeight: 'bold' }}>
+                                                {row.data.day}
+                                            </TableCell>
+                                            <TableCell align="center" sx={{ fontSize: '0.9rem', fontWeight: 'bold' }}>
+                                                <Stack alignItems="center">
+                                                    <TransectionBadge type={row.data.type}></TransectionBadge>
+                                                </Stack>
+                                            </TableCell>
+                                            <TableCell align="center" sx={{ fontSize: '0.9rem' }}>{row.data.category}</TableCell>
+                                            <TableCell align="right"
+                                                sx={{ fontSize: '0.9rem', fontWeight: 'bold', color: row.data.type === 'income' ? 'success.main' : 'error.main' }}>
+                                                {row.data.type === 'income' ? '+' : '-'} {row.data.amout} THB
+                                            </TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody> :
+                                <TableBody>
+                                    <TableRow >
+                                        <TableCell colSpan={4} sx={{ border: 0, pt: 8 }}>
+                                            <Stack justifyContent="center" alignItems="center" sx={{ fontWeight: 'bold', fontSize: '1rem' }}>
+                                                😊 "Your transaction history is empty. Let's track your finances!"
+                                            </Stack>
+                                        </TableCell>
+                                    </TableRow>
+                                </TableBody>
                     }
                 </Table>
             </TableContainer>
