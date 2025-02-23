@@ -7,13 +7,16 @@ body {
   font-family: "Inria sans";
   box-sizing: border-box;
 }
-/* .rotate {
-  transform: rotate(180deg);
-} */
+
 .logo-icon {
-  transform: rotate(-180deg);
+  transform: rotate(0deg);
   &.rotate {
-    transform: rotate(0deg);
+    transform: rotate(180deg);
   }
 }
 
+.MuiChartsLegend-mark{
+  border-radius: 10px;
+
+  /* width: 200px; */
+}

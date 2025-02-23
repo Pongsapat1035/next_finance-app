@@ -1,7 +1,6 @@
 "use client"
 import { Paper, Typography, Grid2, Button, IconButton } from "@mui/material"
 import { Close, Done } from '@mui/icons-material';
-import { useState, useEffect } from "react";
 
 export default function AlertBadge({ data = {}, handleFunction }) {
     const symbol = data.type === 'error' ? <Close sx={{ color: "#C72424" }}></Close> : <Done sx={{ color: "#5AAE25" }}></Done>
@@ -15,21 +14,12 @@ export default function AlertBadge({ data = {}, handleFunction }) {
         height: 50
     }
 
-    const closeBtnStyle = {
-        position: "absolute",
-        top: 10,
-        right: 10,
-        cursor: "pointer",
-        minWidth: 0,
-        width: 30,
-        height: 30,
-        borderRadius: "50%"
-    }
-
     return (
         <>
-            <Paper elevation={0} sx={{ width: 1 / 4, borderRadius: 5, p: 3, position: "fixed", bottom: 30, right: 20 }}>
-                <Grid2 container alignItems="center" spacing={4}>
+            <Paper elevation={0} sx={{
+                width: 1 / 4, borderRadius: 5, p: 3, position: "fixed", bottom: 30, right: 20, border: '1px solid rgb(224, 224, 224)',
+            }}>
+                <Grid2 container alignItems="center" gap={4} spacing={4}>
                     <Grid2 size={2}>
                         <Grid2 container justifyContent="center" alignItems="center" sx={symbolStyle}>
                             {symbol}

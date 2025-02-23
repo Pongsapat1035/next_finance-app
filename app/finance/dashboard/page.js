@@ -143,7 +143,9 @@ export default function Page() {
         recieveData={editData}
         category={categoryLists}
         handleDelete={deleteBtnIsClick}
-        uid={userId}>
+        uid={userId}
+        
+      >
       </EditModal>
       <AddModal state={newTranModal} setState={toggleNewModal} configData={categoryLists} uid={userId}></AddModal>
     </Box>

@@ -23,7 +23,9 @@ export default function Navbar({ signOut }) {
         borderRadius: '20px',
         padding: '1.5rem',
         overflow: 'hidden',
+        border: '1px solid rgb(224, 224, 224)',
         transition: 'all 300ms ease-in-out',
+        zIndex: 10,
         '&.close-nav': {
             width: '60px',
             height: '60px',

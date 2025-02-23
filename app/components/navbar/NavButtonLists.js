@@ -8,14 +8,17 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Divider from '@mui/material/Divider';
 import InboxIcon from '@mui/icons-material/Inbox';
+import DashboardRoundedIcon from '@mui/icons-material/DashboardRounded';
+import AssessmentRoundedIcon from '@mui/icons-material/AssessmentRounded';
+import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
 
-export default function NavButttonList({ signOut,  handleNav }) {
+export default function NavButttonList({ signOut, handleNav }) {
     return (
         <Box sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
             <List>
-                <ListMenu name="Dashboard" path='/finance/dashboard' handleNav={handleNav}></ListMenu>
-                <ListMenu name="Report[unstable]" path='/finance/report' handleNav={handleNav}></ListMenu>
-                <ListMenu name="Setting" path='/finance/setting' handleNav={handleNav}></ListMenu>
+                <ListMenu icon={<DashboardRoundedIcon />} name="Dashboard" path='/finance/dashboard' handleNav={handleNav}></ListMenu>
+                <ListMenu icon={<AssessmentRoundedIcon />} name="Report [unstable]" path='/finance/report' handleNav={handleNav}></ListMenu>
+                <ListMenu icon={<SettingsRoundedIcon />} name="Setting" path='/finance/setting' handleNav={handleNav}></ListMenu>
             </List>
             <Divider />
             <List>
@@ -29,7 +32,7 @@ export default function NavButttonList({ signOut,  handleNav }) {
     )
 }
 
-const ListMenu = ({ name, path, handleNav }) => {
+const ListMenu = ({ icon, name, path, handleNav }) => {
     const router = useRouter()
     const handleClick = () => {
         router.push(path)
@@ -40,7 +43,7 @@ const ListMenu = ({ name, path, handleNav }) => {
         <ListItem disablePadding >
             <ListItemButton onClick={() => handleClick()}>
                 <ListItemIcon>
-                    <InboxIcon />
+                    {icon}
                 </ListItemIcon>
                 <ListItemText primary={name} />
             </ListItemButton>

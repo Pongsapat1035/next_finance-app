@@ -12,24 +12,28 @@ import IconButton from "@mui/material/IconButton";
 import CloseIcon from '@mui/icons-material/Close';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import dayjs from 'dayjs';
-
-import { useState } from "react";
+import Input from '@mui/material/Input';
+import InputAdornment from '@mui/material/InputAdornment';
+import AccountCircle from '@mui/icons-material/AccountCircle';
+import { Stack } from "@mui/material";
+import { useEffect, useState } from "react";
 import { addData } from "@/app/finance/dashboard/actions"
-
+import MonetizationOnRoundedIcon from '@mui/icons-material/MonetizationOnRounded';
 import { useAlert } from "@/app/alertContext";
 
 const AddModal = ({ state = false, setState, configData, uid }) => {
     const { handleAlert } = useAlert()
-    const [selectedValue, setSelectedValue] = useState('select type')
+    const [selectedValue, setSelectedValue] = useState('select category')
     const [type, setType] = useState('expend')
     const [date, setDate] = useState(dayjs())
-
+    const [errorCategory, setErrorCategory] = useState(false)
     const handleCateChange = (event) => setSelectedValue(event.target.value)
     const handleTypeChange = (event) => setType(event.target.value)
 
     const submitForm = async (e) => {
         e.preventDefault();
         const data = new FormData(e.target)
+
         const listData = {
             userid: uid,
             type: data.get('type'),
@@ -38,6 +42,10 @@ const AddModal = ({ state = false, setState, configData, uid }) => {
             createdDate: data.get('date')
         }
         try {
+            if (listData.category === 'select category') {
+                setErrorCategory(true)
+                return
+            }
             const response = await addData(listData)
             console.log(response)
             handleAlert('success', 'add new transection success')
@@ -47,12 +55,14 @@ const AddModal = ({ state = false, setState, configData, uid }) => {
             }, 1000);
         } catch (error) {
             handleAlert('error', "can't add new transection")
-
             console.log('add transection error : ', error)
+            return
         }
 
     }
-
+    useEffect(() => {
+        setSelectedValue('select category')
+    }, [type])
     return (
         <Modal
             open={state}
@@ -61,35 +71,51 @@ const AddModal = ({ state = false, setState, configData, uid }) => {
             aria-describedby="modal-modal-description"
             sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
         >
-            <Paper sx={{ p: 8, borderRadius: '20px', bgcolor: "#FFFEFE", minWidth: '400px', width: 1 / 4, position: 'relative' }}>
+            <Paper sx={{ px: 8, py: 6, borderRadius: '20px', bgcolor: "#FFFEFE", minWidth: '500px', width: 1 / 4, position: 'relative' }}>
                 <Grid2 container spacing={2} direction={"column"}>
-                    <Typography variant="h4" marginBottom="1rem">
+                    <Typography variant="h4" marginBottom="1rem" fontWeight="bold">
                         New transection
                     </Typography>
                     <form onSubmit={submitForm}>
                         <Grid2 container spacing={2} direction={"column"}>
                             <DatePicker name="date" value={date} maxDate={dayjs()} onChange={(newValue) => setDate(newValue)} />
-                            <TextField id="outlined-basic" name="amout" type="number" label="Amout" variant="outlined" required />
-                            <Select
-                                name="type"
-                                value={type}
-                                onChange={handleTypeChange}
-                            >
-                                <MenuItem value="select type" disabled>select type</MenuItem>
-                                <MenuItem value="expend">expend</MenuItem>
-                                <MenuItem value="income">income</MenuItem>
-                            </Select>
-                            <Select
-                                name="category"
-                                value={selectedValue}
-                                onChange={handleCateChange}
-                            >
-                                <MenuItem value="select type" disabled>select type</MenuItem>
-                                {
-                                    configData[type].map((data, index) => <MenuItem key={index} value={data}>{data}</MenuItem>)
-                                }
-                            </Select>
-                            <Button type="submit" variant="contained">Add</Button>
+                            <Grid2 container direction="row" gap={2}>
+                                <Grid2 size={6}>
+                                    <TextField id="outlined-basic" name="amout"
+                                        slotProps={{
+                                            input: {
+                                                startAdornment: (
+                                                    <InputAdornment position="start">
+                                                        <MonetizationOnRoundedIcon />
+                                                    </InputAdornment>
+                                                ),
+                                            },
+                                        }}
+                                        type="number" variant="outlined" placeholder="Amout" required />
+                                </Grid2>
+                                <Grid2 size={6}>
+                                    <Select name="type" value={type} onChange={handleTypeChange} fullWidth>
+                                        <MenuItem value="select type" disabled>select type</MenuItem>
+                                        <MenuItem value="expend">Expend</MenuItem>
+                                        <MenuItem value="income">Income</MenuItem>
+                                    </Select>
+                                </Grid2>
+                            </Grid2>
+                            <Stack alignItems="flex-end">
+                                <Select
+                                    name="category"
+                                    value={selectedValue}
+                                    onChange={handleCateChange}
+                                    fullWidth
+                                >
+                                    <MenuItem value="select category" disabled>Select category</MenuItem>
+                                    {
+                                        configData[type].map((data, index) => <MenuItem key={index} value={data}>{data}</MenuItem>)
+                                    }
+                                </Select>
+                                {errorCategory ? <Typography variant="body1" color="error.main">Please select category</Typography> : ''}
+                            </Stack>
+                            <Button type="submit" variant="contained" sx={{ borderRadius: '8px', mt: '1rem' }}>Create transection</Button>
                         </Grid2>
                     </form>
                 </Grid2>

@@ -18,14 +18,14 @@ import { useEffect, useState } from "react";
 
 const TransectionBox = ({ checkLoading, lists, handleMonth, handleEdit }) => {
     const [date, setDate] = useState(dayjs())
-
+    const [listsData, setListsData] = useState([])
     const handleChangeMonth = (data) => {
         setDate(data)
         const date = new Date(data)
         const getMonth = date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
         handleMonth(getMonth)
     }
-    
+
     const convertTimestamp = () => {
         if (lists.length > 0) {
             lists.forEach(list => {
@@ -33,6 +33,11 @@ const TransectionBox = ({ checkLoading, lists, handleMonth, handleEdit }) => {
                 const getDay = convertToDate.toLocaleDateString('en-US', { day: 'numeric', weekday: 'short' })
                 list.data.day = getDay
             });
+            console.log(lists)
+            console.log(typeof (lists[0].data.timeStamp))
+            const sortLists = lists.sort((a, b) => a.data.timeStamp - b.data.timeStamp)
+            setListsData(sortLists)
+
         }
     }
 
@@ -41,29 +46,34 @@ const TransectionBox = ({ checkLoading, lists, handleMonth, handleEdit }) => {
     }, [lists])
 
     return (
-        <Paper sx={{ height: '100%', p: 3 }}>
-            <Stack direction="row" justifyContent="space-between">
-                <Typography variant="h5" fontWeight="bold">Transection</Typography>
-                <DatePicker
-                    label="Month"
-                    maxDate={dayjs()}
-                    value={date}
-                    openTo="year"
-                    views={['year', 'month']}
-                    yearsOrder="desc"
-                    sx={{ width: 200 }}
-                    onChange={handleChangeMonth}
-                />
-            </Stack>
-            <TableContainer component={Paper}>
-                <Table sx={{ width: "100%" }} aria-label="simple table">
-                    <TableHead>
+        <Paper sx={{ p: 3, maxHeight: '695px' }}>
+            <TableContainer component={Paper} sx={{ height: '100%', overflow: 'auto', maxHeight: '695px' }}>
+                <Table sx={{ overflow: 'hidden' }} aria-label="simple table">
+                    <TableHead sx={{ position: 'sticky', top: 0, bgcolor: 'background.paper' }}>
+                        <TableRow>
+                            <TableCell colSpan={4} >
+                                <Stack direction="row" alignItems="center" justifyContent="space-between">
+                                    <Typography variant="h5" fontWeight="bold">Transection</Typography>
+                                    <DatePicker
+                                        label="Month"
+                                        maxDate={dayjs()}
+                                        value={date}
+                                        openTo="year"
+                                        views={['year', 'month']}
+                                        yearsOrder="desc"
+                                        sx={{ width: 200 }}
+                                        onChange={handleChangeMonth}
+                                    />
+                                </Stack>
+                            </TableCell>
+                        </TableRow>
                         <TableRow>
                             <TableCell sx={{ fontWeight: 'bold', fontSize: '1.1rem' }}>Date</TableCell>
                             <TableCell sx={{ fontWeight: 'bold', fontSize: '1.1rem' }} align="center">Type</TableCell>
                             <TableCell sx={{ fontWeight: 'bold', fontSize: '1.1rem' }} align="center">Category</TableCell>
                             <TableCell sx={{ fontWeight: 'bold', fontSize: '1.1rem' }} align="right">Amout</TableCell>
                         </TableRow>
+
                     </TableHead>
                     {
                         checkLoading ?
@@ -76,13 +86,13 @@ const TransectionBox = ({ checkLoading, lists, handleMonth, handleEdit }) => {
                                     </TableCell>
                                 </TableRow>
                             </TableBody> :
-                            lists.length > 0 ?
+                            listsData.length > 0 ?
                                 <TableBody>
-                                    {lists.map((row, index) => (
+                                    {listsData.map((row, index) => (
                                         <TableRow
                                             hover
                                             key={index}
-                                            sx={{ '&:last-child td, &:last-child th': { border: 0 }, cursor: "pointer" }}
+                                            sx={{ border: 0, cursor: "pointer" }}
                                             onClick={() => handleEdit(row)}
                                         >
                                             <TableCell component="th" scope="row" sx={{ fontSize: '0.9rem', fontWeight: 'bold' }}>
