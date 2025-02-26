@@ -1,7 +1,7 @@
 "use client"
-import { auth } from '../firebase'
+import { auth } from '@/app/firebase'
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
-import { Login, Register, storeCookie, CreateUserConfig } from '../auth/action';
+import { Login, Register, storeCookie, CreateUserConfig } from '../action';
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation';
@@ -15,7 +15,7 @@ import Divider from '@mui/material/Divider';
 import InputText from './InputText'
 import ggIcon from "@/public/icons/gg_icon.png"
 
-import { useAlert } from '../alertContext';
+import { useAlert } from '@/app/alertContext';
 
 export default function AuthForm() {
     const router = useRouter()
@@ -41,7 +41,6 @@ export default function AuthForm() {
     }
 
     const validateInput = (data) => {
-
         const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
         !emailRegex.test(data.email) && data.email !== '' ? setErrorEmailMsg('email is invalid format') : setErrorEmailMsg(' ')
 
@@ -61,14 +60,12 @@ export default function AuthForm() {
             return false
         }
         return true
-
-
     }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            console.log(e)
+            // console.log(e)
             const formData = new FormData(e.target);
             const userData = {
                 email: formData.get('email'),
@@ -79,10 +76,11 @@ export default function AuthForm() {
                 throw new Error('validate fail!!')
             }
             const response = mode ? await Register(userData) : await Login(userData)
-            alert(response.message)
+            if (response.status === 200) handleAlert('success', `Welcome ${response.name}`)
             router.push('/finance/dashboard')
+
         } catch (error) {
-            alert(error)
+            handleAlert('error', 'Login error')
             console.log(error)
         }
 

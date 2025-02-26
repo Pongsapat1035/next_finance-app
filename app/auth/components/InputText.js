@@ -4,7 +4,7 @@ import InputBase from "@mui/material/InputBase";
 import InputLabel from "@mui/material/InputLabel";
 import { alpha, styled } from '@mui/material/styles';
 
-function InputBox({ label, nameTag, typeTag, placeHolder, errorMsg, onChangeVal }) {
+function InputBox({ label, nameTag, typeTag, placeHolder, errorMsg }) {
     const InputTag = styled(InputBase)(({ theme }) => ({
         'label + &': {
             marginTop: theme.spacing(3),

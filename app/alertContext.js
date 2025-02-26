@@ -10,11 +10,9 @@ export function AlertProvider({ children }) {
     const [alertConfig, setAlertConfig] = useState({
         type: '',
         message: ''
-    }
-    )
+    })
 
     const handleAlert = (type, message) => {
-        console.log(type, message)
         setShowAlert(true)
         setAlertConfig((prevState) => ({
             ...prevState,
@@ -25,15 +23,11 @@ export function AlertProvider({ children }) {
             setShowAlert(false)
         }, 3000);
     }
-    console.log(showAlert)
-    const closeAlert = () => setShowAlert(false)
 
     return (
         <AlertContext.Provider value={{ handleAlert }}>
             {children}
-            {
-                showAlert !== false ? <AlertBadge data={alertConfig} handleFunction={closeAlert}></AlertBadge> : ''
-            }
+            {showAlert !== false ? <AlertBadge data={alertConfig} handleFunction={() => setShowAlert(false)}></AlertBadge> : ''}
         </AlertContext.Provider>
     )
 }

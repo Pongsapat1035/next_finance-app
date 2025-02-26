@@ -7,7 +7,6 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Divider from '@mui/material/Divider';
-import InboxIcon from '@mui/icons-material/Inbox';
 import DashboardRoundedIcon from '@mui/icons-material/DashboardRounded';
 import AssessmentRoundedIcon from '@mui/icons-material/AssessmentRounded';
 import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';

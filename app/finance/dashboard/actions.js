@@ -26,23 +26,19 @@ export async function getAllData(uid, month) {
 
 export async function deleteDocFormId(uid, docId, month) {
     try {
-
-        console.log(`delete data ${uid} / ${docId} / ${month}`)
-        const response = await deleteDoc(doc(db, "financeTrack", uid, month, docId));
-        // console.log(response)
-        return 'success'
+        await deleteDoc(doc(db, "financeTrack", uid, month, docId));
+        return { status: 200, msg: 'delete transection success' }
     } catch (error) {
         console.log(error)
+        return { status: 400, msg: 'delete transection success' }
     }
 }
 
-export async function addData(data) {
+export async function createTransection(data) {
     try {
         const userId = data.userid
-        console.log('check recieve date : ', data.createdDate)
-        console.log('check recieve date : ', typeof (data.createdDate))
         const date = new Date(data.createdDate)
-        const getMonth = date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
+        const getMonthFormat = date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
 
         const convertData = {
             type: data.type,
@@ -50,11 +46,10 @@ export async function addData(data) {
             amout: data.amout,
             createdDate: date
         }
-        const docRef = collection(db, "financeTrack", userId, getMonth)
-        const response = await addDoc(docRef, convertData)
-        console.log('add from exit success')
+        const docRef = collection(db, "financeTrack", userId, getMonthFormat)
+        await addDoc(docRef, convertData)
 
-        return 'data added'
+        return { status: 201, msg: 'create new transection success !!' }
 
     } catch (error) {
         console.log('add error : ', error)

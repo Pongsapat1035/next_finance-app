@@ -16,7 +16,6 @@ export async function middleware(request) {
 
     if (token) {
         try {
-
             const res = await fetch(`${request.nextUrl.origin}/api/verify`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },

@@ -13,12 +13,19 @@ export default function AlertBadge({ data = {}, handleFunction }) {
         width: 50,
         height: 50
     }
+    const paperStyle = {
+        width: 1 / 4,
+        borderRadius: 5,
+        p: 3,
+        position: "fixed",
+        bottom: 30,
+        right: 20,
+        border: '1px solid rgb(224, 224, 224)'
+    }
 
     return (
         <>
-            <Paper elevation={0} sx={{
-                width: 1 / 4, borderRadius: 5, p: 3, position: "fixed", bottom: 30, right: 20, border: '1px solid rgb(224, 224, 224)',
-            }}>
+            <Paper elevation={0} sx={paperStyle}>
                 <Grid2 container alignItems="center" gap={4} spacing={4}>
                     <Grid2 size={2}>
                         <Grid2 container justifyContent="center" alignItems="center" sx={symbolStyle}>

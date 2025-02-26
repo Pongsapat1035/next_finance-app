@@ -9,7 +9,7 @@ import Paper from '@mui/material/Paper'
 import Button from '@mui/material/Button';
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
-import dayjs from 'dayjs';
+
 const SpendingBox = ({ spend = 0, limit }) => {
     const router = useRouter()
     const [progressValue, setProgressValue] = useState(0)
@@ -32,14 +32,15 @@ const SpendingBox = ({ spend = 0, limit }) => {
             }),
         },
     }));
-    // console.log(date)
+
     useEffect(() => {
-        const progressPercent = (spend / limit) * 100
-        console.log('progress percent : ', progressPercent)
+        let progressPercent = Math.floor((spend / limit) * 100)
+     
+        progressPercent = progressPercent > 100 ? 100 : progressPercent
+        console.log(progressPercent)
         setProgressValue(progressPercent)
         const date = new Date()
         const convertDate = date.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })
-        console.log('check date : ', convertDate)
         setDateText(convertDate)
     }, [spend])
 

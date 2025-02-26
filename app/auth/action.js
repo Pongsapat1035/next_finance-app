@@ -1,26 +1,22 @@
 "use server"
 import { cookies } from "next/headers";
-import { auth, db } from '../firebase'
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile, signOut } from "firebase/auth";
+import { doc, setDoc, getDoc } from "firebase/firestore";
 
-import {
-    signInWithEmailAndPassword,
-    createUserWithEmailAndPassword,
-    updateProfile,
-    signOut
-} from "firebase/auth";
-import { doc, setDoc } from "firebase/firestore";
+import { auth, db } from '../firebase'
 
 export async function Login(userData) {
     const { email, password } = userData
     try {
         const response = await signInWithEmailAndPassword(auth, email, password)
         const token = await response.user.getIdToken()
+        const name = response.user.displayName
         storeCookie(token)
-        return { status: true, message: `login success!!`, token }
+        return { status: 200, message: `login success!!`, name }
 
     } catch (error) {
         console.log('login error : ', error)
-        return { status: false, message: error }
+        return { status: 400, message: error }
     }
 }
 
@@ -28,15 +24,14 @@ export async function Register(userData) {
     const { email, password, name } = userData
     try {
         const response = await createUserWithEmailAndPassword(auth, email, password)
-        const updateUserInfo = await updateProfile(auth.currentUser, {
-            displayName: name
-        })
+        // update display name
+        await updateProfile(auth.currentUser, { displayName: name })
         const token = await response.user.getIdToken()
-        console.log(response)
+        const userId = response.user.uid
         storeCookie(token)
-        CreateUserConfig(response.user.uid)
-        console.log(response)
-        return { status: true, message: `Register success!!"`, token }
+        CreateUserConfig(userId)
+        console.log('create user success : ', userId)
+        return { status: 200, message: `Register success!!"`, name }
 
     } catch (error) {
         console.log('register error : ', error)
@@ -46,14 +41,21 @@ export async function Register(userData) {
 
 export async function CreateUserConfig(userId) {
     try {
-        // console.log('check recieved id : ', userId)
-        const defaultCategory = {
-            expend: ['shopping', 'entertainment', 'grocery'],
-            income: ['salary', 'specail'],
-            spendingLimit: 10000
+        const docRef = doc(db, "userConfig", userId);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+            console.log("Document data:", docSnap.data());
+            return
+        } else {
+            const defaultCategory = {
+                expend: ['Housing', 'Food', 'Groceries', 'Transportation', 'Entertainment', 'Health'],
+                income: ['Salaty', 'Wages', 'Side Hustles', 'Investment', 'Gifts', 'Other'],
+                spendingLimit: 10000
+            }
+            const response = await setDoc(doc(db, 'userConfig', userId), defaultCategory)
+            console.log('resposne set default cate : ', response)
         }
-        const response = await setDoc(doc(db, 'userConfig', userId), defaultCategory)
-        console.log('resposne set default cate : ', response)
     } catch (error) {
         console.log('create default category error : ', error)
     }
@@ -61,7 +63,7 @@ export async function CreateUserConfig(userId) {
 
 
 export async function storeCookie(token) {
-    cookies().set("authToken", token, { httpOnly: true, secure: true });
+    await cookies().set("authToken", token, { httpOnly: true, secure: true });
     console.log('store cookie success')
     return true
 }
@@ -82,3 +84,4 @@ export const userSignout = async () => {
         console.log('signout error : ', error)
     }
 }
+

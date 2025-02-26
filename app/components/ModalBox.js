@@ -1,11 +1,13 @@
 "use client"
 
-import { useState } from "react"
-import { Paper, Modal, IconButton, Typography } from "@mui/material"
 import CloseIcon from '@mui/icons-material/Close';
+import Paper from "@mui/material/Paper";
+import Modal from "@mui/material/Modal";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
 
 export default function ModalBox({ children, state, closeModal, header }) {
-    console.log('check state : ', state)
+
     const style = {
         px: 8,
         py: 6,
@@ -15,11 +17,12 @@ export default function ModalBox({ children, state, closeModal, header }) {
         width: 1 / 4,
         position: 'relative'
     }
+
     return (
         <Modal
             open={state}
             onClose={() => closeModal()}
-            aria-labelledby="modal-modal-title"
+            aria-labelledby={"modal-modal-" + header}
             aria-describedby="modal-modal-description"
             sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
         >

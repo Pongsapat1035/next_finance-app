@@ -1,14 +1,18 @@
 "use client"
 import { Paper, Stack } from '@mui/material'
-import AuthForm from '../components/AuthForm';
-
+import AuthForm from './components/AuthForm';
 
 export default function AuthenPage() {
-
+    const paperStyle = {
+        width: '50%',
+        mx: 'auto',
+        px: 5,
+        py: 8
+    }
 
     return (
         <Stack justifyContent="center" alignItems="center" sx={{ height: '100vh' }}>
-            <Paper sx={{ width: '50%', mx: 'auto', px: 5, py: 8 }}>
+            <Paper sx={paperStyle}>
                 <AuthForm></AuthForm>
             </Paper>
         </Stack>

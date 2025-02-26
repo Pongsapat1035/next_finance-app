@@ -4,12 +4,12 @@ import Grid2 from '@mui/material/Grid2'
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 
-import TransectionBox from "@/app/components/dashboard/TransectionBox";
-import SpendingBox from "@/app/components/dashboard/SpendingBox";
-import WeeklyWrapper from "@/app/components/dashboard/WeeklyWrapper";
-import AddModal from "@/app/components/dashboard/AddModal";
-import EditModal from "@/app/components/dashboard/EditModal";
-import { TotalBox, TotalBalanceBox } from '@/app/components/dashboard/SummaryBox'
+import TransectionBox from "@/app/finance/dashboard/components/TransectionBox";
+import SpendingBox from "@/app/finance/dashboard/components/SpendingBox";
+import WeeklyWrapper from "@/app/finance/dashboard/components/WeeklyWrapper";
+import AddModal from "@/app/finance/dashboard/components/AddModal";
+import EditModal from "@/app/finance/dashboard/components/EditModal";
+import { TotalBox, TotalBalanceBox } from '@/app/finance/dashboard/components/SummaryBox'
 
 import { useEffect, useState } from "react";
 import { getAllData, deleteDocFormId, loadUserConfig } from "@/app/finance/dashboard/actions";
@@ -40,8 +40,6 @@ export default function Page() {
     expend: [],
     income: []
   })
-  const toggleNewModal = () => setNewTranModal(!newTranModal)
-  const toggleEditModal = () => setEditModal(!editModal)
 
   const handleMonthSelect = async (month) => {
     try {
@@ -56,9 +54,8 @@ export default function Page() {
     try {
       const response = await getAllData(uid, month)
       const fetchCategory = await loadUserConfig(uid)
-
       const convertResponse = JSON.parse(response)
-      // console.log('check fetch result : ', convertResponse)
+
       convertResponse.forEach(element => {
         element.data.amout = parseInt(element.data.amout)
         element.data.timeStamp = element.data.createdDate.seconds
@@ -81,7 +78,7 @@ export default function Page() {
       setUserId(user.uuid)
     }
   }, [user])
-  // console.log('check cat', categoryLists)
+
   useEffect(() => {
     if (lists.length > 0) {
       // if have data calculate total
@@ -96,19 +93,6 @@ export default function Page() {
       })
     }
   }, [lists])
-
-  const inputListData = {
-    income: ['salary', 'special'],
-    expend: ['food', 'entertainmen']
-  }
-
-  const deleteBtnIsClick = async (uid, docId, month) => {
-    const response = await deleteDocFormId(uid, docId, month)
-    if (response === 'success') {
-      alert('data is deleted')
-      window.location.reload()
-    }
-  }
 
   const handleEdit = (data) => {
     setEditData(data)
@@ -132,22 +116,25 @@ export default function Page() {
           </Stack>
         </Grid2>
         <Grid2 size={4} container direction="column" spacing={3}>
-          <TotalBalanceBox amout={dashboardData.balance} toggleModal={toggleNewModal}></TotalBalanceBox>
+          <TotalBalanceBox amout={dashboardData.balance} toggleModal={() => setNewTranModal(!newTranModal)}></TotalBalanceBox>
           <SpendingBox spend={dashboardData.expend} limit={categoryLists.spendingLimit}></SpendingBox>
           <WeeklyWrapper totalExpend={dashboardData.expend} lists={lists} categoryLists={categoryLists.expend}></WeeklyWrapper>
         </Grid2>
       </Grid2>
       <EditModal
         state={editModal}
-        toggleState={toggleEditModal}
+        closeModal={() => setEditModal(!editModal)}
         recieveData={editData}
         category={categoryLists}
-        handleDelete={deleteBtnIsClick}
+
         uid={userId}
-        
       >
       </EditModal>
-      <AddModal state={newTranModal} setState={toggleNewModal} configData={categoryLists} uid={userId}></AddModal>
+      <AddModal
+        state={newTranModal}
+        closeModal={() => setNewTranModal(!newTranModal)}
+        configData={categoryLists}
+        uid={userId}></AddModal>
     </Box>
   )
 }

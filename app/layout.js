@@ -56,9 +56,20 @@ const theme = createTheme({
                 padding: '0.7rem 0',
                 textTransform: 'none',
                 boxShadow: 'none'
-
               },
-
+            },
+            {
+              props: { variant: 'square' },
+              style: {
+                borderRadius: 5,
+                fontWeight: 'bold',
+                fontSize: '1rem',
+                padding: '0.7rem 0',
+                textTransform: 'none',
+                boxShadow: 'none',
+                color: '#ffffff',
+                backgroundColor: '#232323'
+              },
             },
           ],
         }
@@ -91,7 +102,7 @@ const theme = createTheme({
         }
       }
     }
-    
+
   }
 
 });

@@ -11,11 +11,7 @@ import { useEffect, useState } from 'react';
 
 const WeeklyWrapper = ({ lists }) => {
 
-    const [dataLists, setDataLists] = useState([
-        { id: 0, value: 10, name: 'series A' },
-        { id: 1, value: 15, name: 'series B' },
-        { id: 2, value: 20, name: 'series C' },
-    ])
+    const [dataLists, setDataLists] = useState([])
 
     const sortLists = (recieveData) => {
         const result = {}
@@ -29,8 +25,8 @@ const WeeklyWrapper = ({ lists }) => {
 
         // convert to array
         let convertResult = Object.entries(result).map((item, index) => {
-            const colorPallete = ['#705772', '#F38181', '#FAD284', '#A9EEC2']
-            return { id: index, value: item[1], name: item[0], color: colorPallete[index] }
+           
+            return { id: index, value: item[1], name: item[0] }
         });
 
         // sort by descending
@@ -38,7 +34,11 @@ const WeeklyWrapper = ({ lists }) => {
 
         // set max item show on chart 
         const maxItemOnChart = 4
-        setDataLists(sortedResult.slice(0, maxItemOnChart - 1))
+        
+        const highestLists = sortedResult.slice(0, maxItemOnChart)
+        const colorPallete = ['#705772', '#F38181', '#FAD284', '#A9EEC2']
+        highestLists.forEach((item, index) => item.color = colorPallete[index] )
+        setDataLists(highestLists)
     }
 
 
@@ -51,24 +51,31 @@ const WeeklyWrapper = ({ lists }) => {
     return (
         <Paper sx={{ padding: 4 }}>
             <Stack spacing={2}>
-                <Typography variant="h5" fontWeight="bold">Weekly Expense</Typography>
-                <PieChart
-                    series={[{
-                        data: dataLists,
-                        highlightScope: { fade: 'global', highlight: 'item' },
-                        innerRadius: 45,
-                        outerRadius: 100,
-                        paddingAngle: 5,
-                        cornerRadius: 5,
-                        cx: 200,
-                        valueFormatter: (v, { dataIndex }) => {
-                            return `${dataLists[dataIndex].name} : ${dataLists[dataIndex].value} THB`;
-                        },
-                    }]}
+                <Typography variant="h5" fontWeight="bold">Expense overall</Typography>
+                {
+                    dataLists.length > 0 ?
+                        <PieChart
+                            series={[{
+                                data: dataLists,
+                                highlightScope: { fade: 'global', highlight: 'item' },
+                                innerRadius: 45,
+                                outerRadius: 100,
+                                paddingAngle: 5,
+                                cornerRadius: 5,
+                                cx: 200,
+                                valueFormatter: (v, { dataIndex }) => {
+                                    return `${dataLists[dataIndex].name} : ${dataLists[dataIndex].value} THB`;
+                                },
+                            }]}
+                            width={400}
+                            height={200}
+                        />
+                        :
+                        <Stack justifyContent="center" alignItems="center" sx={{ borderRadius: '20px' , bgcolor: 'primary.main', p:4 }}>
+                            <Typography variant='h6' fontWeight="bold" color='background.paper'>No data</Typography>
+                        </Stack>
+                }
 
-                    width={400}
-                    height={200}
-                />
                 <Grid2 container spacing={1}>
                     {
                         dataLists.map((item, index) => <TopCategory key={index} name={item.name} color={item.color}></TopCategory>)

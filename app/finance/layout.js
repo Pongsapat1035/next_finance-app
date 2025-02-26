@@ -2,7 +2,7 @@
 
 import { userSignout } from "../auth/action"
 import { AuthProvider } from './authContext'
-import Navbar from "../components/navbar/Navbar"
+import Navbar from "./components/Navbar"
 
 import { useAlert } from "../alertContext"
 import { useRouter } from "next/navigation"

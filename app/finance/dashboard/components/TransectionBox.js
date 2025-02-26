@@ -12,7 +12,7 @@ import Stack from "@mui/material/Stack";
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
 
-import TransectionBadge from "../TransectionBadge";
+import TransectionBadge from "../../../components/TransectionBadge";
 import { useEffect, useState } from "react";
 
 
@@ -33,8 +33,8 @@ const TransectionBox = ({ checkLoading, lists, handleMonth, handleEdit }) => {
                 const getDay = convertToDate.toLocaleDateString('en-US', { day: 'numeric', weekday: 'short' })
                 list.data.day = getDay
             });
-            console.log(lists)
-            console.log(typeof (lists[0].data.timeStamp))
+            // console.log(lists)
+
             const sortLists = lists.sort((a, b) => a.data.timeStamp - b.data.timeStamp)
             setListsData(sortLists)
 
@@ -46,7 +46,7 @@ const TransectionBox = ({ checkLoading, lists, handleMonth, handleEdit }) => {
     }, [lists])
 
     return (
-        <Paper sx={{ p: 3, maxHeight: '695px' }}>
+        <Paper sx={{ p: 3, maxHeight: '695px', height: '695px' }}>
             <TableContainer component={Paper} sx={{ height: '100%', overflow: 'auto', maxHeight: '695px' }}>
                 <Table sx={{ overflow: 'hidden' }} aria-label="simple table">
                     <TableHead sx={{ position: 'sticky', top: 0, bgcolor: 'background.paper' }}>

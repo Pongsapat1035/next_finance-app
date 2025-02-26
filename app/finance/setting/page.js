@@ -1,24 +1,22 @@
 "use client"
 
-import AddCategoryForm from "@/app/components/setting/AddCategoryFrom"
+import CategoryForm from "@/app/finance/setting/components/CategoryFrom"
 import { useEffect, useState } from "react"
 import { loadUserConfig } from "../dashboard/actions"
 import { useAuth } from "../authContext"
-import EditForm from "@/app/components/setting/EditForm"
-import SpendingLimitConfig from "@/app/components/setting/SpendingConfig"
-import { Grid2, Divider, Typography } from "@mui/material"
+import SpendingLimitConfig from "@/app/finance/setting/components/SpendingConfig"
+import { Grid2, Divider, Typography, Box } from "@mui/material"
 
+import { auth } from "@/app/firebase"
 
 export default function SettingPage() {
     const user = useAuth()
     const [userConfig, setUserConfig] = useState({
         expend: [],
         income: [],
-        spendingLimit: 10000
+        spendingLimit: 0
     })
     const [userId, setUserId] = useState('')
-    const [editData, setEditData] = useState({})
-    const [editState, setEditState] = useState(false)
 
     const fetchData = async (userId) => {
         const response = await loadUserConfig(userId)
@@ -26,29 +24,27 @@ export default function SettingPage() {
         setUserConfig(response)
     }
 
-    const handleEdit = (data = {}) => {
-        setEditState(!editState)
-        setEditData(data)
-        console.log('check data', data)
-    }
-
     useEffect(() => {
         if (user) {
-            // console.log('User id : ', user.uuid)
             setUserId(user.uuid)
             fetchData(user.uuid)
         }
+        
     }, [user])
-    // console.log(userConfig)
+    console.log('check user config : ', userConfig)
+    const testCreateNewToken = async () => {
+        const checkUser = await auth.currentUser.getIdToken(true)
+        console.log('check result', checkUser)
+    }
     return (
         <Grid2 container direction="column" gap={1} mt={5}>
             <Typography variant="h3" fontWeight="bold" >Setting</Typography>
             <Grid2 container direction="column" gap={4}>
-                <SpendingLimitConfig id={userId}></SpendingLimitConfig>
+                <SpendingLimitConfig id={userId} limitValue={userConfig.spendingLimit}></SpendingLimitConfig>
                 <Divider />
-                <AddCategoryForm type='expend' lists={userConfig} userId={userId} handleEdit={handleEdit}></AddCategoryForm>
-                {editState ? <EditForm data={editData} id={userId}></EditForm> : ''}
+                <CategoryForm lists={userConfig} userId={userId}></CategoryForm>
             </Grid2>
+            <button onClick={()=> testCreateNewToken()}>get new token</button>
         </Grid2>
     )
 }
