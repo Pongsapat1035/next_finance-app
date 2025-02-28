@@ -1,5 +1,5 @@
 "use client"
-import { useRouter } from 'next/navigation'
+import { useRouter, usePathname } from 'next/navigation'
 import Box from '@mui/material/Box';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -10,41 +10,118 @@ import Divider from '@mui/material/Divider';
 import DashboardRoundedIcon from '@mui/icons-material/DashboardRounded';
 import AssessmentRoundedIcon from '@mui/icons-material/AssessmentRounded';
 import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
+import { useEffect, useState } from 'react';
+
+import ConfirmModal from '@/app/components/ConfirmModal';
+
 
 export default function NavButttonList({ signOut, handleNav }) {
+
+    const [activeLink, setActiveLink] = useState({
+        dashboard: false,
+        report: false,
+        setting: false
+    })
+    const pathname = usePathname()
+    const [confirmSignout, setConfirmSignout] = useState(false)
+
+
+    useEffect(() => {
+        // check pathname and set active style
+        switch (pathname) {
+            case '/finance/dashboard':
+                setActiveLink(prevState => ({
+                    ...prevState,
+                    dashboard: true,
+                    report: false,
+                    setting: false
+                }))
+                break
+            case '/finance/report':
+                setActiveLink(prevState => ({
+                    ...prevState,
+                    dashboard: false,
+                    report: true,
+                    setting: false
+                }))
+                break
+            default:
+                setActiveLink(prevState => ({
+                    ...prevState,
+                    dashboard: false,
+                    report: false,
+                    setting: true
+                }))
+        }
+    }, [pathname])
+
     return (
         <Box sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
             <List>
-                <ListMenu icon={<DashboardRoundedIcon />} name="Dashboard" path='/finance/dashboard' handleNav={handleNav}></ListMenu>
-                <ListMenu icon={<AssessmentRoundedIcon />} name="Report [unstable]" path='/finance/report' handleNav={handleNav}></ListMenu>
-                <ListMenu icon={<SettingsRoundedIcon />} name="Setting" path='/finance/setting' handleNav={handleNav}></ListMenu>
+                <ListMenu isActive={activeLink.dashboard} name="Dashboard" path='/finance/dashboard' handleNav={handleNav}></ListMenu>
+                <ListMenu isActive={activeLink.report} name="Report [unstable]" path='/finance/report' handleNav={handleNav}></ListMenu>
+                <ListMenu isActive={activeLink.setting} name="Setting" path='/finance/setting' handleNav={handleNav}></ListMenu>
             </List>
             <Divider />
             <List>
                 <ListItem disablePadding>
-                    <ListItemButton onClick={() => signOut()} >
+                    <ListItemButton onClick={() => setConfirmSignout(true)} >
                         <ListItemText primary="Logout" />
                     </ListItemButton>
                 </ListItem>
             </List>
+            <ConfirmModal header="Sign out" state={confirmSignout} closeState={() => setConfirmSignout(false)} action={signOut}></ConfirmModal>
         </Box>
     )
 }
 
-const ListMenu = ({ icon, name, path, handleNav }) => {
+const ListMenu = ({ isActive, name, path, handleNav }) => {
     const router = useRouter()
+    const [active, setActive] = useState(false)
+
     const handleClick = () => {
         router.push(path)
         handleNav()
     }
 
+    useEffect(() => setActive(isActive ? true : false), [isActive])
+
+    const textLinkStyle = {
+        '.MuiTypography-root': {
+            color: active ? 'primary.main' : 'primary.light',
+            fontWeight: 'bold',
+            transition: '.5s',
+        },
+    }
+
+    const listBtnStyle = {
+        '&:hover': {
+            '.MuiTypography-root': {
+                color: 'primary.main',
+                fontWeight: 'bold',
+            },
+            '.MuiSvgIcon-root': {
+                color: 'primary.main'
+            }
+        }
+    }
+
+    const iconStyle = {
+        color: active ? 'primary.main' : 'primary.light',
+        transition: '.5s',
+    }
+
     return (
-        <ListItem disablePadding >
-            <ListItemButton onClick={() => handleClick()}>
+        <ListItem disablePadding>
+            <ListItemButton onClick={() => handleClick()} sx={listBtnStyle} >
                 <ListItemIcon>
-                    {icon}
+                    {
+                        path === '/finance/dashboard' ? <DashboardRoundedIcon sx={iconStyle} /> :
+                            path === '/finance/report' ? <AssessmentRoundedIcon sx={iconStyle} /> :
+                                <SettingsRoundedIcon sx={iconStyle} />
+                    }
                 </ListItemIcon>
-                <ListItemText primary={name} />
+                <ListItemText primary={name} sx={textLinkStyle} />
             </ListItemButton>
         </ListItem>
     )

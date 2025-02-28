@@ -10,7 +10,7 @@ import Button from '@mui/material/Button';
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 
-const SpendingBox = ({ spend = 0, limit }) => {
+const SpendingBox = ({ spend = 0, limit = 1000 }) => {
     const router = useRouter()
     const [progressValue, setProgressValue] = useState(0)
     const [dateText, setDateText] = useState('')
@@ -35,9 +35,9 @@ const SpendingBox = ({ spend = 0, limit }) => {
 
     useEffect(() => {
         let progressPercent = Math.floor((spend / limit) * 100)
-     
+
         progressPercent = progressPercent > 100 ? 100 : progressPercent
-        console.log(progressPercent)
+        // console.log(progressPercent)
         setProgressValue(progressPercent)
         const date = new Date()
         const convertDate = date.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })

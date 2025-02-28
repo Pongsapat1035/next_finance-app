@@ -1,8 +1,13 @@
 "use client"
 import ModalBox from "../../../components/ModalBox"
-import { Stack, Select, MenuItem, TextField, Button } from "@mui/material"
+import Stack from "@mui/material/Stack";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
 import InputAdornment from '@mui/material/InputAdornment';
 import CategoryRoundedIcon from '@mui/icons-material/CategoryRounded';
+
 import { useState } from "react";
 
 export default function AddCateModal({ modalState, closeModal, submit }) {
@@ -10,6 +15,7 @@ export default function AddCateModal({ modalState, closeModal, submit }) {
         type: 'select type',
         category: ''
     })
+
     const handleTypeChange = (event) => {
         setData(prevState => ({
             ...prevState,
@@ -24,20 +30,18 @@ export default function AddCateModal({ modalState, closeModal, submit }) {
         }))
     }
 
-
-
     const handleSubmit = () => {
         const { type, category } = data
         const categoryRex = /^[A-Za-z\s]+$/
         const checkCateText = categoryRex.test(category)
-        console.log('regular check : ', checkCateText)
+        // console.log('regular check : ', checkCateText)
 
         if (!checkCateText) {
             // error msg
             console.log('please fill with currect format')
             return
         }
-        console.log('store data')
+        // console.log('store data')
         submit(type, category)
     }
 

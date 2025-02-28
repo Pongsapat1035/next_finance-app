@@ -10,7 +10,7 @@ import TotalIcon from '@/public/icons/account_balance_wallet.png'
 
 import Image from "next/image";
 
-const TotalBox = ({ type = 'income', amount = 200 }) => {
+const TotalBox = ({ type = 'income', amout = 0}) => {
     return (
         <Paper sx={{ p: 3 }}>
             <Stack direction="row" columnGap={2} justifyContent="space-between">
@@ -18,9 +18,12 @@ const TotalBox = ({ type = 'income', amount = 200 }) => {
                     <Typography variant="h6" color="primary.light" fontWeight="light">
                         Total.{type}
                     </Typography>
-                    <Typography variant="h3">
-                        $ {amount}
-                    </Typography>
+                    <Stack direction="row" gap={2}>
+                        <Typography variant="h3" >
+                            THB
+                        </Typography>
+                        <Typography variant="h3" color={type === 'income' ? 'success.main' : 'error.main'}>{amout}</Typography>
+                    </Stack>
                 </Stack>
                 <Stack justifyContent="center" alignItems="center"
                     sx={{ p: 1, bgcolor: 'primary.main', borderRadius: '100%', width: 50, height: 50 }}>
@@ -31,7 +34,7 @@ const TotalBox = ({ type = 'income', amount = 200 }) => {
     )
 }
 
-const TotalBalanceBox = ({ amout = 200, toggleModal }) => {
+const TotalBalanceBox = ({ amout = 0, toggleModal }) => {
     return (
         <Paper>
             <Stack padding={3} rowGap={1}>
@@ -42,9 +45,12 @@ const TotalBalanceBox = ({ amout = 200, toggleModal }) => {
                 <Typography variant="h6" color="primary.light" fontWeight="light">
                     Total.balance
                 </Typography>
-                <Typography variant="h3">
-                    $ {amout}
-                </Typography>
+                <Stack direction="row" gap={2} >
+                    <Typography variant="h3" >
+                        THB
+                    </Typography>
+                    <Typography variant="h3" >{amout}</Typography>
+                </Stack>
                 <Button variant="contained" sx={{ borderRadius: 2 }} onClick={toggleModal}>
                     New transection
                 </Button>

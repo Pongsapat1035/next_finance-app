@@ -49,6 +49,14 @@ export default function EditCategoryModal({ modalState, closeModal, value, delet
             const { type, category, index } = editData
             const userId = user.uuid
             const checkDuplicateCategory = allListsData.includes(category)
+            if(category === '') {
+                setInputError((prevState) => ({
+                    ...prevState,
+                    status: true,
+                    msg: 'Please fill category !'
+                }))
+                return
+            }
             if (checkDuplicateCategory) {
                 setInputError((prevState) => ({
                     ...prevState,
@@ -59,18 +67,16 @@ export default function EditCategoryModal({ modalState, closeModal, value, delet
             }
             allListsData[index] = category
             const response = await EditCategory(type, allListsData, userId)
-
-            closeModal()
-            handleAlert('success', 'update category success')
-            window.location.reload()
+            if (response.status === 200) {
+                closeModal()
+                handleAlert('success', 'update category success')
+                window.location.reload()
+            }
         } catch (error) {
             alert(error.message)
             console.log('error from edit data : ', error)
         }
-
     }
-
-
 
     return (
         <ModalBox state={modalState} closeModal={closeModal} header="Edit">

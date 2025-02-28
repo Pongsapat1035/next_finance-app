@@ -50,7 +50,7 @@ export async function EditCategory(type, data, id) {
         const response = await updateDoc(docRef, {
             [type]: data
         });
-        return 'update success'
+        return { status: 200, message: 'update success' }
     } catch (error) {
         console.log('error from add cate : ', error)
         return error
@@ -63,7 +63,7 @@ export async function ChangeSpendingLimit(id, data) {
         const response = await updateDoc(docRef, {
             spendingLimit: data
         });
-        return 'change spending limit success'
+        return { status: 200, message: 'update spending limit success' }
     } catch (error) {
         console.log('error from add cate : ', error)
         return error

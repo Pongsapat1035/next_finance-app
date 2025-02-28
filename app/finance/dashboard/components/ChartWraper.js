@@ -49,7 +49,7 @@ const WeeklyWrapper = ({ lists }) => {
     }, [lists])
 
     return (
-        <Paper sx={{ padding: 4 }}>
+        <Paper sx={{ padding: 4, flexGrow: 1 }}>
             <Stack spacing={2}>
                 <Typography variant="h5" fontWeight="bold">Expense overall</Typography>
                 {

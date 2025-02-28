@@ -23,7 +23,7 @@ import { useAlert } from "@/app/alertContext";
 const AddModal = ({ state = false, closeModal, configData, uid }) => {
     const { handleAlert } = useAlert()
     const [selectedValue, setSelectedValue] = useState('select category')
-    const [type, setType] = useState('expend')
+    const [type, setType] = useState('select type')
     const [date, setDate] = useState(dayjs())
     const [errorCategory, setErrorCategory] = useState(false)
 
@@ -66,6 +66,11 @@ const AddModal = ({ state = false, closeModal, configData, uid }) => {
         setSelectedValue('select category')
     }, [type])
 
+    useEffect(() => {
+        setType('select type')
+        setSelectedValue('select category')
+    }, [state])
+    
     return (
         <ModalBox state={state} closeModal={closeModal} header="New transection">
             <form onSubmit={submitForm}>
@@ -87,7 +92,7 @@ const AddModal = ({ state = false, closeModal, configData, uid }) => {
                         </Grid2>
                         <Grid2 size={6}>
                             <Select name="type" value={type} onChange={(e) => setType(e.target.value)} fullWidth>
-                                <MenuItem value="select type" disabled>select type</MenuItem>
+                                <MenuItem value="select type" disabled>Select type</MenuItem>
                                 <MenuItem value="expend">Expend</MenuItem>
                                 <MenuItem value="income">Income</MenuItem>
                             </Select>
@@ -102,7 +107,8 @@ const AddModal = ({ state = false, closeModal, configData, uid }) => {
                         >
                             <MenuItem value="select category" disabled>Select category</MenuItem>
                             {
-                                configData[type].map((data, index) => <MenuItem key={index} value={data}>{data}</MenuItem>)
+                                configData[type] ? 
+                                configData[type].map((data, index) => <MenuItem key={index} value={data}>{data}</MenuItem>) : ''
                             }
                         </Select>
                         {errorCategory ? <Typography variant="body1" color="error.main">Please select category</Typography> : ''}

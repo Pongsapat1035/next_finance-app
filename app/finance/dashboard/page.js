@@ -6,13 +6,13 @@ import Stack from "@mui/material/Stack";
 
 import TransectionBox from "@/app/finance/dashboard/components/TransectionBox";
 import SpendingBox from "@/app/finance/dashboard/components/SpendingBox";
-import WeeklyWrapper from "@/app/finance/dashboard/components/WeeklyWrapper";
+import WeeklyWrapper from "@/app/finance/dashboard/components/ChartWraper";
 import AddModal from "@/app/finance/dashboard/components/AddModal";
 import EditModal from "@/app/finance/dashboard/components/EditModal";
 import { TotalBox, TotalBalanceBox } from '@/app/finance/dashboard/components/SummaryBox'
 
 import { useEffect, useState } from "react";
-import { getAllData, deleteDocFormId, loadUserConfig } from "@/app/finance/dashboard/actions";
+import { getAllData, loadUserConfig } from "@/app/finance/dashboard/actions";
 import { useAuth } from '../authContext';
 
 export default function Page() {
@@ -43,7 +43,6 @@ export default function Page() {
 
   const handleMonthSelect = async (month) => {
     try {
-      console.log('load data from : ', month)
       await fetchData(userId, month)
     } catch (error) {
       console.log('error from fetch data : ', error)
@@ -61,8 +60,8 @@ export default function Page() {
         element.data.timeStamp = element.data.createdDate.seconds
       });
       setLists(convertResponse)
-      setIsLoading(false)
       setCategoryLists(fetchCategory)
+      // setIsLoading(false)
     } catch (error) {
       console.log(error)
     }
@@ -76,6 +75,7 @@ export default function Page() {
       const month = date.toLocaleDateString("en-US", { month: 'short', year: 'numeric' })
       fetchData(user.uuid, month)
       setUserId(user.uuid)
+
     }
   }, [user])
 
@@ -106,13 +106,13 @@ export default function Page() {
           <Stack spacing={3} sx={{ height: '100%' }}>
             <Grid2 container direction="row" spacing={3}>
               <Grid2 size={6}>
-                <TotalBox type="income" amount={dashboardData.income}></TotalBox>
+                <TotalBox type="income" amout={dashboardData.income}></TotalBox>
               </Grid2>
               <Grid2 size={6}>
-                <TotalBox type="expend" amount={dashboardData.expend}></TotalBox>
+                <TotalBox type="expend" amout={dashboardData.expend}></TotalBox>
               </Grid2>
             </Grid2>
-            <TransectionBox checkLoading={isLoading} lists={lists} handleMonth={handleMonthSelect} handleEdit={handleEdit}></TransectionBox>
+            <TransectionBox checkLoading={isLoading} setLoadingSuccess={()=> setIsLoading(false)} lists={lists} handleMonth={handleMonthSelect} handleEdit={handleEdit}></TransectionBox>
           </Stack>
         </Grid2>
         <Grid2 size={4} container direction="column" spacing={3}>
@@ -126,10 +126,7 @@ export default function Page() {
         closeModal={() => setEditModal(!editModal)}
         recieveData={editData}
         category={categoryLists}
-
-        uid={userId}
-      >
-      </EditModal>
+        uid={userId}></EditModal>
       <AddModal
         state={newTranModal}
         closeModal={() => setNewTranModal(!newTranModal)}

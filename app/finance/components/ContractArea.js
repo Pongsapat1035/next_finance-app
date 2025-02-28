@@ -9,6 +9,7 @@ import Github_icon from '@/public/icons/github_icon.png'
 import Linkedin_icon from '@/public/icons/linkedin_icon.png'
 
 export default function ContractArea() {
+   
     return (
         <Box sx={{ borderRadius: '10px', bgcolor: 'background.base', padding: 2 }}>
             <Typography variant='h6' fontWeight="bold" sx={{ mb: 2 }}>Contract</Typography>

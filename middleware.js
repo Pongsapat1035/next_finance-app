@@ -3,14 +3,18 @@ import { cookies } from 'next/headers'
 
 export async function middleware(request) {
     const excludedPaths = ['/api/verify'];
+    // skip middleware check
     if (excludedPaths.includes(request.nextUrl.pathname)) {
         return NextResponse.next();
     }
+
     const result = {
         isLogin: false,
         name: '',
-        uuid: ''
+        uuid: '',
+        expire: 0
     }
+
     const cookieStore = await cookies();
     const token = cookieStore.get('authToken');
 
@@ -22,14 +26,15 @@ export async function middleware(request) {
                 body: JSON.stringify({ token: token.value }),
             });
             const userData = await res.json()
-            // console.log('reponse vertify check : ', userData)
-            result.name = userData.user.name
-            result.uuid = userData.user.user_id
-            result.isLogin = true
+            if (userData.user) {
+                result.name = userData.user.name
+                result.uuid = userData.user.user_id
+                result.isLogin = true
+                result.expire = userData.expireMinute
+            }
         } catch (error) {
             console.log('error from middleware : ', error)
         }
-        
     }
 
     // handle path

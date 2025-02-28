@@ -5,12 +5,12 @@ import { useEffect, useState } from "react"
 import { loadUserConfig } from "../dashboard/actions"
 import { useAuth } from "../authContext"
 import SpendingLimitConfig from "@/app/finance/setting/components/SpendingConfig"
-import { Grid2, Divider, Typography, Box } from "@mui/material"
-
-import { auth } from "@/app/firebase"
+import { Grid2, Divider, Typography } from "@mui/material"
+import Skeleton from '@mui/material/Skeleton'
 
 export default function SettingPage() {
     const user = useAuth()
+    const [isLoading, setIsLoading] = useState(true)
     const [userConfig, setUserConfig] = useState({
         expend: [],
         income: [],
@@ -20,8 +20,8 @@ export default function SettingPage() {
 
     const fetchData = async (userId) => {
         const response = await loadUserConfig(userId)
-        console.log('check response : ', response)
         setUserConfig(response)
+        setIsLoading(false)
     }
 
     useEffect(() => {
@@ -29,22 +29,17 @@ export default function SettingPage() {
             setUserId(user.uuid)
             fetchData(user.uuid)
         }
-        
     }, [user])
-    console.log('check user config : ', userConfig)
-    const testCreateNewToken = async () => {
-        const checkUser = await auth.currentUser.getIdToken(true)
-        console.log('check result', checkUser)
-    }
+
     return (
-        <Grid2 container direction="column" gap={1} mt={5}>
+        <Grid2 container direction="column" gap={1} my={5} p={8} sx={{ bgcolor: 'background.paper', borderRadius: '30px' }}>
             <Typography variant="h3" fontWeight="bold" >Setting</Typography>
             <Grid2 container direction="column" gap={4}>
                 <SpendingLimitConfig id={userId} limitValue={userConfig.spendingLimit}></SpendingLimitConfig>
                 <Divider />
-                <CategoryForm lists={userConfig} userId={userId}></CategoryForm>
+                <CategoryForm isLoading={isLoading} lists={userConfig} userId={userId}></CategoryForm>
             </Grid2>
-            <button onClick={()=> testCreateNewToken()}>get new token</button>
         </Grid2>
     )
 }
+

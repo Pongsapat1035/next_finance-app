@@ -3,7 +3,7 @@ import { auth } from '@/app/firebase'
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { Login, Register, storeCookie, CreateUserConfig } from '../action';
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation';
 import Image from 'next/image'
 
@@ -17,12 +17,26 @@ import ggIcon from "@/public/icons/gg_icon.png"
 
 import { useAlert } from '@/app/alertContext';
 
+
 export default function AuthForm() {
     const router = useRouter()
     const { handleAlert } = useAlert()
     const [mode, SetMode] = useState(false)
-    const [errorEmailMsg, setErrorEmailMsg] = useState(' ')
-    const [errorPassMsg, setErrorPassMsg] = useState(' ')
+
+    const [inputValue, setInputValue] = useState({
+        email: '',
+        password: '',
+        name: ''
+    })
+
+    const [validateInput, setValidateInput] = useState({
+        emailError: false,
+        passError: false,
+        nameError: false,
+        emailMsg: ' ',
+        passMsg: ' ',
+        nameMsg: ' '
+    })
 
     async function LoginWithGoogle() {
         try {
@@ -40,51 +54,144 @@ export default function AuthForm() {
         }
     }
 
-    const validateInput = (data) => {
-        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-        !emailRegex.test(data.email) && data.email !== '' ? setErrorEmailMsg('email is invalid format') : setErrorEmailMsg(' ')
-
-        const hasLowerUpper = /(?=.*[a-z])(?=.*[A-Z])/;  // At least one lowercase and one uppercase letter
-        const hasSpecialChar = /(?=.*[@$!%*?&_-])/;       // At least one special character
-        const hasMinLength = /.{8,}/;                   // At least 8 characters long
-
-        if (data.password !== '') {
-            !hasMinLength.test(data.password) ? setErrorPassMsg("At least 8 characters long") :
-                !hasLowerUpper.test(data.password) ? setErrorPassMsg("At least one lowercase and one uppercase letter") :
-                    !hasSpecialChar.test(data.password) ? setErrorPassMsg("At least one special character") :
-                        setErrorPassMsg(' ')
-        }
-
-        if (errorEmailMsg !== ' ' || errorPassMsg !== ' ') {
-            console.log('validate fail')
-            return false
-        }
-        return true
-    }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
         try {
-            // console.log(e)
+            if (validateInput.emailError || validateInput.passError || validateInput.nameError) {
+                throw new Error('Validate fail')
+            }
+
             const formData = new FormData(e.target);
             const userData = {
                 email: formData.get('email'),
                 password: formData.get('password'),
                 name: formData.get('name') || ''
             }
-            if (!validateInput(userData)) {
-                throw new Error('validate fail!!')
-            }
             const response = mode ? await Register(userData) : await Login(userData)
-            if (response.status === 200) handleAlert('success', `Welcome ${response.name}`)
-            router.push('/finance/dashboard')
-
+            if (response.status === 200) {
+                handleAlert('success', `Welcome ${response.name}`)
+                router.push('/finance/dashboard')
+            } else if(response.status === 400) {
+                handleAlert('error', `user not found`)
+            }
         } catch (error) {
-            handleAlert('error', 'Login error')
+            handleAlert('error', error.message)
             console.log(error)
         }
 
     }
+
+    const validateEmail = (email) => {
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+        if (!emailRegex.test(email) && email !== '') {
+            setValidateInput(prevState => ({
+                ...prevState,
+                emailError: true,
+                emailMsg: 'Invalid email format (ex. example@mail.com)'
+            }))
+        } else {
+            setValidateInput(prevState => ({
+                ...prevState,
+                emailError: false,
+                emailMsg: ' '
+            }))
+        }
+    }
+
+    const validatePassword = (password) => {
+
+        const hasLowerUpper = /(?=.*[a-z])(?=.*[A-Z])/;  // At least one lowercase and one uppercase letter
+        const hasSpecialChar = /(?=.*[@$!%*?&_-])/;       // At least one special character
+        const hasMinLength = /.{8,}/;                   // At least 8 characters long
+
+        if (password !== '') {
+            if (!hasMinLength.test(password)) {
+                setValidateInput(prevState => ({
+                    ...prevState,
+                    passError: true,
+                    passMsg: 'At least 8 characters long'
+                }))
+            } else if (!hasLowerUpper.test(password)) {
+                setValidateInput(prevState => ({
+                    ...prevState,
+                    passError: true,
+                    passMsg: 'At least one lowercase and one uppercase letter'
+                }))
+            } else if (!hasSpecialChar.test(password)) {
+                setValidateInput(prevState => ({
+                    ...prevState,
+                    passError: true,
+                    passMsg: 'At least one special character'
+                }))
+            } else {
+                setValidateInput(prevState => ({
+                    ...prevState,
+                    passError: false,
+                    passMsg: ' '
+                }))
+            }
+        }
+    }
+
+    const validateName = (name) => {
+        const nameRegex = /^[a-zA-Z0-9]+$/
+        if (!nameRegex.test(name) && name !== '') {
+            setValidateInput(prevState => ({
+                ...prevState,
+                nameError: true,
+                nameMsg: 'using only letters (A-Z, a-z) and numbers (0-9). Spaces and special characters are not allowed.'
+            }))
+        } else {
+            setValidateInput(prevState => ({
+                ...prevState,
+                nameError: false,
+                nameMsg: ' '
+            }))
+        }
+    }
+
+    const handleInputChange = (item) => {
+        const name = item.name
+        const value = item.value
+
+        setInputValue(prevState => ({
+            ...prevState,
+            [name]: value
+        }))
+
+        switch (name) {
+            case 'email':
+                validateEmail(value)
+                break
+            case 'password':
+                validatePassword(value)
+                break
+            default:
+                validateName(value)
+        }
+    }
+
+    useEffect(() => {
+        // reset error validate when mode change
+        setInputValue(prevState => ({
+            ...prevState,
+            email: '',
+            password: '',
+            name: ''
+        }))
+        setValidateInput(prevState => ({
+            ...prevState,
+            emailError: false,
+            passError: false,
+            nameError: false,
+            emailMsg: ' ',
+            passMsg: ' ',
+            nameMsg: ' '
+        }))
+    }, [mode])
 
     return (
         <form onSubmit={handleSubmit} >
@@ -93,15 +200,21 @@ export default function AuthForm() {
                 <InputText label='E-mail'
                     nameTag="email"
                     typeTag="email"
-                    errorMsg={errorEmailMsg}
-                    placeHolder="example@mail.com">
+                    errorMsg={validateInput.emailMsg}
+                    placeHolder="example@mail.com"
+                    onChange={handleInputChange}
+                    value={inputValue.email}>
                 </InputText>
+
+
                 <InputText
                     label='Password'
                     nameTag="password"
                     typeTag="password"
-                    errorMsg={errorPassMsg}
-                    placeHolder="********">
+                    errorMsg={validateInput.passMsg}
+                    placeHolder="********"
+                    onChange={handleInputChange}
+                    value={inputValue.password}>
                 </InputText>
                 <input type="hidden" name="mode" value={mode} />
                 {
@@ -109,7 +222,10 @@ export default function AuthForm() {
                         label='Name'
                         nameTag="name"
                         typeTag="text"
-                        placeHolder="example">
+                        placeHolder="example"
+                        errorMsg={validateInput.nameMsg}
+                        onChange={handleInputChange}
+                        value={inputValue.name}>
                     </InputText> : ''
                 }
                 <Stack direction="column" spacing={2} sx={{ width: '100%', my: 3 }}>

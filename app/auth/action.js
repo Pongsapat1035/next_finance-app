@@ -50,7 +50,7 @@ export async function CreateUserConfig(userId) {
         } else {
             const defaultCategory = {
                 expend: ['Housing', 'Food', 'Groceries', 'Transportation', 'Entertainment', 'Health'],
-                income: ['Salaty', 'Wages', 'Side Hustles', 'Investment', 'Gifts', 'Other'],
+                income: ['Salary', 'Wages', 'Side Hustles', 'Investment', 'Gifts', 'Other'],
                 spendingLimit: 10000
             }
             const response = await setDoc(doc(db, 'userConfig', userId), defaultCategory)
@@ -61,11 +61,10 @@ export async function CreateUserConfig(userId) {
     }
 }
 
-
 export async function storeCookie(token) {
+    console.log('recieved token : ', token)
     await cookies().set("authToken", token, { httpOnly: true, secure: true });
     console.log('store cookie success')
-    return true
 }
 
 export async function deleteCookie() {
@@ -79,7 +78,7 @@ export const userSignout = async () => {
         //signout and redirect to home page
         await signOut(auth)
         await deleteCookie()
-        return { status: 'success' }
+        return { status: 200, message: 'logout success' }
     } catch (error) {
         console.log('signout error : ', error)
     }

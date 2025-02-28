@@ -15,11 +15,11 @@ export default function HomeLayout({ children }) {
         try {
             //signout and redirect to home page
             const { status } = await userSignout()
-            if (status) {
+            if (status === 200) {
                 console.log('user sign out')
+                handleAlert('success', 'logout success !')
+                router.push('/')
             }
-            handleAlert('success', 'logout success !')
-            router.push('/')
         } catch (error) {
             console.log('signout error : ', error)
         }

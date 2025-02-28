@@ -1,8 +1,7 @@
 "use server"
 
-import { doc, collection, getDoc, getDocs, addDoc, deleteDoc, updateDoc, setDoc } from "firebase/firestore";
+import { doc, collection, getDoc, getDocs, addDoc, deleteDoc, setDoc } from "firebase/firestore";
 import { db } from "@/app/firebase";
-
 
 export async function getAllData(uid, month) {
     try {
@@ -19,7 +18,7 @@ export async function getAllData(uid, month) {
         return convertResult
     } catch (error) {
         console.log('error from get doc : ', error)
-        // return error
+        return { status: 400, message: "can't fetch data" }
     }
 }
 
@@ -46,6 +45,7 @@ export async function createTransection(data) {
             amout: data.amout,
             createdDate: date
         }
+
         const docRef = collection(db, "financeTrack", userId, getMonthFormat)
         await addDoc(docRef, convertData)
 
@@ -60,29 +60,27 @@ export async function createTransection(data) {
 
 export async function updateData(data) {
     try {
-        console.log('check recieve data : ', data)
-        console.log('check recieve data : ', data.createdDate)
-        console.log('check type : ', typeof (data.createdDate))
         const userId = data.userid
         const docId = data.docid
         const date = new Date(data.createdDate)
         const getMonth = date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
-        console.log('check month : ', getMonth)
+
         const convertData = {
             type: data.type,
             category: data.category,
             amout: data.amout,
-            createdDate: data.createdDate
+            createdDate: date
         }
-        console.log('check send data : ', convertData)
+        console.log('check convert data before update : ', convertData)
+        console.log('check getMonth : ', getMonth)
         const docRef = doc(db, "financeTrack", userId, getMonth, docId)
-        const response = await setDoc(docRef, convertData);
-        console.log('check response : ', response)
-        return 'data updated'
+        await setDoc(docRef, convertData);
+
+        return { status: 200, message: 'Update transection successful' }
 
     } catch (error) {
         console.log('add error : ', error)
-        return error
+        return { status: 400, message: "can't update transection" }
     }
 }
 
@@ -91,7 +89,7 @@ export async function loadUserConfig(userId) {
         const docRef = doc(db, "userConfig", userId);
         const querySnapshot = await getDoc(docRef);
         const result = querySnapshot.data()
-        console.log(querySnapshot.data())
+        // console.log(querySnapshot.data())
         return result
     } catch (error) {
         console.log('error')

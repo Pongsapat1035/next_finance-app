@@ -2,16 +2,22 @@
 import { useState, useEffect } from "react";
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import dayjs from 'dayjs';
-import { Grid2, Typography, TextField, Select, MenuItem, Button } from "@mui/material";
-import { updateData } from "@/app/finance/dashboard/actions"
+import Grid2 from "@mui/material/Grid2";
+import Typography from "@mui/material/Typography";
+import TextField from "@mui/material/TextField";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
+import Button from "@mui/material/Button";
+import Stack from "@mui/material/Stack";
 import InputAdornment from '@mui/material/InputAdornment';
 import MonetizationOnRoundedIcon from '@mui/icons-material/MonetizationOnRounded';
-import Stack from "@mui/material/Stack";
+
+import { updateData } from "@/app/finance/dashboard/actions"
 import { deleteDocFormId } from "@/app/finance/dashboard/actions";
 import { useAlert } from "@/app/alertContext";
 
+import ConfirmModal from "@/app/components/ConfirmModal";
 import ModalBox from "@/app/components/ModalBox";
-import { DateRangeIcon } from "@mui/x-date-pickers";
 
 const EditModal = ({ state, category, closeModal, recieveData, uid }) => {
 
@@ -26,8 +32,16 @@ const EditModal = ({ state, category, closeModal, recieveData, uid }) => {
         month: '',
     })
 
+    const [confirmModal, setConfirmModal] = useState(false)
+
     const handleChange = (e) => {
         const { name, value } = e.target
+        if (name === 'type') {
+            setFormData(prevState => ({
+                ...prevState,
+                category: 'select category'
+            }))
+        }
         setFormData(prevState => ({
             ...prevState,
             [name]: value
@@ -40,9 +54,7 @@ const EditModal = ({ state, category, closeModal, recieveData, uid }) => {
             if (resposne.status === 200) {
                 handleAlert('success', 'Transection is deleted')
                 closeModal()
-                setTimeout(() => {
-                    window.location.reload()
-                }, 1000);
+                setTimeout(() => window.location.reload(), 1000);
             }
         } catch (error) {
             handleAlert('error', `Can't delete transection`)
@@ -52,38 +64,52 @@ const EditModal = ({ state, category, closeModal, recieveData, uid }) => {
 
     const submitForm = async (e) => {
         e.preventDefault();
-        const data = new FormData(e.target)
-        const listData = {
-            userid: uid,
-            docid: docId,
-            type: data.get('type'),
-            amout: data.get('amout'),
-            category: data.get('category'),
-            createdDate: data.get('date')
+        try {
+            const data = new FormData(e.target)
+            const listData = {
+                userid: uid,
+                docid: docId,
+                type: data.get('type'),
+                amout: data.get('amout'),
+                category: data.get('category'),
+                createdDate: data.get('date')
+            }
+            // console.log('check recieved data : ', listData)
+            if (listData.category === 'select category') {
+                setErrorCategory(true)
+                return
+            }
+            const response = await updateData(listData)
+
+            if (response.status === 200) {
+                handleAlert('success', response.message)
+                closeModal()
+                setTimeout(() => window.location.reload(), 1000);
+            } else {
+                handleAlert('error', response.message)
+                closeModal()
+            }
+        } catch (error) {
+            console.log(error)
         }
-        if (listData.category === 'select category') {
-            setErrorCategory(true)
-            return
-        }
-        console.log('data from user : ', listData)
-        const response = await updateData(listData)
-        console.log(response)
-        window.location.reload()
     }
 
-
+    // console.log(formData)
     useEffect(() => {
+        // prevent mutation 
         const cloneData = JSON.parse(JSON.stringify(recieveData));
         const createdDate = cloneData.data.timeStamp
         setDocId(cloneData.id)
         setDate(dayjs(createdDate * 1000))
+
         const getMonth = new Date(createdDate * 1000).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
-        // const getMonth = DateRangeIcon
         const docData = cloneData.data
+        const checkExitCategory = category['expend'].includes(docData.category) || category['income'].includes(docData.category)
+
         setFormData(prevState => ({
             ...prevState,
             type: docData.type,
-            category: docData.category,
+            category: checkExitCategory ? docData.category : 'select category',
             amout: docData.amout,
             month: getMonth
         }))
@@ -116,7 +142,7 @@ const EditModal = ({ state, category, closeModal, recieveData, uid }) => {
                     </Grid2>
                     <Stack alignItems="flex-end">
                         <Select name="category" value={formData.category} onChange={handleChange} fullWidth>
-                            <MenuItem value="select type" disabled>select type</MenuItem>
+                            <MenuItem value="select category" disabled>Select category</MenuItem>
                             {
                                 category[formData.type] ?
                                     category[formData.type].map((item, index) => <MenuItem value={item} key={index}>{item}</MenuItem>) : ''
@@ -127,13 +153,18 @@ const EditModal = ({ state, category, closeModal, recieveData, uid }) => {
                     <Button type="submit" variant="contained" sx={{ borderRadius: '8px' }}>Update</Button>
                     <Button
                         variant="contained"
-                        onClick={() => handleDelete(uid, docId, formData.month)}
+                        onClick={() => setConfirmModal(true)}
                         sx={{ borderRadius: '8px', bgcolor: 'error.main' }}>
                         Delete
                     </Button>
                 </Grid2>
             </form>
-
+            <ConfirmModal
+                header="Delete"
+                state={confirmModal}
+                closeState={() => setConfirmModal(false)}
+                action={() => handleDelete(uid, docId, formData.month)}>
+            </ConfirmModal>
         </ModalBox>
     )
 }

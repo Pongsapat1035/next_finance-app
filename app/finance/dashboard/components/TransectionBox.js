@@ -15,10 +15,12 @@ import dayjs from 'dayjs';
 import TransectionBadge from "../../../components/TransectionBadge";
 import { useEffect, useState } from "react";
 
+import Skeleton from "@mui/material/Skeleton";
 
-const TransectionBox = ({ checkLoading, lists, handleMonth, handleEdit }) => {
+const TransectionBox = ({ checkLoading, setLoadingSuccess, lists, handleMonth, handleEdit }) => {
     const [date, setDate] = useState(dayjs())
     const [listsData, setListsData] = useState([])
+    const skeletoLists = new Array(5).fill('')
     const handleChangeMonth = (data) => {
         setDate(data)
         const date = new Date(data)
@@ -33,11 +35,10 @@ const TransectionBox = ({ checkLoading, lists, handleMonth, handleEdit }) => {
                 const getDay = convertToDate.toLocaleDateString('en-US', { day: 'numeric', weekday: 'short' })
                 list.data.day = getDay
             });
-            // console.log(lists)
 
-            const sortLists = lists.sort((a, b) => a.data.timeStamp - b.data.timeStamp)
+            const sortLists = lists.sort((a, b) => b.data.timeStamp - a.data.timeStamp)
             setListsData(sortLists)
-
+            setLoadingSuccess()
         }
     }
 
@@ -78,13 +79,14 @@ const TransectionBox = ({ checkLoading, lists, handleMonth, handleEdit }) => {
                     {
                         checkLoading ?
                             <TableBody>
-                                <TableRow >
-                                    <TableCell colSpan={4} sx={{ border: 0, pt: 8 }}>
-                                        <Stack justifyContent="center" alignItems="center" sx={{ fontWeight: 'bold', fontSize: '1rem' }}>
-                                            "Loading"
-                                        </Stack>
-                                    </TableCell>
-                                </TableRow>
+                                {skeletoLists.map((item, index) => (
+                                    <TableRow key={index}>
+                                        <TableCell colSpan={4} sx={{ border: 0 }}>
+                                            <Skeleton variant="rounded" width="100%" height={60} />
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+
                             </TableBody> :
                             listsData.length > 0 ?
                                 <TableBody>
