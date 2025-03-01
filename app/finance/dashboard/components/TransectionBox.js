@@ -38,8 +38,8 @@ const TransectionBox = ({ checkLoading, setLoadingSuccess, lists, handleMonth, h
 
             const sortLists = lists.sort((a, b) => b.data.timeStamp - a.data.timeStamp)
             setListsData(sortLists)
-            setLoadingSuccess()
         }
+        setLoadingSuccess()
     }
 
     useEffect(() => {

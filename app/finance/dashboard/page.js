@@ -61,7 +61,6 @@ export default function Page() {
       });
       setLists(convertResponse)
       setCategoryLists(fetchCategory)
-      // setIsLoading(false)
     } catch (error) {
       console.log(error)
     }
@@ -112,7 +111,7 @@ export default function Page() {
                 <TotalBox type="expend" amout={dashboardData.expend}></TotalBox>
               </Grid2>
             </Grid2>
-            <TransectionBox checkLoading={isLoading} setLoadingSuccess={()=> setIsLoading(false)} lists={lists} handleMonth={handleMonthSelect} handleEdit={handleEdit}></TransectionBox>
+            <TransectionBox checkLoading={isLoading} setLoadingSuccess={() => setIsLoading(false)} lists={lists} handleMonth={handleMonthSelect} handleEdit={handleEdit}></TransectionBox>
           </Stack>
         </Grid2>
         <Grid2 size={4} container direction="column" spacing={3}>

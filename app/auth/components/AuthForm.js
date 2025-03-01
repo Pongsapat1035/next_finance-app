@@ -45,7 +45,7 @@ export default function AuthForm() {
             const token = await result.user.getIdToken()
             const userId = result.user.uid
             await CreateUserConfig(userId)
-            console.log('google login', result)
+            // console.log('google login', result)
             await storeCookie(token)
             handleAlert('success', 'Login success')
             router.push('/finance/dashboard')

@@ -3,7 +3,8 @@
 import { userSignout } from "../auth/action"
 import { AuthProvider } from './authContext'
 import Navbar from "./components/Navbar"
-
+import Container from '@mui/material/Container'
+import Box from '@mui/material/Box'
 import { useAlert } from "../alertContext"
 import { useRouter } from "next/navigation"
 
@@ -27,10 +28,14 @@ export default function HomeLayout({ children }) {
 
     return (
         <>
-            <AuthProvider>
-                <Navbar signOut={handleSignout}></Navbar>
-                {children}
-            </AuthProvider>
+            <Box width="100vw" height="100vh" bgcolor="background.main">
+                <AuthProvider>
+                    <Container>
+                        <Navbar signOut={handleSignout}></Navbar>
+                        {children}
+                    </Container>
+                </AuthProvider>
+            </Box>
         </>
     )
 }

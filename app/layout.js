@@ -26,7 +26,8 @@ const theme = createTheme({
     background: {
       main: '#F0F0F0',
       paper: '#ffffff',
-      base: '#F1F0F0'
+      base: '#D7D7D7',
+
     }
   },
   typography: {
@@ -117,11 +118,11 @@ export default function RootLayout({ children }) {
       <body>
         <ThemeProvider theme={theme}>
           <AlertProvider>
-            <Container>
+            {/* <Container> */}
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 {children}
               </LocalizationProvider>
-            </Container>
+            {/* </Container> */}
           </AlertProvider>
         </ThemeProvider>
         {/* <AlertBadge></AlertBadge> */}
