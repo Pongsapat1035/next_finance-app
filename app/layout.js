@@ -1,5 +1,4 @@
 "use client"
-import { Container } from "@mui/material";
 
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -7,6 +6,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 import './style/main.css'
 import { AlertProvider } from "./alertContext";
+
 const theme = createTheme({
   palette: {
     primary: {
@@ -27,7 +27,6 @@ const theme = createTheme({
       main: '#F0F0F0',
       paper: '#ffffff',
       base: '#D7D7D7',
-
     }
   },
   typography: {
@@ -39,6 +38,12 @@ const theme = createTheme({
         color: '#232323'
       },
       styleOverrides: {
+        h1: {
+          fontSize: '4rem',
+          "@media (min-width:600px)": {
+            fontSize: '6rem'
+          }
+        },
         root: {
           color: '#FFF2F2'
         }
@@ -119,9 +124,9 @@ export default function RootLayout({ children }) {
         <ThemeProvider theme={theme}>
           <AlertProvider>
             {/* <Container> */}
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                {children}
-              </LocalizationProvider>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              {children}
+            </LocalizationProvider>
             {/* </Container> */}
           </AlertProvider>
         </ThemeProvider>

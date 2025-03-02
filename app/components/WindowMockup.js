@@ -12,7 +12,7 @@ export default function WindowMockUp({ children }) {
 
     return (
         <Grid2 container direction="column" sx={containerStyle}>
-            <Grid2 container size={1} direction="row" width="100%" p={5} alignItems="center">
+            <Grid2 container size={1} direction="row" width="100%" p={5} pb={2} alignItems="center">
                 {/* Nav */}
                 <Grid2 container direction="row" gap={1} height={30} alignItems="center">
                     <Box sx={{ width: 20, height: 20, borderRadius: 100, bgcolor: '#FB4141' }}></Box>
@@ -31,8 +31,8 @@ export default function WindowMockUp({ children }) {
                     </Stack>
                 </Grid2>
             </Grid2>
-            <Grid2 container size={11} p={2} pt={1} alignItems="center" justifyContent="center" width="100%">
-                <Box bgcolor="background.paper" borderRadius={5} width="100%">
+            <Grid2 container size={11} p={4} alignItems="center" justifyContent="center" width="100%">
+                <Box borderRadius={5} width="100%">
                     {children}
                 </Box>
 

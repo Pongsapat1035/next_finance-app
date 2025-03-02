@@ -25,7 +25,7 @@ const WeeklyWrapper = ({ lists }) => {
 
         // convert to array
         let convertResult = Object.entries(result).map((item, index) => {
-           
+
             return { id: index, value: item[1], name: item[0] }
         });
 
@@ -34,10 +34,10 @@ const WeeklyWrapper = ({ lists }) => {
 
         // set max item show on chart 
         const maxItemOnChart = 4
-        
+
         const highestLists = sortedResult.slice(0, maxItemOnChart)
         const colorPallete = ['#705772', '#F38181', '#FAD284', '#A9EEC2']
-        highestLists.forEach((item, index) => item.color = colorPallete[index] )
+        highestLists.forEach((item, index) => item.color = colorPallete[index])
         setDataLists(highestLists)
     }
 
@@ -62,7 +62,7 @@ const WeeklyWrapper = ({ lists }) => {
                                 outerRadius: 100,
                                 paddingAngle: 5,
                                 cornerRadius: 5,
-                                cx: 200,
+                                // cx: 200,
                                 valueFormatter: (v, { dataIndex }) => {
                                     return `${dataLists[dataIndex].name} : ${dataLists[dataIndex].value} THB`;
                                 },
@@ -71,7 +71,7 @@ const WeeklyWrapper = ({ lists }) => {
                             height={200}
                         />
                         :
-                        <Stack justifyContent="center" alignItems="center" sx={{ borderRadius: '20px' , bgcolor: 'primary.main', p:4 }}>
+                        <Stack justifyContent="center" alignItems="center" sx={{ borderRadius: '20px', bgcolor: 'primary.main', p: 4 }}>
                             <Typography variant='h6' fontWeight="bold" color='background.paper'>No data</Typography>
                         </Stack>
                 }

@@ -7,20 +7,23 @@ import Container from '@mui/material/Container';
 
 export default function AuthenPage() {
     const paperStyle = {
-        width: '50%',
+        width: '100%',
+        "@media (min-width:600px)": {
+            width: 1 / 2
+        },
         mx: 'auto',
         px: 5,
         py: 8,
     }
 
     return (
-        <Stack justifyContent="center" alignItems="center" sx={{ height: '100vh', bgcolor: 'background.main' }}>
-            <Container>
+        <Container sx={{ bgcolor: 'background.main' }}>
+            <Stack justifyContent="center" alignItems="center" sx={{ height: '100vh', bgcolor: 'background.main' }}>
                 <Paper sx={paperStyle}>
                     <AuthForm></AuthForm>
                 </Paper>
-            </Container>
-        </Stack>
+            </Stack>
+        </Container>
 
     )
 } 

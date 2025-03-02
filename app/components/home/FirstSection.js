@@ -1,0 +1,58 @@
+"use client"
+import { useRouter } from "next/navigation";
+import Grid2 from "@mui/material/Grid2";
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+
+import Stack from '@mui/material/Stack'
+import NextIcon from '@/public/icons/nextjs_icon_dark.svg'
+import FirebaseIcon from '@/public/icons/firebase.svg'
+import MaterialIcon from '@/public/icons/materialui.svg'
+import Image from 'next/image'
+
+export default function FirstSection() {
+    const router = useRouter()
+    const techStack = [
+        {
+            icon: NextIcon,
+            name: 'Next Js'
+        },
+        {
+            icon: FirebaseIcon,
+            name: 'Firebase'
+        },
+        {
+            icon: MaterialIcon,
+            name: 'Material UI'
+        }
+    ]
+
+    return (
+        <Grid2 container alignItems="center" justifyContent="center" height="60vh" mb={8} sx={{
+            height: {
+                xs: 'auto',
+                md: '60vh'
+            }
+        }}>
+            <Grid2 direction="column" container size={{ xs: 12, sm: 8 }} gap={5} alignItems="center" width="100%" p={2}>
+                <Typography variant='h1' fontWeight="bold" textAlign="center">Finance track app</Typography>
+                <Typography variant='body1' textAlign="center">
+                    Lorem Ipsum is simply dummy text of the printing and  typesetting industry.
+                    Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+                    when an unknown printer took a galley of  type and scrambled it to make
+                </Typography>
+                <Stack direction="row" gap={5} justifyContent="center">
+                    {
+                        techStack.map((item, index) => (
+                            <Stack key={index} direction="row" alignItems='center' gap={2}>
+                                <Image src={item.icon} width='50' alt="next-icon" ></Image>
+                                <Typography variant='body1' fontWeight="bold" sx={{ display: { xs: 'none', sm: 'block' } }}>{item.name}</Typography>
+                            </Stack>
+                        ))
+                    }
+                </Stack>
+                <Button variant='contained' onClick={() => router.push('/auth')} sx={{ px: 4, width: '200px', borderRadius: '10px' }}>Try demo project</Button>
+            </Grid2>
+        </Grid2>
+    )
+}
