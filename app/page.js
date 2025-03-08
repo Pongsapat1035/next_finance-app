@@ -11,12 +11,7 @@ export default function Home() {
     return (
         <Container>
             <HomeNavbar></HomeNavbar>
-            <Grid2 container sx={{
-                my: {
-                    sm: 0,
-                    md: 8
-                }
-            }}>
+            <Grid2 container sx={{ my: { sm: 0, md: 8 } }}>
                 <FirstSection></FirstSection>
                 {/* <WindowMockUp>
                     <DemoDashboard></DemoDashboard>

@@ -10,12 +10,12 @@ import TotalIcon from '@/public/icons/account_balance_wallet.png'
 
 import Image from "next/image";
 
-const TotalBox = ({ type = 'income', amout = 0}) => {
+const TotalBox = ({ type = 'income', amout = 0 }) => {
     return (
         <Paper sx={{ p: 3 }}>
             <Stack direction="row" columnGap={2} justifyContent="space-between">
                 <Stack direction="column" rowGap={2}>
-                    <Typography variant="h6" color="primary.light" fontWeight="light">
+                    <Typography variant="h6" color="text.light" fontWeight="light">
                         Total.{type}
                     </Typography>
                     <Stack direction="row" gap={2}>
@@ -26,7 +26,7 @@ const TotalBox = ({ type = 'income', amout = 0}) => {
                     </Stack>
                 </Stack>
                 <Stack justifyContent="center" alignItems="center"
-                    sx={{ p: 1, bgcolor: 'primary.main', borderRadius: '100%', width: 50, height: 50 }}>
+                    sx={{ p: 1, bgcolor: 'primary.main', borderRadius: '100%', width: { xs: 40, sm: 50 }, height: { xs: 40, sm: 50 } }}>
                     <Image src={type === 'income' ? IncomeIcon : ExpendIcon} alt={type + '-icon'}></Image>
                 </Stack>
             </Stack>
@@ -42,7 +42,7 @@ const TotalBalanceBox = ({ amout = 0, toggleModal }) => {
                     sx={{ p: 1, bgcolor: 'primary.main', borderRadius: '100%', width: 50, height: 50 }}>
                     <Image src={TotalIcon} alt="total-icon"></Image>
                 </Stack>
-                <Typography variant="h6" color="primary.light" fontWeight="light">
+                <Typography variant="h6" color="text.light" fontWeight="light">
                     Total.balance
                 </Typography>
                 <Stack direction="row" gap={2} >

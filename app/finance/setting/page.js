@@ -32,7 +32,7 @@ export default function SettingPage() {
     }, [user])
 
     return (
-        <Grid2 container direction="column" gap={1} my={5} p={8} sx={{ bgcolor: 'background.paper', borderRadius: '30px' }}>
+        <Grid2 container direction="column" gap={1} p={8} sx={{ bgcolor: 'background.paper', borderRadius: '30px' }}>
             <Typography variant="h3" fontWeight="bold" >Setting</Typography>
             <Grid2 container direction="column" gap={4}>
                 <SpendingLimitConfig id={userId} limitValue={userConfig.spendingLimit}></SpendingLimitConfig>

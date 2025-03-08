@@ -4,7 +4,6 @@ import { Close, Done } from '@mui/icons-material';
 
 export default function AlertBadge({ data = {}, handleFunction }) {
     const symbol = data.type === 'error' ? <Close sx={{ color: "#C72424" }}></Close> : <Done sx={{ color: "#5AAE25" }}></Done>
-
     const bgSymbol = data.type === 'error' ? "#FFF2F2" : "#E5F8D6"
 
     const symbolStyle = {
@@ -13,8 +12,15 @@ export default function AlertBadge({ data = {}, handleFunction }) {
         width: 50,
         height: 50
     }
+
     const paperStyle = {
-        width: 1 / 4,
+        width: 3 / 4,
+        '@media (min-width: 600px)': {
+            width: 1 / 3
+        },
+        '@media (min-width: 1024px)': {
+            width: 1 / 4
+        },
         borderRadius: 5,
         p: 3,
         position: "fixed",
@@ -34,7 +40,7 @@ export default function AlertBadge({ data = {}, handleFunction }) {
                     </Grid2>
                     <Grid2 size={10}>
                         <Typography variant="h5" fontWeight="bold">{data.type === 'error' ? 'Error' : 'Success'}</Typography>
-                        <Typography variant="body1">{data.message}</Typography>
+                        <Typography variant="body1" color="text.light">{data.message}</Typography>
                     </Grid2>
                 </Grid2>
                 <IconButton onClick={handleFunction} size="small" sx={{ position: 'absolute', top: 10, right: 10 }} >

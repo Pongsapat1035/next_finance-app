@@ -36,10 +36,10 @@ export default function FirstSection() {
         }}>
             <Grid2 direction="column" container size={{ xs: 12, sm: 8 }} gap={5} alignItems="center" width="100%" p={2}>
                 <Typography variant='h1' fontWeight="bold" textAlign="center">Finance track app</Typography>
-                <Typography variant='body1' textAlign="center">
-                    Lorem Ipsum is simply dummy text of the printing and  typesetting industry.
-                    Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                    when an unknown printer took a galley of  type and scrambled it to make
+                <Typography variant='body2' textAlign="center" color="text.light">
+                    <Typography variant="body2" fontWeight="bold">Finance Tracker</Typography> is a web application designed to help you track your expenses and income effortlessly.
+                    With an intuitive dashboard, you can visualize your financial data,
+                    set spending limits, and manage transactions in one place.
                 </Typography>
                 <Stack direction="row" gap={5} justifyContent="center">
                     {

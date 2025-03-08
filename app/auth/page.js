@@ -4,6 +4,7 @@ import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import AuthForm from './components/AuthForm';
 import Container from '@mui/material/Container';
+import Box from '@mui/material/Box'
 
 export default function AuthenPage() {
     const paperStyle = {
@@ -17,13 +18,15 @@ export default function AuthenPage() {
     }
 
     return (
-        <Container sx={{ bgcolor: 'background.main' }}>
-            <Stack justifyContent="center" alignItems="center" sx={{ height: '100vh', bgcolor: 'background.main' }}>
-                <Paper sx={paperStyle}>
-                    <AuthForm></AuthForm>
-                </Paper>
-            </Stack>
-        </Container>
+        <Box bgcolor="background.main">
+            <Container sx={{ bgcolor: 'background.main' }}>
+                <Stack justifyContent="center" alignItems="center" sx={{ height: '100vh', bgcolor: 'background.main' }}>
+                    <Paper sx={paperStyle}>
+                        <AuthForm></AuthForm>
+                    </Paper>
+                </Stack>
+            </Container>
+        </Box>
 
     )
 } 

@@ -11,7 +11,7 @@ import Linkedin_icon from '@/public/icons/linkedin_icon.png'
 export default function ContractArea() {
    
     return (
-        <Box sx={{ borderRadius: '10px', bgcolor: 'background.base', padding: 2 }}>
+        <Box sx={{ borderRadius: '10px', bgcolor: 'primary.light', padding: 2 }}>
             <Typography variant='h6' fontWeight="bold" sx={{ mb: 2 }}>Contract</Typography>
             <Stack direction="row" columnGap={2}>
                 <a href="mailto:pongsapat357@gmail.com" target='blank'>

@@ -13,7 +13,7 @@ export default function HomeNavbar() {
                 <Typography variant='h4' fontWeight="bold">Finance</Typography>
             </Box>
             <Grid2 container spacing={2} sx={{ p: 2 }}>
-                <Button variant='contained' onClick={() => router.push('/auth')} sx={{ px: 4 }}>Get start</Button>
+                <Button variant='contained' onClick={() => router.push('/auth')} sx={{ px: 4 }}>Get started</Button>
             </Grid2>
         </Grid2>
     )

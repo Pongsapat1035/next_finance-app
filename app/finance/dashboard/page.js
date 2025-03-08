@@ -99,9 +99,9 @@ export default function Page() {
   }
 
   return (
-    <Box paddingTop={3}>
+    <Box height="auto">
       <Grid2 container direction="row" spacing={3} sx={{ width: '100%' }}>
-        <Grid2 size={8}>
+        <Grid2 size={{ xs: 12, sm: 7, lg: 8 }}>
           <Stack spacing={3} sx={{ height: '100%' }}>
             <Grid2 container direction="row" spacing={3}>
               <Grid2 size={6}>
@@ -114,7 +114,12 @@ export default function Page() {
             <TransectionBox checkLoading={isLoading} setLoadingSuccess={() => setIsLoading(false)} lists={lists} handleMonth={handleMonthSelect} handleEdit={handleEdit}></TransectionBox>
           </Stack>
         </Grid2>
-        <Grid2 size={4} container direction="column" spacing={3}>
+        <Grid2 size={{ sm: 5, lg: 4 }} container direction="column" spacing={3} sx={{
+          display: {
+            xs: 'none',
+            sm: 'flex'
+          }
+        }}>
           <TotalBalanceBox amout={dashboardData.balance} toggleModal={() => setNewTranModal(!newTranModal)}></TotalBalanceBox>
           <SpendingBox spend={dashboardData.expend} limit={categoryLists.spendingLimit}></SpendingBox>
           <WeeklyWrapper totalExpend={dashboardData.expend} lists={lists} categoryLists={categoryLists.expend}></WeeklyWrapper>

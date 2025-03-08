@@ -62,7 +62,7 @@ const WeeklyWrapper = ({ lists }) => {
                                 outerRadius: 100,
                                 paddingAngle: 5,
                                 cornerRadius: 5,
-                                // cx: 200,
+                                cx: 200,
                                 valueFormatter: (v, { dataIndex }) => {
                                     return `${dataLists[dataIndex].name} : ${dataLists[dataIndex].value} THB`;
                                 },

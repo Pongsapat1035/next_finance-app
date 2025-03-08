@@ -46,12 +46,12 @@ export default function CategoryForm({ isLoading, lists, userId }) {
     return (
         <Stack gap={2}>
             <Typography variant="h6" fontWeight="bold">Customize category</Typography>
-            <Typography variant="body1" fontWeight="light" sx={{ color: 'primary.light' }}>
+            <Typography variant="body1" fontWeight="light" sx={{ color: 'text.light' }}>
                 Create and manage your own income and expense categories to better organize your finances.
             </Typography>
             <Button variant="contained" onClick={() => setAddModalState(true)} sx={{ borderRadius: '8px', maxWidth: '200px' }}>Create category</Button>
             <Grid2 container width="80%">
-                <Grid2 container direction="column" gap={2} size={6}>
+                <Grid2 container direction="column" gap={2} size={{ xs: 12, sm: 6 }}>
                     <Typography variant="h6" fontWeight="bold">Expend</Typography>
                     {
                         isLoading ?
@@ -59,7 +59,7 @@ export default function CategoryForm({ isLoading, lists, userId }) {
                             lists.expend.map((item, index) => <CategoryButton key={index} name={item} value={{ data: lists.expend, index, name: item, type: 'expend' }} deleteCategory={handleDelete}></CategoryButton>)
                     }
                 </Grid2>
-                <Grid2 container direction="column" gap={2} size={6}>
+                <Grid2 container direction="column" gap={2} size={{ xs: 12, sm: 6 }}>
                     <Typography variant="h6" fontWeight="bold">Income</Typography>
                     {
                         isLoading ?
@@ -76,6 +76,7 @@ export default function CategoryForm({ isLoading, lists, userId }) {
 import IconButton from '@mui/material/IconButton';
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
+
 const CategoryButton = ({ name, type, value, deleteCategory }) => {
     const [editModalState, setEditModalState] = useState(false)
     const [confirmDelState, setConfirmDelState] = useState(false)
@@ -83,8 +84,16 @@ const CategoryButton = ({ name, type, value, deleteCategory }) => {
         setConfirmDelState(false)
         deleteCategory(value.type, value.name)
     }
+    const style = {
+        width: { xs: '100%', sm: '80%', ms: '60%' },
+        px: 2,
+        py: '5px',
+        borderRadius: 50,
+        bgcolor: 'primary.light'
+    }
+
     return (
-        <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ width: '60%', px: 2, py: '5px', borderRadius: 50, bgcolor: 'background.base' }}>
+        <Stack direction="row" justifyContent="space-between" alignItems="center" sx={style}>
             <Typography variant="body1" fontWeight="bold">{name}</Typography>
             <Stack direction="row" gap={0}>
                 <IconButton aria-label="edit" onClick={() => setEditModalState(true)}>

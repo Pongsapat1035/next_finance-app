@@ -10,8 +10,9 @@ import Divider from '@mui/material/Divider';
 import DashboardRoundedIcon from '@mui/icons-material/DashboardRounded';
 import AssessmentRoundedIcon from '@mui/icons-material/AssessmentRounded';
 import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
-import { useEffect, useState } from 'react';
+import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 
+import { useEffect, useState } from 'react';
 import ConfirmModal from '@/app/components/ConfirmModal';
 
 
@@ -59,23 +60,17 @@ export default function NavButttonList({ signOut, handleNav }) {
         <Box sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
             <List>
                 <ListMenu isActive={activeLink.dashboard} name="Dashboard" path='/finance/dashboard' handleNav={handleNav}></ListMenu>
-                <ListMenu isActive={activeLink.report} name="Report [unstable]" path='/finance/report' handleNav={handleNav}></ListMenu>
+                <ListMenu isActive={activeLink.report} name="Report" path='/finance/report' handleNav={handleNav}></ListMenu>
                 <ListMenu isActive={activeLink.setting} name="Setting" path='/finance/setting' handleNav={handleNav}></ListMenu>
             </List>
             <Divider />
-            <List>
-                <ListItem disablePadding>
-                    <ListItemButton onClick={() => setConfirmSignout(true)} >
-                        <ListItemText primary="Logout" />
-                    </ListItemButton>
-                </ListItem>
-            </List>
+            <ListMenu isActive={activeLink.setting} name="Logout" handleNav={() => setConfirmSignout(true)}></ListMenu>
             <ConfirmModal header="Sign out" state={confirmSignout} closeState={() => setConfirmSignout(false)} action={signOut}></ConfirmModal>
         </Box>
     )
 }
 
-const ListMenu = ({ isActive, name, path, handleNav }) => {
+const ListMenu = ({ isActive, name, path = "", handleNav }) => {
     const router = useRouter()
     const [active, setActive] = useState(false)
 
@@ -88,7 +83,7 @@ const ListMenu = ({ isActive, name, path, handleNav }) => {
 
     const textLinkStyle = {
         '.MuiTypography-root': {
-            color: active ? 'primary.main' : 'primary.light',
+            color: active ? 'text.main' : 'text.light',
             fontWeight: 'bold',
             transition: '.5s',
         },
@@ -118,7 +113,8 @@ const ListMenu = ({ isActive, name, path, handleNav }) => {
                     {
                         path === '/finance/dashboard' ? <DashboardRoundedIcon sx={iconStyle} /> :
                             path === '/finance/report' ? <AssessmentRoundedIcon sx={iconStyle} /> :
-                                <SettingsRoundedIcon sx={iconStyle} />
+                                path === '/finance/setting' ? <SettingsRoundedIcon sx={iconStyle} /> :
+                                    <LogoutRoundedIcon sx={iconStyle} />
                     }
                 </ListItemIcon>
                 <ListItemText primary={name} sx={textLinkStyle} />

@@ -11,7 +11,7 @@ const theme = createTheme({
   palette: {
     primary: {
       main: '#232323',
-      light: '#7D7D7D'
+      light: '#e3e6ea'
     },
     error: {
       main: '#F46F6F',
@@ -27,21 +27,39 @@ const theme = createTheme({
       main: '#F0F0F0',
       paper: '#ffffff',
       base: '#D7D7D7',
+    },
+    text: {
+      main: '#232323',
+      light: '#7D7D7D',
+      white: '#FFFFFF'
     }
   },
   typography: {
-    fontFamily: '"Inria sans", "Helvetica", "Arial", sans-serif'
+    fontFamily: '"Inria sans", "Helvetica", "Arial", sans-serif',
+    body2: {
+      fontSize: '1rem'
+    }
   },
   components: {
     MuiTypography: {
       defaultProps: {
-        color: '#232323'
+        color: '#232323',
+        variantMapping: {
+          body1: 'p',
+          body2: 'span'
+        }
       },
       styleOverrides: {
         h1: {
           fontSize: '4rem',
           "@media (min-width:600px)": {
             fontSize: '6rem'
+          }
+        },
+        h3: {
+          fontSize: '2rem',
+          "@media (min-width:600px)": {
+            fontSize: '3rem'
           }
         },
         root: {
@@ -76,7 +94,17 @@ const theme = createTheme({
                 color: '#ffffff',
                 backgroundColor: '#232323'
               },
-            },
+            }, 
+            {
+              props: { variant: 'outlined' },
+              style: {
+                borderRadius: 5,
+                fontWeight: 'bold',
+                fontSize: '1rem',
+                textTransform: 'none',
+                boxShadow: 'none',
+              },
+            }
           ],
         }
       }
@@ -123,14 +151,11 @@ export default function RootLayout({ children }) {
       <body>
         <ThemeProvider theme={theme}>
           <AlertProvider>
-            {/* <Container> */}
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               {children}
             </LocalizationProvider>
-            {/* </Container> */}
           </AlertProvider>
         </ThemeProvider>
-        {/* <AlertBadge></AlertBadge> */}
       </body>
     </html>
   );

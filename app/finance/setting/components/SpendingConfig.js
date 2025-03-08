@@ -41,14 +41,14 @@ export default function SpendingLimitConfig({ id, limitValue }) {
             console.log(error)
         }
     }
-    useEffect(()=>{
+    useEffect(() => {
         setSpendingVal(limitValue)
     }, [limitValue])
 
     return (
         <Stack gap={2} mt={2}>
             <Typography variant="h6" fontWeight="bold">Set spending limit</Typography>
-            <Typography variant="body1" fontWeight="light" sx={{ color: 'primary.light' }}>Control your expenses by setting a spending limit </Typography>
+            <Typography variant="body1" fontWeight="light" sx={{ color: 'text.light' }}>Control your expenses by setting a spending limit </Typography>
             <form onSubmit={handleSubmit}>
                 <Stack direction="row" gap={2}>
                     <TextField variant="outlined"

@@ -13,7 +13,6 @@ export async function Login(userData) {
         const name = response.user.displayName
         storeCookie(token)
         return { status: 200, message: `login success!!`, name }
-
     } catch (error) {
         console.log('login error : ', error)
         return { status: 400, message: error }

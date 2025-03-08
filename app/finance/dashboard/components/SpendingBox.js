@@ -53,20 +53,20 @@ const SpendingBox = ({ spend = 0, limit = 1000 }) => {
                         <Typography variant="h5" fontWeight="bold">
                             Spending Limit
                         </Typography>
-                        <Typography variant="body1" color="primary.light">
+                        <Typography variant="body1" color="text.light">
                             Data form 1 - {dateText}
                         </Typography>
                     </Stack>
-                    <Button variant="outlined" sx={{ py: '0px' }} onClick={() => router.push('/finance/report')}>View report</Button>
+                    <Button variant="outlined" sx={{ height: 40, py: '0px', borderColor: 'primary.light' }} onClick={() => router.push('/finance/report')}>View report</Button>
                 </Stack>
                 <Stack direction="row" alignItems="flex-end" spacing={1}>
                     <Typography variant="h4">
                         {spend}
                     </Typography>
-                    <Typography variant="body1" color="primary.light">
+                    <Typography variant="body1" color="text.light">
                         of
                     </Typography>
-                    <Typography variant="body1" color="primary.light">
+                    <Typography variant="body1" color="text.light">
                         {limit}
                     </Typography>
                 </Stack>

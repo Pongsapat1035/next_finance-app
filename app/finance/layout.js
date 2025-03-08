@@ -7,11 +7,13 @@ import Container from '@mui/material/Container'
 import Box from '@mui/material/Box'
 import { useAlert } from "../alertContext"
 import { useRouter } from "next/navigation"
+import useMediaQuery from '@mui/material/useMediaQuery';
+import SpeedDialNav from "./components/SpeedDialNav"
 
 export default function HomeLayout({ children }) {
     const router = useRouter()
     const { handleAlert } = useAlert()
-
+    const matches = useMediaQuery('(min-width:600px)');
     const handleSignout = async () => {
         try {
             //signout and redirect to home page
@@ -28,10 +30,12 @@ export default function HomeLayout({ children }) {
 
     return (
         <>
-            <Box width="100vw" height="100vh" bgcolor="background.main">
+            <Box width="100vw" height="100vh" bgcolor="background.main" py={2}>
                 <AuthProvider>
                     <Container>
-                        <Navbar signOut={handleSignout}></Navbar>
+                        {
+                            matches ? <Navbar signOut={handleSignout}></Navbar> : <SpeedDialNav signOut={handleSignout}></SpeedDialNav>
+                        }
                         {children}
                     </Container>
                 </AuthProvider>
