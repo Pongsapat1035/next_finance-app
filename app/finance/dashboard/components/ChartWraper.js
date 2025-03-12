@@ -9,7 +9,7 @@ import { PieChart } from '@mui/x-charts/PieChart';
 
 import { useEffect, useState } from 'react';
 
-const WeeklyWrapper = ({ lists }) => {
+const ChartWrapper = ({ lists }) => {
 
     const [dataLists, setDataLists] = useState([])
 
@@ -97,4 +97,4 @@ const TopCategory = ({ name, color }) => {
     )
 }
 
-export default WeeklyWrapper
+export default ChartWrapper
