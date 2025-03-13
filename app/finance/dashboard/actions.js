@@ -1,6 +1,6 @@
 "use server"
 
-import { doc, collection, getDoc, getDocs, addDoc, deleteDoc, setDoc } from "firebase/firestore";
+import { doc, collection, getDoc, getDocs, addDoc, deleteDoc, setDoc, runTransaction } from "firebase/firestore";
 import { db } from "@/app/firebase";
 
 export async function getAllData(uid, month) {
@@ -16,6 +16,19 @@ export async function getAllData(uid, month) {
         })
         const convertResult = JSON.stringify(result)
         return convertResult
+    } catch (error) {
+        console.log('error from get doc : ', error)
+        return { status: 400, message: "can't fetch data" }
+    }
+}
+
+export async function getTotalReport(uid) {
+    try {
+        const docRef = collection(db, "financeTrack", uid, "total")
+        const docSnap = await getDocs(docRef);
+        const result = docSnap.docs.map((doc) => doc.data())
+       
+        return result
     } catch (error) {
         console.log('error from get doc : ', error)
         return { status: 400, message: "can't fetch data" }
@@ -41,14 +54,31 @@ export async function createTransection(data) {
 
         const convertData = {
             type: data.type,
+            description: data.description,
             category: data.category,
-            amout: data.amout,
+            amout: parseInt(data.amout),
             createdDate: date
         }
 
+        await runTransaction(db, async (transaction) => {
+            // financeTrack/uid/total/month
+            const totalDocRef = doc(db, "financeTrack", userId, "total", getMonthFormat)
+            const totalDoc = await transaction.get(totalDocRef);
+            if (!totalDoc.exists()) {
+                // create new total
+                const amout = convertData.amout
+                // console.log('check type : ', typeof (amout))
+                // console.log('check amout : ', amout)
+                transaction.set(totalDocRef, ({ [convertData.type]: amout, year: date.getFullYear(), monthIndex: date.getMonth() }))
+            } else {
+                // update exit total
+                const newTotal = (totalDoc.data()[convertData.type] || 0) + convertData.amout
+                transaction.update(totalDocRef, { [convertData.type]: newTotal });
+            }
+
+        });
         const docRef = collection(db, "financeTrack", userId, getMonthFormat)
         await addDoc(docRef, convertData)
-
         return { status: 201, msg: 'create new transection success !!' }
 
     } catch (error) {

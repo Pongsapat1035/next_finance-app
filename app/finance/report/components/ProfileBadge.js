@@ -1,6 +1,7 @@
-import { Stack, Typography } from "@mui/material"
-import ProfileIcon from '@/public/icons/person.png'
 import Image from "next/image"
+import Stack from '@mui/material/Stack'
+import Typography from "@mui/material/Typography"
+import ProfileIcon from '@/public/icons/person.png'
 
 export default function ProfileBadge() {
     return (

@@ -108,7 +108,7 @@ const TransectionBox = ({ checkLoading, setLoadingSuccess, lists, handleMonth, h
                                             <TableCell align="center" sx={{ fontSize: '0.9rem' }}>{row.data.category}</TableCell>
                                             <TableCell align="right"
                                                 sx={{ fontSize: '0.9rem', fontWeight: 'bold', color: row.data.type === 'income' ? 'success.main' : 'error.main' }}>
-                                                {row.data.type === 'income' ? '+' : '-'} {row.data.amout} THB
+                                                {row.data.type === 'income' ? '+' : '-'} {row.data.amout.toLocaleString()} THB
                                             </TableCell>
                                         </TableRow>
                                     ))}

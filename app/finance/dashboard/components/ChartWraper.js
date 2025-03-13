@@ -8,43 +8,15 @@ import Grid2 from '@mui/material/Grid2'
 import { PieChart } from '@mui/x-charts/PieChart';
 
 import { useEffect, useState } from 'react';
+import { ChangeFormatChartData } from '@/app/util/FormatChart';
 
 const ChartWrapper = ({ lists }) => {
-
     const [dataLists, setDataLists] = useState([])
-
-    const sortLists = (recieveData) => {
-        const result = {}
-
-        recieveData.forEach(element => {
-            const data = element.data
-            if (data.type === 'expend') {
-                result[data.category] = result[data.category] ? result[data.category] += data.amout : data.amout
-            }
-        });
-
-        // convert to array
-        let convertResult = Object.entries(result).map((item, index) => {
-
-            return { id: index, value: item[1], name: item[0] }
-        });
-
-        // sort by descending
-        const sortedResult = convertResult.sort((a, b) => b.value - a.value)
-
-        // set max item show on chart 
-        const maxItemOnChart = 4
-
-        const highestLists = sortedResult.slice(0, maxItemOnChart)
-        const colorPallete = ['#705772', '#F38181', '#FAD284', '#A9EEC2']
-        highestLists.forEach((item, index) => item.color = colorPallete[index])
-        setDataLists(highestLists)
-    }
-
 
     useEffect(() => {
         if (lists.length > 0) {
-            sortLists(lists)
+            const result = ChangeFormatChartData(lists)
+            setDataLists(result)
         }
     }, [lists])
 
@@ -67,6 +39,9 @@ const ChartWrapper = ({ lists }) => {
                                     return `${dataLists[dataIndex].name} : ${dataLists[dataIndex].value} THB`;
                                 },
                             }]}
+                            slotProps={{
+                                legend: { hidden: true },
+                              }}
                             width={400}
                             height={200}
                         />

@@ -1,32 +1,13 @@
-import { Grid2, Typography } from "@mui/material"
+import Grid2 from "@mui/material/Grid2";
+import Typography from "@mui/material/Typography";
 import { BarChart } from '@mui/x-charts/BarChart';
 import { useEffect, useState } from "react";
+import { chartColors } from "@/app/util/FormatChart";
 
 export default function TransectionChart({ lists }) {
     const [chartData, setChartData] = useState([])
     const [dateLists, setDateLists] = useState([])
-    const dataset = [
-        {
-            x: 100,
-            y: 120,
-            z: 30
-        },
-        {
-            x: 100,
-            y: 120,
-            z: 30
-        },
-        {
-            x: 100,
-            y: 120,
-            z: 30
-        },
-        {
-            x: 100,
-            y: 120,
-            z: 30
-        }
-    ]
+   
     const getDay = (recievedDate) => {
         const date = new Date(recievedDate * 1000)
         return date.getDate()
@@ -62,14 +43,14 @@ export default function TransectionChart({ lists }) {
 
 
     return (
-        <Grid2 size={8} bgcolor="primary.light" sx={{ borderRadius: '20px', py: 2, px: 4 }}>
+        <Grid2 size={8} bgcolor="background.paper" sx={{ borderRadius: '20px', py: 2, px: 4 }}>
             <Typography variant="h5" fontWeight="bold">Summary Chart</Typography>
             <BarChart
                 dataset={chartData}
                 xAxis={[{ scaleType: 'band', data: dateLists }]}
                 series={[
-                    { dataKey: 'expend', label: 'Expend' },
-                    { dataKey: 'income', label: 'Income' },
+                    { dataKey: 'expend', label: 'Expend', color: chartColors[1]  },
+                    { dataKey: 'income', label: 'Income', color: chartColors[3] },
                 ]}
                 height={300}
             />

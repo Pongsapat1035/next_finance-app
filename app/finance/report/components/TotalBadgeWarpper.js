@@ -1,4 +1,4 @@
-import { Grid2 } from "@mui/material";
+import Grid2 from "@mui/material/Grid2"
 import TotalBadge from "./TotalBadge";
 import { useEffect, useState } from "react";
 
@@ -8,6 +8,7 @@ export default function TotalBadgeWarpper({ lists }) {
         income: 0,
         balance: 0
     })
+    
     useEffect(() => {
         if (lists.length > 0) {
             // if have data calculate total
@@ -20,6 +21,14 @@ export default function TotalBadgeWarpper({ lists }) {
                 expend: expendSum,
                 balance: balance
             })
+        } else {
+            // reset to default value
+            setDashboardData((prevState) => ({
+                ...prevState,
+                expend: 0,
+                income: 0,
+                balance: 0
+            }))
         }
     }, [lists])
 

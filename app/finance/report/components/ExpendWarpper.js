@@ -1,47 +1,26 @@
 "use client"
-import { Grid2, Typography } from "@mui/material";
+
+import Grid2 from "@mui/material/Grid2";
+import Typography from "@mui/material/Typography";
 import { PieChart } from '@mui/x-charts/PieChart';
 import { useState, useEffect } from "react";
+import { ChangeFormatChartData } from "@/app/util/FormatChart";
 
 export default function ExpendWarpper({ lists }) {
     const [dataLists, setDataLists] = useState([])
 
-    const sortLists = (recieveData) => {
-        const result = {}
-
-        recieveData.forEach(element => {
-            const data = element.data
-            if (data.type === 'expend') {
-                result[data.category] = (result[data.category] || 0) + data.amout
-            }
-        });
-        console.log(result)
-        // convert to array
-        let convertResult = Object.entries(result).map((item, index) => {
-            return { id: index, value: item[1], name: item[0], label: item[0] }
-        });
-
-        // sort by descending
-        const sortedResult = convertResult.sort((a, b) => b.value - a.value)
-
-        // set max item show on chart 
-        const maxItemOnChart = 4
-
-        const highestLists = sortedResult.slice(0, maxItemOnChart)
-        const colorPallete = ['#705772', '#F38181', '#FAD284', '#A9EEC2']
-        highestLists.forEach((item, index) => item.color = colorPallete[index])
-        setDataLists(highestLists)
-    }
-
-
     useEffect(() => {
         if (lists.length > 0) {
-            sortLists(lists)
+            const result = ChangeFormatChartData(lists)
+            setDataLists(result)
+        } else {
+            setDataLists([])
         }
     }, [lists])
+
     return (
-        <Grid2 container size={4} p={2} bgcolor="primary.light" borderRadius='15px'>
-            <Typography variant="h5" fontWeight="bold">Expend Analysis</Typography>
+        <Grid2 container size={6} p={4} bgcolor="background.paper" borderRadius='15px'>
+            <Typography variant="h5" fontWeight="bold">Expend Overview</Typography>
             <PieChart
                 series={[
                     {

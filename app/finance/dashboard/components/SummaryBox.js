@@ -22,7 +22,7 @@ const TotalBox = ({ type = 'income', amout = 0 }) => {
                         <Typography variant="h3" >
                             THB
                         </Typography>
-                        <Typography variant="h3" color={type === 'income' ? 'success.main' : 'error.main'}>{amout}</Typography>
+                        <Typography variant="h3" color={type === 'income' ? 'success.main' : 'error.main'}>{amout.toLocaleString()}</Typography>
                     </Stack>
                 </Stack>
                 <Stack justifyContent="center" alignItems="center"
@@ -49,7 +49,7 @@ const TotalBalanceBox = ({ amout = 0, toggleModal }) => {
                     <Typography variant="h3" >
                         THB
                     </Typography>
-                    <Typography variant="h3" >{amout}</Typography>
+                    <Typography variant="h3" >{amout.toLocaleString()}</Typography>
                 </Stack>
                 <Button variant="contained" sx={{ borderRadius: 2 }} onClick={toggleModal}>
                     New transection

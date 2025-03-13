@@ -61,13 +61,13 @@ const SpendingBox = ({ spend = 0, limit = 1000 }) => {
                 </Stack>
                 <Stack direction="row" alignItems="flex-end" spacing={1}>
                     <Typography variant="h4">
-                        {spend}
+                        {spend.toLocaleString()}
                     </Typography>
                     <Typography variant="body1" color="text.light">
                         of
                     </Typography>
                     <Typography variant="body1" color="text.light">
-                        {limit}
+                        {limit.toLocaleString()}
                     </Typography>
                 </Stack>
                 <Box>

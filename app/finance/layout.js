@@ -30,7 +30,7 @@ export default function HomeLayout({ children }) {
 
     return (
         <>
-            <Box width="100vw" height="100vh" bgcolor="background.main" py={2}>
+            <Box width="100vw" bgcolor="background.main" py={2}>
                 <AuthProvider>
                     <Container>
                         {

@@ -9,6 +9,7 @@ import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import InputAdornment from '@mui/material/InputAdornment';
 import MonetizationOnRoundedIcon from '@mui/icons-material/MonetizationOnRounded';
+import DescriptionRoundedIcon from '@mui/icons-material/DescriptionRounded';
 
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import dayjs from 'dayjs';
@@ -33,6 +34,7 @@ const AddModal = ({ state = false, closeModal, configData, uid }) => {
 
         const listData = {
             userid: uid,
+            description : data.get('description'),
             type: data.get('type'),
             amout: data.get('amout'),
             category: data.get('category'),
@@ -70,12 +72,23 @@ const AddModal = ({ state = false, closeModal, configData, uid }) => {
         setType('select type')
         setSelectedValue('select category')
     }, [state])
-    
+
     return (
         <ModalBox state={state} closeModal={closeModal} header="New transection">
             <form onSubmit={submitForm}>
                 <Grid2 container spacing={2} direction={"column"}>
                     <DatePicker name="date" value={date} maxDate={dayjs()} onChange={(newValue) => setDate(newValue)} />
+                    <TextField id="outlined-basic" name="description"
+                        slotProps={{
+                            input: {
+                                startAdornment: (
+                                    <InputAdornment position="start">
+                                        <DescriptionRoundedIcon />
+                                    </InputAdornment>
+                                ),
+                            },
+                        }}
+                        type="text" variant="outlined" placeholder="Description" required />
                     <Grid2 container direction="row" gap={2}>
                         <Grid2 size={6}>
                             <TextField id="outlined-basic" name="amout"
@@ -107,8 +120,8 @@ const AddModal = ({ state = false, closeModal, configData, uid }) => {
                         >
                             <MenuItem value="select category" disabled>Select category</MenuItem>
                             {
-                                configData[type] ? 
-                                configData[type].map((data, index) => <MenuItem key={index} value={data}>{data}</MenuItem>) : ''
+                                configData[type] ?
+                                    configData[type].map((data, index) => <MenuItem key={index} value={data}>{data}</MenuItem>) : ''
                             }
                         </Select>
                         {errorCategory ? <Typography variant="body1" color="error.main">Please select category</Typography> : ''}
