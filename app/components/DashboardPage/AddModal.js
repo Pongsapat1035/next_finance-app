@@ -21,7 +21,7 @@ import { createTransection } from "@/app/finance/dashboard/actions"
 import { useAlert } from "@/app/alertContext";
 
 
-const AddModal = ({ state = false, closeModal, configData, uid }) => {
+const AddModal = ({ state = false, closeModal, category, uid }) => {
     const { handleAlert } = useAlert()
     const [selectedValue, setSelectedValue] = useState('select category')
     const [type, setType] = useState('select type')
@@ -34,7 +34,7 @@ const AddModal = ({ state = false, closeModal, configData, uid }) => {
 
         const listData = {
             userid: uid,
-            description : data.get('description'),
+            description: data.get('description'),
             type: data.get('type'),
             amout: data.get('amout'),
             category: data.get('category'),
@@ -120,8 +120,8 @@ const AddModal = ({ state = false, closeModal, configData, uid }) => {
                         >
                             <MenuItem value="select category" disabled>Select category</MenuItem>
                             {
-                                configData[type] ?
-                                    configData[type].map((data, index) => <MenuItem key={index} value={data}>{data}</MenuItem>) : ''
+                                category[type] ?
+                                    category[type].map((data, index) => <MenuItem key={index} value={data}>{data}</MenuItem>) : ''
                             }
                         </Select>
                         {errorCategory ? <Typography variant="body1" color="error.main">Please select category</Typography> : ''}

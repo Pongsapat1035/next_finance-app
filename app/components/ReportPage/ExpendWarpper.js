@@ -19,7 +19,7 @@ export default function ExpendWarpper({ lists }) {
     }, [lists])
 
     return (
-        <Grid2 container size={6} p={4} bgcolor="background.paper" borderRadius='15px'>
+        <Grid2 container size={{ xs: 12, md: 6 }} p={4} bgcolor="background.paper" borderRadius='15px' gap={1}>
             <Typography variant="h5" fontWeight="bold">Expend Overview</Typography>
             <PieChart
                 series={[

@@ -2,21 +2,21 @@
 
 import Grid2 from "@mui/material/Grid2";
 import Typography from "@mui/material/Typography";
-import TotalBadgeWarpper from "./components/TotalBadgeWarpper";
-import IncomeWarpper from "./components/IncomeWarpper";
-import ExpendWarpper from "./components/ExpendWarpper";
-import FinanceOverview from "./components/MonthlyWarpper";
-import TransectionChart from "./components/TransectionChart";
+import TotalBadgeWarpper from "../../components/ReportPage/TotalBadgeWarpper";
+import IncomeWarpper from "../../components/ReportPage/IncomeWarpper";
+import ExpendWarpper from "../../components/ReportPage/ExpendWarpper";
+import FinanceOverview from "../../components/ReportPage/MonthlyWarpper";
+import TransectionChart from "../../components/ReportPage/TransectionChart";
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
 
 import { useEffect, useState } from "react";
-import { useAuth } from '../authContext';
+import { useAuth } from '@/app/finance/authContext';
 import { getAllData, getTotalReport } from "@/app/finance/dashboard/actions";
 
 
 const ReportPage = () => {
-    const user = useAuth()
+    const { user } = useAuth()
     const [date, setDate] = useState(dayjs())
     const [lists, setLists] = useState([])
     const [totalLists, setTotalLsits] = useState([])
@@ -37,7 +37,7 @@ const ReportPage = () => {
                 element.data.amout = parseInt(element.data.amout)
                 element.data.timeStamp = element.data.createdDate.seconds
             });
-            // console.log('check lists : ', convertResponse)
+
             setLists(convertResponse)
         } catch (error) {
             console.log(error)
@@ -46,7 +46,6 @@ const ReportPage = () => {
     const fetchTotalMonth = async (uid) => {
         try {
             const response = await getTotalReport(uid)
-            // console.log(response)
             setTotalLsits(response)
         } catch (error) {
             console.log(error)
@@ -63,7 +62,7 @@ const ReportPage = () => {
     }, [user])
 
     return (
-        <Grid2 container spacing={3} p={4} >
+        <Grid2 container spacing={3} py={4} px={{ xs: 1, sm: 4 }}   >
             <Grid2 container size={12} justifyContent="space-between" mb={2}>
                 <Typography variant="h4" fontWeight="bold">Financial summary</Typography>
                 <DatePicker

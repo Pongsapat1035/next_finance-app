@@ -1,25 +1,27 @@
 "use client"
 
-import { userSignout } from "../auth/action"
-import { AuthProvider } from './authContext'
-import Navbar from "./components/Navbar"
+import { userSignout } from '@/app/auth/action'
+import { useRouter } from "next/navigation"
+
+import NavbarMobile from "../components/Navbar/NavbarMobile"
+import Navbar from "../components/Navbar/Navbar"
 import Container from '@mui/material/Container'
 import Box from '@mui/material/Box'
-import { useAlert } from "../alertContext"
-import { useRouter } from "next/navigation"
 import useMediaQuery from '@mui/material/useMediaQuery';
-import SpeedDialNav from "./components/SpeedDialNav"
+
+import { AuthProvider } from './authContext'
+import { useAlert } from '../alertContext'
 
 export default function HomeLayout({ children }) {
-    const router = useRouter()
     const { handleAlert } = useAlert()
+    const router = useRouter()
     const matches = useMediaQuery('(min-width:600px)');
+
     const handleSignout = async () => {
         try {
             //signout and redirect to home page
             const { status } = await userSignout()
             if (status === 200) {
-                console.log('user sign out')
                 handleAlert('success', 'logout success !')
                 router.push('/')
             }
@@ -30,11 +32,13 @@ export default function HomeLayout({ children }) {
 
     return (
         <>
-            <Box width="100vw" bgcolor="background.main" py={2}>
+            <Box width="100vw" bgcolor="background.main" sx={{ height: 'minmax(100vh, auto)' }}>
                 <AuthProvider>
                     <Container>
                         {
-                            matches ? <Navbar signOut={handleSignout}></Navbar> : <SpeedDialNav signOut={handleSignout}></SpeedDialNav>
+                            matches ?
+                                <Navbar signOut={handleSignout}></Navbar> :
+                                <NavbarMobile signOut={handleSignout}></NavbarMobile>
                         }
                         {children}
                     </Container>
@@ -43,3 +47,10 @@ export default function HomeLayout({ children }) {
         </>
     )
 }
+
+
+
+
+
+
+

@@ -16,15 +16,17 @@ export default function AlertBadge({ data = {}, handleFunction }) {
     const paperStyle = {
         width: 3 / 4,
         '@media (min-width: 600px)': {
-            width: 1 / 3
+            width: 1 / 3,
+            bottom: 30,
+            p:3
         },
         '@media (min-width: 1024px)': {
             width: 1 / 4
         },
         borderRadius: 5,
-        p: 3,
+        p: 2,
         position: "fixed",
-        bottom: 30,
+        bottom: 80,
         right: 20,
         border: '1px solid rgb(224, 224, 224)'
     }

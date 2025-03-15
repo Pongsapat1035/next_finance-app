@@ -4,7 +4,7 @@ import Image from 'next/image'
 import ProfileIcon from '@/public/icons/person.png'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
-import { useAuth } from '../authContext'
+import { useAuth } from '@/app/finance/authContext'
 import { useEffect, useState } from 'react'
 
 export default function AvatarWrapper() {
@@ -16,7 +16,7 @@ export default function AvatarWrapper() {
             setUsername(user.name)
         }
     }, [user])
-    
+
     return (
         <Stack alignItems="center" spacing={2} marginTop={2}>
             <Stack

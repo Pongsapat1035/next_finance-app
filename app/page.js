@@ -3,8 +3,8 @@
 import Grid2 from '@mui/material/Grid2';
 import Container from '@mui/material/Container';
 
-import HomeNavbar from './components/home/HomeNavbar';
-import FirstSection from './components/home/FirstSection';
+import HomeNavbar from './components/HomePage/HomeNavbar';
+import FirstSection from './components/HomePage/FirstSection';
 
 export default function Home() {
 
@@ -13,9 +13,6 @@ export default function Home() {
             <HomeNavbar></HomeNavbar>
             <Grid2 container sx={{ my: { sm: 0, md: 8 } }}>
                 <FirstSection></FirstSection>
-                {/* <WindowMockUp>
-                    <DemoDashboard></DemoDashboard>
-                </WindowMockUp> */}
             </Grid2>
         </Container >
     )

@@ -10,34 +10,35 @@ import Button from '@mui/material/Button';
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 
-const SpendingBox = ({ spend = 0, limit = 1000 }) => {
+const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
+    height: 10,
+    borderRadius: 5,
+    marginTop: 5,
+    [`&.${linearProgressClasses.colorPrimary}`]: {
+        backgroundColor: theme.palette.grey[200],
+        ...theme.applyStyles('dark', {
+            backgroundColor: theme.palette.grey[800],
+        }),
+    },
+    [`& .${linearProgressClasses.bar}`]: {
+        borderRadius: 5,
+        backgroundColor: '#FBA957',
+        ...theme.applyStyles('dark', {
+            backgroundColor: '#FBA957',
+        }),
+    },
+}));
+
+const SpendingBox = ({ spend = 0, limit = 0 }) => {
+
     const router = useRouter()
     const [progressValue, setProgressValue] = useState(0)
     const [dateText, setDateText] = useState('')
-    const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
-        height: 10,
-        borderRadius: 5,
-        marginTop: 5,
-        [`&.${linearProgressClasses.colorPrimary}`]: {
-            backgroundColor: theme.palette.grey[200],
-            ...theme.applyStyles('dark', {
-                backgroundColor: theme.palette.grey[800],
-            }),
-        },
-        [`& .${linearProgressClasses.bar}`]: {
-            borderRadius: 5,
-            backgroundColor: '#FBA957',
-            ...theme.applyStyles('dark', {
-                backgroundColor: '#FBA957',
-            }),
-        },
-    }));
 
     useEffect(() => {
         let progressPercent = Math.floor((spend / limit) * 100)
-
         progressPercent = progressPercent > 100 ? 100 : progressPercent
-        // console.log(progressPercent)
+
         setProgressValue(progressPercent)
         const date = new Date()
         const convertDate = date.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })

@@ -1,5 +1,5 @@
 import Grid2 from "@mui/material/Grid2"
-import TotalBadge from "./TotalBadge";
+import TotalBadge from '@/app/components/ReportPage/TotalBadge';
 import { useEffect, useState } from "react";
 
 export default function TotalBadgeWarpper({ lists }) {
@@ -8,7 +8,7 @@ export default function TotalBadgeWarpper({ lists }) {
         income: 0,
         balance: 0
     })
-    
+
     useEffect(() => {
         if (lists.length > 0) {
             // if have data calculate total
@@ -33,7 +33,7 @@ export default function TotalBadgeWarpper({ lists }) {
     }, [lists])
 
     return (
-        <Grid2 size={4} container direction="column" justifyContent="space-between">
+        <Grid2 size={{ xs: 12, md: 4 }} container direction="column" justifyContent="space-between" gap={{ xs: 2, md: 0 }}>
             <TotalBadge type="Income" value={dashboardData.income}></TotalBadge>
             <TotalBadge type="Expend" value={dashboardData.expend}></TotalBadge>
             <TotalBadge type="Balance" value={dashboardData.balance}></TotalBadge>

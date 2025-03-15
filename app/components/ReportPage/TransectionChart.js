@@ -43,7 +43,7 @@ export default function TransectionChart({ lists }) {
 
 
     return (
-        <Grid2 size={8} bgcolor="background.paper" sx={{ borderRadius: '20px', py: 2, px: 4 }}>
+        <Grid2 size={{ xs: 12 , md: 8 }} bgcolor="background.paper" sx={{ borderRadius: '20px', py: 2, px: 4 }}>
             <Typography variant="h5" fontWeight="bold">Summary Chart</Typography>
             <BarChart
                 dataset={chartData}

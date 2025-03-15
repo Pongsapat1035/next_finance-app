@@ -1,16 +1,19 @@
 "use client"
 
-import ModalBox from "../../../components/ModalBox"
-import { useEffect, useState } from "react"
-import { Stack, TextField, InputAdornment, Select, MenuItem, Button } from "@mui/material"
+import ModalBox from "@/app/components/ModalBox"
+
+import Stack from "@mui/material/Stack"
+import TextField from "@mui/material/TextField"
+import InputAdornment from "@mui/material/InputAdornment"
+import Button from "@mui/material/Button"
 import CategoryRoundedIcon from '@mui/icons-material/CategoryRounded';
+import { useEffect, useState } from "react"
 import { useAuth } from "@/app/finance/authContext";
-import { EditCategory } from "@/app/finance/setting/action";
 import { useAlert } from "@/app/alertContext";
+import { EditCategory } from "@/app/finance/setting/action";
 
-
-export default function EditCategoryModal({ modalState, closeModal, value, deleteCategory }) {
-    const user = useAuth()
+export default function EditCategoryModal({ modalState, closeModal, value }) {
+    const { user } = useAuth()
     const { handleAlert } = useAlert()
     const [editData, setEditData] = useState({
         type: '',
@@ -49,7 +52,7 @@ export default function EditCategoryModal({ modalState, closeModal, value, delet
             const { type, category, index } = editData
             const userId = user.uuid
             const checkDuplicateCategory = allListsData.includes(category)
-            if(category === '') {
+            if (category === '') {
                 setInputError((prevState) => ({
                     ...prevState,
                     status: true,

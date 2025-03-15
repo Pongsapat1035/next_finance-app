@@ -1,32 +1,24 @@
 "use client"
 import Grid2 from '@mui/material/Grid2'
-
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 
-import TransectionBox from "@/app/finance/dashboard/components/TransectionBox";
-import SpendingBox from "@/app/finance/dashboard/components/SpendingBox";
-import WeeklyWrapper from "@/app/finance/dashboard/components/ChartWraper";
-import AddModal from "@/app/finance/dashboard/components/AddModal";
-import EditModal from "@/app/finance/dashboard/components/EditModal";
-import { TotalBox, TotalBalanceBox } from '@/app/finance/dashboard/components/SummaryBox'
+import TransectionBox from "@/app/components/DashboardPage/TransectionBox";
+import SpendingBox from "@/app/components/DashboardPage/SpendingBox";
+import WeeklyWrapper from "@/app/components/DashboardPage/ChartWraper";
+import EditModal from '@/app/components/DashboardPage/EditModal';
+
+import { TotalBox, TotalBalanceBox } from '@/app/components/DashboardPage/SummaryBox'
 
 import { useEffect, useState } from "react";
-import { getAllData, loadUserConfig } from "@/app/finance/dashboard/actions";
-import { useAuth } from '../authContext';
+import { getAllData } from "@/app/finance/dashboard/actions";
+import { useAuth } from '@/app/finance/authContext';
 
-export default function Page() {
-  const user = useAuth()
+function DashboardPage() {
+  const { user, userConfig } = useAuth()
   const [lists, setLists] = useState([])
   const [userId, setUserId] = useState('')
   const [isLoading, setIsLoading] = useState(true)
-  const [editModal, setEditModal] = useState(false)
-  const [newTranModal, setNewTranModal] = useState(false)
-  const [dashboardData, setDashboardData] = useState({
-    expend: 0,
-    income: 0,
-    balance: 0
-  })
   const [editData, setEditData] = useState({
     id: '',
     data: {
@@ -34,11 +26,14 @@ export default function Page() {
       amout: '',
       category: '',
       month: '',
+      description: ''
     }
   })
-  const [categoryLists, setCategoryLists] = useState({
-    expend: [],
-    income: []
+  const [editModal, setEditModal] = useState(false)
+  const [dashboardData, setDashboardData] = useState({
+    expend: 0,
+    income: 0,
+    balance: 0
   })
 
   const handleMonthSelect = async (month) => {
@@ -52,7 +47,6 @@ export default function Page() {
   const fetchData = async (uid, month) => {
     try {
       const response = await getAllData(uid, month)
-      const fetchCategory = await loadUserConfig(uid)
       const convertResponse = JSON.parse(response)
 
       convertResponse.forEach(element => {
@@ -60,82 +54,89 @@ export default function Page() {
         element.data.timeStamp = element.data.createdDate.seconds
       });
       setLists(convertResponse)
-      setCategoryLists(fetchCategory)
+
     } catch (error) {
       console.log(error)
     }
 
   }
 
+  const getDashboardData = () => {
+    // if have data calculate total
+    const expendSum = lists.filter((list) => list.data.type === 'expend').reduce((acc, currectVal) => acc + currectVal.data.amout, 0,)
+    const incomeSum = lists.filter((list) => list.data.type === 'income').reduce((acc, currectVal) => acc + currectVal.data.amout, 0,)
+    const balance = incomeSum - expendSum
+
+    setDashboardData({
+      income: incomeSum,
+      expend: expendSum,
+      balance: balance
+    })
+  }
+
   useEffect(() => {
-    // fetch data from first load
     if (user) {
       const date = new Date()
       const month = date.toLocaleDateString("en-US", { month: 'short', year: 'numeric' })
       fetchData(user.uuid, month)
       setUserId(user.uuid)
-
     }
   }, [user])
 
   useEffect(() => {
     if (lists.length > 0) {
-      // if have data calculate total
-      const expendSum = lists.filter((list) => list.data.type === 'expend').reduce((acc, currectVal) => acc + currectVal.data.amout, 0,)
-      const incomeSum = lists.filter((list) => list.data.type === 'income').reduce((acc, currectVal) => acc + currectVal.data.amout, 0,)
-      const balance = incomeSum - expendSum
-
+      getDashboardData()
+    } else {
       setDashboardData({
-        income: incomeSum,
-        expend: expendSum,
-        balance: balance
+        income: 0,
+        expend: 0,
+        balance: 0
       })
     }
   }, [lists])
-
   const handleEdit = (data) => {
     setEditData(data)
     setEditModal(!editModal)
   }
 
   return (
-    <Box height="auto">
-      <Grid2 container direction="row" spacing={3} sx={{ width: '100%' }}>
-        <Grid2 size={{ xs: 12, sm: 7, lg: 8 }}>
-          <Stack spacing={3} sx={{ height: '100%' }}>
-            <Grid2 container direction="row" spacing={3}>
-              <Grid2 size={6}>
-                <TotalBox type="income" amout={dashboardData.income}></TotalBox>
+    <>
+      <Box height="100vh" py={2}>
+        <Grid2 container direction="row" spacing={3} sx={{ width: '100%' }}>
+          <Grid2 size={{ xs: 12, sm: 7, lg: 8 }}>
+            <Stack spacing={3} sx={{ height: '100%' }}>
+              <Grid2 container direction="row" spacing={3}>
+                <Grid2 size={6}>
+                  <TotalBox type="income" amout={dashboardData.income}></TotalBox>
+                </Grid2>
+                <Grid2 size={6}>
+                  <TotalBox type="expend" amout={dashboardData.expend}></TotalBox>
+                </Grid2>
               </Grid2>
-              <Grid2 size={6}>
-                <TotalBox type="expend" amout={dashboardData.expend}></TotalBox>
-              </Grid2>
-            </Grid2>
-            <TransectionBox checkLoading={isLoading} setLoadingSuccess={() => setIsLoading(false)} lists={lists} handleMonth={handleMonthSelect} handleEdit={handleEdit}></TransectionBox>
-          </Stack>
+              <TransectionBox
+                checkLoading={isLoading}
+                setLoadingSuccess={() => setIsLoading(false)}
+                lists={lists}
+                handleMonth={handleMonthSelect}
+                handleEdit={handleEdit}>
+              </TransectionBox>
+            </Stack>
+          </Grid2>
+          <Grid2 size={{ sm: 5, lg: 4 }} container direction="column" spacing={3} sx={{ display: { xs: 'none', sm: 'flex' } }}>
+            <TotalBalanceBox amout={dashboardData.balance}></TotalBalanceBox>
+            <SpendingBox spend={dashboardData.expend} limit={userConfig.spendingLimit}></SpendingBox>
+            <WeeklyWrapper totalExpend={dashboardData.expend} lists={lists} categoryLists={userConfig.expend}></WeeklyWrapper>
+          </Grid2>
         </Grid2>
-        <Grid2 size={{ sm: 5, lg: 4 }} container direction="column" spacing={3} sx={{
-          display: {
-            xs: 'none',
-            sm: 'flex'
-          }
-        }}>
-          <TotalBalanceBox amout={dashboardData.balance} toggleModal={() => setNewTranModal(!newTranModal)}></TotalBalanceBox>
-          <SpendingBox spend={dashboardData.expend} limit={categoryLists.spendingLimit}></SpendingBox>
-          <WeeklyWrapper totalExpend={dashboardData.expend} lists={lists} categoryLists={categoryLists.expend}></WeeklyWrapper>
-        </Grid2>
-      </Grid2>
-      <EditModal
-        state={editModal}
-        closeModal={() => setEditModal(!editModal)}
-        recieveData={editData}
-        category={categoryLists}
-        uid={userId}></EditModal>
-      <AddModal
-        state={newTranModal}
-        closeModal={() => setNewTranModal(!newTranModal)}
-        configData={categoryLists}
-        uid={userId}></AddModal>
-    </Box>
+        <EditModal
+          state={editModal}
+          closeModal={() => setEditModal(!editModal)}
+          recieveData={editData}
+          category={userConfig}
+          uid={userId}></EditModal>
+      </Box>
+    </>
   )
 }
+
+export default DashboardPage

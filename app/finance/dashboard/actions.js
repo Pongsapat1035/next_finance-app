@@ -1,6 +1,6 @@
 "use server"
 
-import { doc, collection, getDoc, getDocs, addDoc, deleteDoc, setDoc, runTransaction } from "firebase/firestore";
+import { doc, collection, getDocs, addDoc, deleteDoc, setDoc, runTransaction } from "firebase/firestore";
 import { db } from "@/app/firebase";
 
 export async function getAllData(uid, month) {
@@ -27,7 +27,7 @@ export async function getTotalReport(uid) {
         const docRef = collection(db, "financeTrack", uid, "total")
         const docSnap = await getDocs(docRef);
         const result = docSnap.docs.map((doc) => doc.data())
-       
+
         return result
     } catch (error) {
         console.log('error from get doc : ', error)
@@ -50,7 +50,7 @@ export async function createTransection(data) {
     try {
         const userId = data.userid
         const date = new Date(data.createdDate)
-        const getMonthFormat = date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
+        const getMonth = date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
 
         const convertData = {
             type: data.type,
@@ -62,22 +62,20 @@ export async function createTransection(data) {
 
         await runTransaction(db, async (transaction) => {
             // financeTrack/uid/total/month
-            const totalDocRef = doc(db, "financeTrack", userId, "total", getMonthFormat)
+            const totalDocRef = doc(db, "financeTrack", userId, "total", getMonth)
             const totalDoc = await transaction.get(totalDocRef);
             if (!totalDoc.exists()) {
                 // create new total
                 const amout = convertData.amout
-                // console.log('check type : ', typeof (amout))
-                // console.log('check amout : ', amout)
                 transaction.set(totalDocRef, ({ [convertData.type]: amout, year: date.getFullYear(), monthIndex: date.getMonth() }))
             } else {
                 // update exit total
                 const newTotal = (totalDoc.data()[convertData.type] || 0) + convertData.amout
                 transaction.update(totalDocRef, { [convertData.type]: newTotal });
             }
-
         });
-        const docRef = collection(db, "financeTrack", userId, getMonthFormat)
+
+        const docRef = collection(db, "financeTrack", userId, getMonth)
         await addDoc(docRef, convertData)
         return { status: 201, msg: 'create new transection success !!' }
 
@@ -87,22 +85,40 @@ export async function createTransection(data) {
     }
 }
 
-
 export async function updateData(data) {
     try {
         const userId = data.userid
         const docId = data.docid
         const date = new Date(data.createdDate)
         const getMonth = date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
-
+        const getPrevMonth = new Date(data.prevDate).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
+        console.log()
         const convertData = {
             type: data.type,
             category: data.category,
-            amout: data.amout,
-            createdDate: date
+            amout: parseInt(data.amout),
+            createdDate: date,
+            description: data.description
         }
-        console.log('check convert data before update : ', convertData)
-        console.log('check getMonth : ', getMonth)
+
+        await runTransaction(db, async (transaction) => {
+            const prevDocRef = doc(db, "financeTrack", userId, getPrevMonth, docId)
+            const prevDoc = await transaction.get(prevDocRef);
+            console.log('recieved Doc : ', prevDoc.data())
+            // financeTrack/uid/total/month
+            const totalDocRef = doc(db, "financeTrack", userId, "total", getMonth)
+            const totalDoc = await transaction.get(totalDocRef);
+            if (!totalDoc.exists()) {
+                // create new total
+                const amout = convertData.amout
+                transaction.set(totalDocRef, ({ [convertData.type]: amout, year: date.getFullYear(), monthIndex: date.getMonth() }))
+            } else {
+                // update exit total
+                const newTotal = (totalDoc.data()[convertData.type] || 0) + convertData.amout
+                transaction.update(totalDocRef, { [convertData.type]: newTotal });
+            }
+        });
+
         const docRef = doc(db, "financeTrack", userId, getMonth, docId)
         await setDoc(docRef, convertData);
 
@@ -114,14 +130,3 @@ export async function updateData(data) {
     }
 }
 
-export async function loadUserConfig(userId) {
-    try {
-        const docRef = doc(db, "userConfig", userId);
-        const querySnapshot = await getDoc(docRef);
-        const result = querySnapshot.data()
-        // console.log(querySnapshot.data())
-        return result
-    } catch (error) {
-        console.log('error')
-    }
-}

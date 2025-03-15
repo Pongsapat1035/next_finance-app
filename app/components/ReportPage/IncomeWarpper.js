@@ -48,7 +48,7 @@ export default function IncomeWarpper({ lists }) {
     }, [lists])
 
     return (
-        <Grid2 container direction="column" gap={2} size={6} sx={{ bgcolor: 'background.paper', borderRadius: '15px', p: 4 }}>
+        <Grid2 container direction="column" gap={2} size={{ xs: 12, md: 6 }} sx={{ bgcolor: 'background.paper', borderRadius: '15px', p: 4 }}>
             <Typography variant="h5" fontWeight="bold" >Income Overview</Typography>
             <Typography variant="h4" color="text.primary" fontWeight="light">{incomeValue.toLocaleString()} THB</Typography>
             <Stack direction="row" height="10px" borderRadius={20} overflow="hidden" gap="2px">

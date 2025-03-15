@@ -19,7 +19,7 @@ export async function LoadUserConfig(userId) {
 
 export async function AddCategory(type, data, id) {
     try {
-        console.log('check recieved data : ', data + '/' + id)
+        // console.log('check recieved data : ', data + '/' + id)
         const docRef = doc(db, "userConfig", id)
         const response = await updateDoc(docRef, {
             [type]: arrayUnion(data)

@@ -11,6 +11,7 @@ import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import InputAdornment from '@mui/material/InputAdornment';
 import MonetizationOnRoundedIcon from '@mui/icons-material/MonetizationOnRounded';
+import DescriptionRoundedIcon from '@mui/icons-material/DescriptionRounded';
 
 import { updateData } from "@/app/finance/dashboard/actions"
 import { deleteDocFormId } from "@/app/finance/dashboard/actions";
@@ -31,7 +32,8 @@ const EditModal = ({ state, category, closeModal, recieveData, uid }) => {
         amout: '',
         month: '',
     })
-
+    const [prevDate, setPrevDate] = useState('')
+    console.log(recieveData)
     const [confirmModal, setConfirmModal] = useState(false)
 
     const handleChange = (e) => {
@@ -72,7 +74,9 @@ const EditModal = ({ state, category, closeModal, recieveData, uid }) => {
                 type: data.get('type'),
                 amout: data.get('amout'),
                 category: data.get('category'),
-                createdDate: data.get('date')
+                createdDate: data.get('date'),
+                description: data.get('description'),
+                prevDate
             }
             // console.log('check recieved data : ', listData)
             if (listData.category === 'select category') {
@@ -94,14 +98,13 @@ const EditModal = ({ state, category, closeModal, recieveData, uid }) => {
         }
     }
 
-    // console.log(formData)
     useEffect(() => {
         // prevent mutation 
         const cloneData = JSON.parse(JSON.stringify(recieveData));
         const createdDate = cloneData.data.timeStamp
         setDocId(cloneData.id)
         setDate(dayjs(createdDate * 1000))
-
+        setPrevDate(createdDate)
         const getMonth = new Date(createdDate * 1000).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
         const docData = cloneData.data
         const checkExitCategory = category['expend'].includes(docData.category) || category['income'].includes(docData.category)
@@ -111,7 +114,8 @@ const EditModal = ({ state, category, closeModal, recieveData, uid }) => {
             type: docData.type,
             category: checkExitCategory ? docData.category : 'select category',
             amout: docData.amout,
-            month: getMonth
+            month: getMonth,
+            description: docData.description
         }))
     }, [recieveData])
 
@@ -120,6 +124,17 @@ const EditModal = ({ state, category, closeModal, recieveData, uid }) => {
             <form onSubmit={submitForm}>
                 <Grid2 container spacing={2} direction={"column"}>
                     <DatePicker name="date" value={date} maxDate={dayjs()} onChange={(newValue) => setDate(newValue)} />
+                    <TextField id="outlined-basic" name="description" value={formData.description} onChange={handleChange}
+                        slotProps={{
+                            input: {
+                                startAdornment: (
+                                    <InputAdornment position="start">
+                                        <DescriptionRoundedIcon />
+                                    </InputAdornment>
+                                ),
+                            },
+                        }}
+                        type="text" variant="outlined" placeholder="Description" required />
                     <Grid2 container direction="row" gap={2}>
                         <Grid2 size={6}>
                             <TextField id="outlined-basic" name="amout"

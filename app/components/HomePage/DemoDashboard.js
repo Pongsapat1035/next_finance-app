@@ -3,10 +3,10 @@ import Grid2 from '@mui/material/Grid2'
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 
-import TransectionBox from "@/app/finance/dashboard/components/TransectionBox";
-import SpendingBox from "@/app/finance/dashboard/components/SpendingBox";
-import WeeklyWrapper from "@/app/finance/dashboard/components/ChartWraper";
-import { TotalBox, TotalBalanceBox } from '@/app/finance/dashboard/components/SummaryBox'
+import TransectionBox from "@/app/components/DashboardPage/TransectionBox";
+import SpendingBox from "@/app/components/DashboardPage/SpendingBox";
+import WeeklyWrapper from "@/app/components/DashboardPage/ChartWraper";
+import { TotalBox, TotalBalanceBox } from '@/app/components/DashboardPage/SummaryBox'
 
 export default function DemoDashboard() {
     const lists = [

@@ -1,25 +1,33 @@
 "use client"
-import { Stack, Typography, Button, Grid2 } from "@mui/material"
-import { useState } from "react"
-import { AddCategory, DeleteCategory } from '@/app/finance/setting/action'
-import AddCateModal from "@/app/finance/setting/components/AddCateModal"
 
-import EditCategoryModal from "./EditCategoryModal"
-import ConfirmDeleteModal from "@/app/components/ConfirmModal"
-import { useAlert } from "@/app/alertContext"
+import Stack from "@mui/material/Stack"
+import Typography from "@mui/material/Typography"
+import Button from "@mui/material/Button"
+import Grid2 from "@mui/material/Grid2"
 import Skeleton from "@mui/material/Skeleton"
 
-export default function CategoryForm({ isLoading, lists, userId }) {
+import { useState } from "react"
+import { AddCategory, DeleteCategory } from '@/app/finance/setting/action'
+import { useAlert } from "@/app/alertContext"
 
+import AddCateModal from "@/app/components/SettingPage/AddCateModal"
+import EditCategoryModal from "./EditCategoryModal"
+import ConfirmDeleteModal from "@/app/components/ConfirmModal"
+
+export default function CategoryForm({ isLoading, lists, userId }) {
     const { handleAlert } = useAlert()
     const [addModalState, setAddModalState] = useState(false)
-    const skeletoLists = new Array(4).fill('')
+    const skeletoLists = new Array(6).fill('')
+
     const handleCreateCategory = async (type, category) => {
         try {
-            const response = await AddCategory(type, category, userId)
-            console.log('response from add category : ', response)
             setAddModalState(false)
-
+            const checkDuplicate = lists[type].includes(category)
+            if (checkDuplicate) {
+                handleAlert('error', `Create ${category} fail duplicate category`)
+                return
+            }
+            await AddCategory(type, category, userId)
             handleAlert('success', `Create ${category} successful`)
             setTimeout(() => window.location.reload(), 1000)
         } catch (error) {
@@ -29,19 +37,13 @@ export default function CategoryForm({ isLoading, lists, userId }) {
 
     const handleDelete = async (type, item) => {
         try {
-            console.log('recieved item : ', item)
-            const response = await DeleteCategory(type, item, userId)
-            // alert('delete success')
-
+            await DeleteCategory(type, item, userId)
             handleAlert('success', `Delete ${item} successful`)
-            // window.location.reload()
             setTimeout(() => window.location.reload(), 1000)
-            console.log('response from add category : ', response)
         } catch (error) {
             console.log('error from add new category : ', error)
         }
     }
-
 
     return (
         <Stack gap={2}>
@@ -50,7 +52,7 @@ export default function CategoryForm({ isLoading, lists, userId }) {
                 Create and manage your own income and expense categories to better organize your finances.
             </Typography>
             <Button variant="contained" onClick={() => setAddModalState(true)} sx={{ borderRadius: '8px', maxWidth: '200px' }}>Create category</Button>
-            <Grid2 container width="80%">
+            <Grid2 container width={{ xs: '90%', md: '80%' }} gap={1} >
                 <Grid2 container direction="column" gap={2} size={{ xs: 12, sm: 6 }}>
                     <Typography variant="h6" fontWeight="bold">Expend</Typography>
                     {

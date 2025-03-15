@@ -10,14 +10,14 @@ export default function FinanceOverview({ lists }) {
     const [chartData, setChartData] = useState([])
 
     useEffect(() => {
-
         // prevent mutaion
-        const listsData = JSON.parse(JSON.stringify(lists))
-        listsData.forEach(el => el.monthIndex++)
+        if (lists.length > 0) {
+            const listsData = JSON.parse(JSON.stringify(lists))
+            listsData.forEach(el => el.monthIndex++)
 
-        listsData.sort((a, b) => a.monthIndex - b.monthIndex)
-        setChartData(listsData)
-
+            listsData.sort((a, b) => a.monthIndex - b.monthIndex)
+            setChartData(listsData)
+        }
     }, [lists])
 
     const convertMonthToString = (month) => {

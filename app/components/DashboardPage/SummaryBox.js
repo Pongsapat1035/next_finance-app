@@ -10,6 +10,8 @@ import TotalIcon from '@/public/icons/account_balance_wallet.png'
 
 import Image from "next/image";
 
+import { useAuth } from "../../finance/authContext";
+
 const TotalBox = ({ type = 'income', amout = 0 }) => {
     return (
         <Paper sx={{ p: 3 }}>
@@ -34,7 +36,8 @@ const TotalBox = ({ type = 'income', amout = 0 }) => {
     )
 }
 
-const TotalBalanceBox = ({ amout = 0, toggleModal }) => {
+const TotalBalanceBox = ({ amout = 0 }) => {
+    const { toggleCreateModal } = useAuth()
     return (
         <Paper>
             <Stack padding={3} rowGap={1}>
@@ -51,7 +54,7 @@ const TotalBalanceBox = ({ amout = 0, toggleModal }) => {
                     </Typography>
                     <Typography variant="h3" >{amout.toLocaleString()}</Typography>
                 </Stack>
-                <Button variant="contained" sx={{ borderRadius: 2 }} onClick={toggleModal}>
+                <Button variant="contained" sx={{ borderRadius: 2 }} onClick={toggleCreateModal}>
                     New transection
                 </Button>
             </Stack>
