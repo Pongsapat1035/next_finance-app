@@ -16,7 +16,6 @@ export async function loadUserConfig(userId) {
         const docRef = doc(db, "userConfig", userId);
         const querySnapshot = await getDoc(docRef);
         const result = querySnapshot.data()
-        // console.log(querySnapshot.data())
         return result
     } catch (error) {
         console.log('error')

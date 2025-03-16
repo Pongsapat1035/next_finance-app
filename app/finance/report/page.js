@@ -5,7 +5,7 @@ import Typography from "@mui/material/Typography";
 import TotalBadgeWarpper from "../../components/ReportPage/TotalBadgeWarpper";
 import IncomeWarpper from "../../components/ReportPage/IncomeWarpper";
 import ExpendWarpper from "../../components/ReportPage/ExpendWarpper";
-import FinanceOverview from "../../components/ReportPage/MonthlyWarpper";
+import FinanceOverview from "../../components/ReportPage/YearlyOverview";
 import TransectionChart from "../../components/ReportPage/TransectionChart";
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
@@ -20,7 +20,7 @@ const ReportPage = () => {
     const [date, setDate] = useState(dayjs())
     const [lists, setLists] = useState([])
     const [totalLists, setTotalLsits] = useState([])
-
+    
     const handleChangeMonth = (data) => {
         setDate(data)
         const date = new Date(data)
@@ -57,7 +57,7 @@ const ReportPage = () => {
             const date = new Date()
             const month = date.toLocaleDateString("en-US", { month: 'short', year: 'numeric' })
             fetchData(user.uuid, month)
-            fetchTotalMonth(user.uuid)
+            // fetchTotalMonth(user.uuid, 2025)
         }
     }, [user])
 

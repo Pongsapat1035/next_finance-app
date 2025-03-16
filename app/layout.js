@@ -140,7 +140,6 @@ const theme = createTheme({
 });
 
 export default function RootLayout({ children }) {
-  console.log('from main layout')
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
@@ -148,13 +147,13 @@ export default function RootLayout({ children }) {
       </head>
       <body>
         <ThemeProvider theme={theme}>
-         
-            <AlertProvider>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                {children}
-              </LocalizationProvider>
-            </AlertProvider>
-      
+
+          <AlertProvider>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              {children}
+            </LocalizationProvider>
+          </AlertProvider>
+
         </ThemeProvider>
       </body>
     </html>

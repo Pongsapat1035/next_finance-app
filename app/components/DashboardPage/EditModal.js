@@ -33,7 +33,7 @@ const EditModal = ({ state, category, closeModal, recieveData, uid }) => {
         month: '',
     })
     const [prevDate, setPrevDate] = useState('')
-    console.log(recieveData)
+    // console.log(formData)
     const [confirmModal, setConfirmModal] = useState(false)
 
     const handleChange = (e) => {
@@ -50,9 +50,10 @@ const EditModal = ({ state, category, closeModal, recieveData, uid }) => {
         }))
     }
 
-    const handleDelete = async (uid, docId, month) => {
+    const handleDelete = async (uid, docId) => {
         try {
-            const resposne = await deleteDocFormId(uid, docId, month)
+            const { month, amout, type } = formData
+            const resposne = await deleteDocFormId(uid, docId, { month, amout, type })
             if (resposne.status === 200) {
                 handleAlert('success', 'Transection is deleted')
                 closeModal()
@@ -178,7 +179,7 @@ const EditModal = ({ state, category, closeModal, recieveData, uid }) => {
                 header="Delete"
                 state={confirmModal}
                 closeState={() => setConfirmModal(false)}
-                action={() => handleDelete(uid, docId, formData.month)}>
+                action={() => handleDelete(uid, docId)}>
             </ConfirmModal>
         </ModalBox>
     )

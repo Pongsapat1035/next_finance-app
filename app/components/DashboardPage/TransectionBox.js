@@ -17,11 +17,9 @@ const TransectionBox = ({ checkLoading, setLoadingSuccess, lists, handleMonth, h
     const [listsData, setListsData] = useState([])
     const skeletoLists = new Array(8).fill('')
 
-    const handleChangeMonth = (data) => {
-        setDate(data)
-        const date = new Date(data)
-        const getMonth = date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
-        handleMonth(getMonth)
+    const handleChangeMonth = (newDate) => {
+        setDate(newDate)
+        handleMonth(newDate)
     }
 
     const convertTimestamp = () => {
@@ -35,6 +33,8 @@ const TransectionBox = ({ checkLoading, setLoadingSuccess, lists, handleMonth, h
             const sortLists = lists.sort((a, b) => b.data.timeStamp - a.data.timeStamp)
             // console.log("check list : ", lists)
             setListsData(sortLists)
+        } else{
+            setListsData([])
         }
         setLoadingSuccess()
     }

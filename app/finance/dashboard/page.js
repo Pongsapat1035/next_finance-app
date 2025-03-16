@@ -13,6 +13,7 @@ import { TotalBox, TotalBalanceBox } from '@/app/components/DashboardPage/Summar
 import { useEffect, useState } from "react";
 import { getAllData } from "@/app/finance/dashboard/actions";
 import { useAuth } from '@/app/finance/authContext';
+import dayjs from 'dayjs';
 
 function DashboardPage() {
   const { user, userConfig } = useAuth()
@@ -35,17 +36,22 @@ function DashboardPage() {
     income: 0,
     balance: 0
   })
+  const [monthPeriod, setMonthPeriod] = useState(dayjs())
 
-  const handleMonthSelect = async (month) => {
-    try {
-      await fetchData(userId, month)
-    } catch (error) {
-      console.log('error from fetch data : ', error)
+  const handleMonthChange = (newDate) => {
+    if (newDate) {
+      setMonthPeriod(newDate)
+      fetchData(userId, newDate)
     }
   }
 
-  const fetchData = async (uid, month) => {
+
+  const fetchData = async (uid, newDate) => {
     try {
+      const selectedMonth = newDate ? newDate : monthPeriod
+      const date = new Date(selectedMonth)
+      const month = date.toLocaleDateString("en-US", { month: 'short', year: 'numeric' })
+
       const response = await getAllData(uid, month)
       const convertResponse = JSON.parse(response)
 
@@ -54,11 +60,9 @@ function DashboardPage() {
         element.data.timeStamp = element.data.createdDate.seconds
       });
       setLists(convertResponse)
-
     } catch (error) {
       console.log(error)
     }
-
   }
 
   const getDashboardData = () => {
@@ -76,9 +80,7 @@ function DashboardPage() {
 
   useEffect(() => {
     if (user) {
-      const date = new Date()
-      const month = date.toLocaleDateString("en-US", { month: 'short', year: 'numeric' })
-      fetchData(user.uuid, month)
+      fetchData(user.uuid)
       setUserId(user.uuid)
     }
   }, [user])
@@ -94,6 +96,7 @@ function DashboardPage() {
       })
     }
   }, [lists])
+
   const handleEdit = (data) => {
     setEditData(data)
     setEditModal(!editModal)
@@ -117,7 +120,7 @@ function DashboardPage() {
                 checkLoading={isLoading}
                 setLoadingSuccess={() => setIsLoading(false)}
                 lists={lists}
-                handleMonth={handleMonthSelect}
+                handleMonth={handleMonthChange}
                 handleEdit={handleEdit}>
               </TransectionBox>
             </Stack>

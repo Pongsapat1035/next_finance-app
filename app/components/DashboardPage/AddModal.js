@@ -51,6 +51,8 @@ const AddModal = ({ state = false, closeModal, category, uid }) => {
                 // create transection success
                 handleAlert('success', 'add new transection success')
                 closeModal()
+
+                // call fetch data
                 setTimeout(() => {
                     window.location.reload()
                 }, 1000);

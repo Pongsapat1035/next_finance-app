@@ -5,22 +5,35 @@ import Typography from "@mui/material/Typography";
 import { LineChart } from '@mui/x-charts/LineChart';
 import { useEffect, useState } from "react";
 import { chartColors } from "@/app/util/FormatChart";
+import { useAuth } from "@/app/finance/authContext";
+import { getTotalReport } from "@/app/finance/dashboard/actions";
 
-export default function FinanceOverview({ lists }) {
+export default function YearlyOverview() {
+    const { user } = useAuth()
     const [chartData, setChartData] = useState([])
 
-    useEffect(() => {
-        // prevent mutaion
-        if (lists.length > 0) {
-            const listsData = JSON.parse(JSON.stringify(lists))
-            listsData.forEach(el => el.monthIndex++)
+    const fetchTotalLists = async (uid, year) => {
+        const response = await getTotalReport(uid, year)
+        console.log('check response : ', response)
 
-            listsData.sort((a, b) => a.monthIndex - b.monthIndex)
-            setChartData(listsData)
+        if (response.length > 0) {
+            response.forEach(el => el.monthIndex++)
+            response.sort((a, b) => a.monthIndex - b.monthIndex)
+            console.log('sorted resposne : ', response)
+            setChartData(response)
         }
-    }, [lists])
+    }
+
+    useEffect(() => {
+        if (user) {
+            console.log(user)
+            fetchTotalLists(user.uuid, 2025)
+        }
+
+    }, [user])
 
     const convertMonthToString = (month) => {
+        // console.log(month)
         switch (month) {
             case 1:
                 return "Jan"
@@ -49,11 +62,12 @@ export default function FinanceOverview({ lists }) {
             default:
                 return ""
         }
+
     }
 
     return (
         <Grid2 size={12} container direction="column" bgcolor="background.paper" spacing={1} borderRadius="15px" p={4} >
-            <Typography variant="h5" fontWeight="bold">Monthly overview</Typography>
+            <Typography variant="h5" fontWeight="bold">Yearly overview</Typography>
             <LineChart
                 xAxis={[{
                     dataKey: "monthIndex", valueFormatter: (value) => convertMonthToString(value),
