@@ -70,14 +70,13 @@ function DashboardPage() {
     const expendSum = lists.filter((list) => list.data.type === 'expend').reduce((acc, currectVal) => acc + currectVal.data.amout, 0,)
     const incomeSum = lists.filter((list) => list.data.type === 'income').reduce((acc, currectVal) => acc + currectVal.data.amout, 0,)
     const balance = incomeSum - expendSum
-
     setDashboardData({
       income: incomeSum,
       expend: expendSum,
       balance: balance
     })
   }
-
+ 
   useEffect(() => {
     if (user) {
       fetchData(user.uuid)
@@ -100,6 +99,20 @@ function DashboardPage() {
   const handleEdit = (data) => {
     setEditData(data)
     setEditModal(!editModal)
+  }
+  const handleCloseEdit = () => {
+    setEditModal(false)
+    // reset value
+    setEditData({
+      id: '',
+      data: {
+        type: '',
+        amout: '',
+        category: '',
+        month: '',
+        description: ''
+      }
+    })
   }
 
   return (
@@ -133,7 +146,7 @@ function DashboardPage() {
         </Grid2>
         <EditModal
           state={editModal}
-          closeModal={() => setEditModal(!editModal)}
+          closeModal={handleCloseEdit}
           recieveData={editData}
           category={userConfig}
           uid={userId}></EditModal>

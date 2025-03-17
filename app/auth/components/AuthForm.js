@@ -73,8 +73,8 @@ export default function AuthForm() {
             if (response.status === 200) {
                 handleAlert('success', `Welcome ${response.name}`)
                 router.push('/finance/dashboard')
-            } else if(response.status === 400) {
-                handleAlert('error', `user not found`)
+            } else {
+                handleAlert('error', response.message)
             }
         } catch (error) {
             handleAlert('error', error.message)

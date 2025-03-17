@@ -32,7 +32,7 @@ export default function TransectionChart({ lists }) {
             })
             data.push(filterData)
         })
-        console.log(data)
+        // console.log(data)
         setDateLists(dateLists)
         setChartData(data)
     }

@@ -123,6 +123,9 @@ export async function updateData(data) {
             const oldTotalDocRef = doc(db, "financeTrack", userId, "total", prevMonth)
             const oldTotalDoc = await transaction.get(oldTotalDocRef);
 
+            const newtotalDocRef = doc(db, "financeTrack", userId, "total", newMonth)
+            const newtotalDoc = await transaction.get(newtotalDocRef);
+
             // remove old amout from total
             const newTotal = (oldTotalDoc.data()[prevData.type] - prevData.amout)
             transaction.update(oldTotalDocRef, { [prevData.type]: newTotal });
@@ -132,8 +135,7 @@ export async function updateData(data) {
                 transaction.delete(doc(db, "financeTrack", userId, prevMonth, docId));
             }
 
-            const newtotalDocRef = doc(db, "financeTrack", userId, "total", newMonth)
-            const newtotalDoc = await transaction.get(newtotalDocRef);
+           
 
             if (!newtotalDoc.exists()) {
                 // create new total

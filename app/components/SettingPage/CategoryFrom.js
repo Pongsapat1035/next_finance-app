@@ -52,7 +52,7 @@ export default function CategoryForm({ isLoading, lists, userId }) {
                 Create and manage your own income and expense categories to better organize your finances.
             </Typography>
             <Button variant="contained" onClick={() => setAddModalState(true)} sx={{ borderRadius: '8px', maxWidth: '200px' }}>Create category</Button>
-            <Grid2 container width={{ xs: '90%', md: '80%' }} gap={1} >
+            <Grid2 container width={{ xs: '90%', md: '80%' }} gap={{ xs: 1, sm: 0 }} >
                 <Grid2 container direction="column" gap={2} size={{ xs: 12, sm: 6 }}>
                     <Typography variant="h6" fontWeight="bold">Expend</Typography>
                     {

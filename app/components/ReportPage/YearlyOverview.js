@@ -2,38 +2,54 @@
 
 import Grid2 from "@mui/material/Grid2";
 import Typography from "@mui/material/Typography";
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+
 import { LineChart } from '@mui/x-charts/LineChart';
 import { useEffect, useState } from "react";
 import { chartColors } from "@/app/util/FormatChart";
 import { useAuth } from "@/app/finance/authContext";
 import { getTotalReport } from "@/app/finance/dashboard/actions";
+import { Stack } from "@mui/material";
 
 export default function YearlyOverview() {
     const { user } = useAuth()
     const [chartData, setChartData] = useState([])
+    const [year, setYear] = useState(2025)
+    const [yearLists, setYearLists] = useState([])
 
     const fetchTotalLists = async (uid, year) => {
         const response = await getTotalReport(uid, year)
-        console.log('check response : ', response)
 
         if (response.length > 0) {
             response.forEach(el => el.monthIndex++)
             response.sort((a, b) => a.monthIndex - b.monthIndex)
-            console.log('sorted resposne : ', response)
             setChartData(response)
+        } else {
+            setChartData([])
         }
+    }
+
+    const handleYearChange = (e) => {
+        const newYear = e.target.value
+        setYear(newYear)
+        fetchTotalLists(user.uuid, newYear)
     }
 
     useEffect(() => {
         if (user) {
-            console.log(user)
-            fetchTotalLists(user.uuid, 2025)
+            let thisYear = new Date().getFullYear()
+            fetchTotalLists(user.uuid, thisYear)
+            for (let i = 0; i < 5; i++) {
+                yearLists.push(thisYear)
+                thisYear--
+            }
         }
-
     }, [user])
 
     const convertMonthToString = (month) => {
-        // console.log(month)
         switch (month) {
             case 1:
                 return "Jan"
@@ -67,7 +83,23 @@ export default function YearlyOverview() {
 
     return (
         <Grid2 size={12} container direction="column" bgcolor="background.paper" spacing={1} borderRadius="15px" p={4} >
-            <Typography variant="h5" fontWeight="bold">Yearly overview</Typography>
+            <Stack direction="row" justifyContent="space-between">
+                <Typography variant="h5" fontWeight="bold">Yearly overview</Typography>
+                <FormControl>
+                    <InputLabel id="demo-simple-select-label">Year</InputLabel>
+                    <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={year}
+                        label="Year"
+                        onChange={handleYearChange}
+                    >
+                        {
+                            yearLists.map((el, index) => <MenuItem value={el} key={index}>{el}</MenuItem>)
+                        }
+                    </Select>
+                </FormControl>
+            </Stack>
             <LineChart
                 xAxis={[{
                     dataKey: "monthIndex", valueFormatter: (value) => convertMonthToString(value),

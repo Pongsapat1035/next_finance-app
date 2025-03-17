@@ -38,6 +38,7 @@ const TotalBox = ({ type = 'income', amout = 0 }) => {
 
 const TotalBalanceBox = ({ amout = 0 }) => {
     const { toggleCreateModal } = useAuth()
+
     return (
         <Paper>
             <Stack padding={3} rowGap={1}>

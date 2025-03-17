@@ -33,7 +33,7 @@ const EditModal = ({ state, category, closeModal, recieveData, uid }) => {
         month: '',
     })
     const [prevDate, setPrevDate] = useState('')
-    // console.log(formData)
+
     const [confirmModal, setConfirmModal] = useState(false)
 
     const handleChange = (e) => {
@@ -67,6 +67,7 @@ const EditModal = ({ state, category, closeModal, recieveData, uid }) => {
 
     const submitForm = async (e) => {
         e.preventDefault();
+        setErrorCategory(false)
         try {
             const data = new FormData(e.target)
             const listData = {

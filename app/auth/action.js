@@ -33,7 +33,11 @@ export async function Register(userData) {
         return { status: 200, message: `Register success!!"`, name }
 
     } catch (error) {
-        console.log('register error : ', error)
+        console.log('register error : ', error.code)
+        if(error.code === "auth/email-already-in-use") {
+            return { status: 409, message: "email is already in use" }
+        }
+
         return { status: false, message: error }
     }
 }
