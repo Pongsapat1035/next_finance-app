@@ -22,6 +22,17 @@ export async function getAllData(uid, month) {
     }
 }
 
+export async function getDashboardData(lists) {
+    const expendSum = lists.filter((list) => list.data.type === 'expend').reduce((acc, currectVal) => acc + currectVal.data.amout, 0,)
+    const incomeSum = lists.filter((list) => list.data.type === 'income').reduce((acc, currectVal) => acc + currectVal.data.amout, 0,)
+    const balance = incomeSum - expendSum
+    return {
+        income: incomeSum,
+        expend: expendSum,
+        balance: balance
+    }
+}
+
 export async function getTotalReport(uid, year) {
     try {
         console.log('recieved data : ', uid + '/' + year)
@@ -96,6 +107,22 @@ export async function createTransection(data) {
     }
 }
 
+export async function getTransection(userId, month, id) {
+    try {
+        const docRef = doc(db, "financeTrack", userId, month, id)
+        const docSnap = await getDoc(docRef)
+        if (docSnap.exists()) {
+            const data = docSnap.data()
+            data.createdDate = data.createdDate.toDate()
+            return JSON.stringify(data)
+        } else {
+            throw new Error("Doc not found !")
+        }
+    } catch (error) {
+        console.log("error from get a transection : ", error)
+    }
+}
+
 export async function updateData(data) {
     try {
         const userId = data.userid
@@ -134,8 +161,6 @@ export async function updateData(data) {
                 // user change month remove old transection 
                 transaction.delete(doc(db, "financeTrack", userId, prevMonth, docId));
             }
-
-           
 
             if (!newtotalDoc.exists()) {
                 // create new total

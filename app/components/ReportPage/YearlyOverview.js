@@ -17,8 +17,10 @@ import { Stack } from "@mui/material";
 export default function YearlyOverview() {
     const { user } = useAuth()
     const [chartData, setChartData] = useState([])
-    const [year, setYear] = useState(2025)
-    const [yearLists, setYearLists] = useState([])
+    const thisYear = new Date().getFullYear();
+    const initialYearLists = Array.from({ length: 5 }, (_, i) => (thisYear - i).toString());
+
+    const [year, setYear] = useState(initialYearLists[0])
 
     const fetchTotalLists = async (uid, year) => {
         const response = await getTotalReport(uid, year)
@@ -40,12 +42,7 @@ export default function YearlyOverview() {
 
     useEffect(() => {
         if (user) {
-            let thisYear = new Date().getFullYear()
-            fetchTotalLists(user.uuid, thisYear)
-            for (let i = 0; i < 5; i++) {
-                yearLists.push(thisYear)
-                thisYear--
-            }
+            fetchTotalLists(user.uuid, year)
         }
     }, [user])
 
@@ -95,7 +92,7 @@ export default function YearlyOverview() {
                         onChange={handleYearChange}
                     >
                         {
-                            yearLists.map((el, index) => <MenuItem value={el} key={index}>{el}</MenuItem>)
+                            initialYearLists.map((el, index) => <MenuItem value={el} key={index}>{el}</MenuItem>)
                         }
                     </Select>
                 </FormControl>

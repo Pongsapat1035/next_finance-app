@@ -47,7 +47,6 @@ const SpendingBox = ({ spend = 0, limit = 0 }) => {
 
     return (
         <Paper sx={{ p: 3 }}>
-            {/* this is spendingbox */}
             <Stack spacing={1}                                  >
                 <Stack direction="row" justifyContent="space-between">
                     <Stack>

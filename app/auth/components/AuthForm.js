@@ -45,7 +45,7 @@ export default function AuthForm() {
             const token = await result.user.getIdToken()
             const userId = result.user.uid
             await CreateUserConfig(userId)
-            // console.log('google login', result)
+            
             await storeCookie(token)
             handleAlert('success', 'Login success')
             router.push('/finance/dashboard')
@@ -68,6 +68,9 @@ export default function AuthForm() {
                 email: formData.get('email'),
                 password: formData.get('password'),
                 name: formData.get('name') || ''
+            }
+            if (userData.name === '' || userData.email === '' || userData.name === '') {
+                return
             }
             const response = mode ? await Register(userData) : await Login(userData)
             if (response.status === 200) {
@@ -205,8 +208,6 @@ export default function AuthForm() {
                     onChange={handleInputChange}
                     value={inputValue.email}>
                 </InputText>
-
-
                 <InputText
                     label='Password'
                     nameTag="password"

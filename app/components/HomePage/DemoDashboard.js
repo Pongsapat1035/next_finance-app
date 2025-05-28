@@ -6,7 +6,7 @@ import Stack from "@mui/material/Stack";
 import TransectionBox from "@/app/components/DashboardPage/TransectionBox";
 import SpendingBox from "@/app/components/DashboardPage/SpendingBox";
 import WeeklyWrapper from "@/app/components/DashboardPage/ChartWraper";
-import { TotalBox, TotalBalanceBox } from '@/app/components/DashboardPage/SummaryBox'
+import { TotalBox, TotalBalanceBox } from '@/app/components/DashboardPage/TotalBox'
 
 export default function DemoDashboard() {
     const lists = [

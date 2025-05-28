@@ -122,7 +122,8 @@ const EditModal = ({ state, category, closeModal, recieveData, uid }) => {
     }, [recieveData])
 
     return (
-        <ModalBox state={state} closeModal={closeModal} header="Edit">
+        // <ModalBox state={state} closeModal={closeModal} header="Edit">
+        <>
             <form onSubmit={submitForm}>
                 <Grid2 container spacing={2} direction={"column"}>
                     <DatePicker name="date" value={date} maxDate={dayjs()} onChange={(newValue) => setDate(newValue)} />
@@ -182,7 +183,8 @@ const EditModal = ({ state, category, closeModal, recieveData, uid }) => {
                 closeState={() => setConfirmModal(false)}
                 action={() => handleDelete(uid, docId)}>
             </ConfirmModal>
-        </ModalBox>
+        </>
+        // </ModalBox>
     )
 }
 

@@ -1,5 +1,3 @@
-'use client'
-
 import Grid2 from '@mui/material/Grid2';
 import Container from '@mui/material/Container';
 

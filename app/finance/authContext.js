@@ -3,8 +3,8 @@ import { getUserInfo, loadUserConfig } from '@/app/finance/action'
 import { auth } from '@/app/firebase'
 import { storeCookie } from '@/app/auth/action'
 import AddModal from '../components/DashboardPage/AddModal'
-const AuthContext = createContext()
 
+const AuthContext = createContext()
 
 export function AuthProvider({ children }) {
     const [user, setUser] = useState('')

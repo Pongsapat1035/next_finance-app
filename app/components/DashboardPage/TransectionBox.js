@@ -1,4 +1,6 @@
 'use client'
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
@@ -8,15 +10,13 @@ import Grid2 from "@mui/material/Grid2";
 import Box from "@mui/material/Box";
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
-
-import { useEffect, useState } from "react";
-
+import { getYearAndMonthText } from "@/app/util/ConvertData";
 
 const TransectionBox = ({ checkLoading, setLoadingSuccess, lists, handleMonth, handleEdit }) => {
     const [date, setDate] = useState(dayjs())
     const [listsData, setListsData] = useState([])
     const skeletoLists = new Array(8).fill('')
-
+    
     const handleChangeMonth = (newDate) => {
         setDate(newDate)
         handleMonth(newDate)
@@ -31,9 +31,8 @@ const TransectionBox = ({ checkLoading, setLoadingSuccess, lists, handleMonth, h
             });
 
             const sortLists = lists.sort((a, b) => b.data.timeStamp - a.data.timeStamp)
-            // console.log("check list : ", lists)
             setListsData(sortLists)
-        } else{
+        } else {
             setListsData([])
         }
         setLoadingSuccess()
@@ -62,7 +61,7 @@ const TransectionBox = ({ checkLoading, setLoadingSuccess, lists, handleMonth, h
                 <Grid2 spacing={1} sx={{ flexGrow: 1, overflow: 'scroll', scrollbarWidth: 'none' }}>
                     {
                         checkLoading ?
-                            skeletoLists.map((item, index) => (
+                            skeletoLists.map((_, index) => (
                                 <Box key={index} my={2}>
                                     <Skeleton variant="rounded" width="100%" height={60} />
                                 </Box>))
@@ -86,10 +85,14 @@ const TransectionBox = ({ checkLoading, setLoadingSuccess, lists, handleMonth, h
 export default TransectionBox
 
 const TransectionList = ({ toggleEdit, data }) => {
+
     const transectionData = data.data
+    const unixTime = transectionData.timeStamp
+    const month = getYearAndMonthText(unixTime)
+
     const date = new Date(transectionData.timeStamp * 1000)
     const dayText = date.toLocaleDateString("en-us", { weekday: 'short' })
-
+    const router = useRouter()
     const boxStyle = {
         borderBottom: '1px solid',
         borderColor: 'primary.light',
@@ -116,7 +119,7 @@ const TransectionList = ({ toggleEdit, data }) => {
         <Grid2 container direction="row" alignItems="center" justifyContent="space-between"
             px={2}
             py={1}
-            sx={boxStyle} onClick={() => toggleEdit(data)}>
+            sx={boxStyle} onClick={() => router.push(`/finance/dashboard/${data.id}?month=${month}`)}>
             <Grid2 container size={2} direction="row" justifyContent="flex-start" px={2} py={{ xs: 0, sm: 1 }} gap={1}>
                 <Typography variant="h5" sx={{ fontSize: { xs: 28, sm: 32 } }}>{date.getDate()}</Typography>
                 <Typography variant="body1" fontWeight="bold" color={dayColors[dayText]}>{dayText}</Typography>

@@ -57,7 +57,6 @@ const ReportPage = () => {
             const date = new Date()
             const month = date.toLocaleDateString("en-US", { month: 'short', year: 'numeric' })
             fetchData(user.uuid, month)
-            // fetchTotalMonth(user.uuid, 2025)
         }
     }, [user])
 
