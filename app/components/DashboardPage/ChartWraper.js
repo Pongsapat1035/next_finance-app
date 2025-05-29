@@ -1,4 +1,6 @@
 "use client"
+import { useEffect, useState } from 'react';
+import { ChangeFormatChartData } from '@/app/util/FormatChart';
 
 import Paper from '@mui/material/Paper'
 import Typography from '@mui/material/Typography';
@@ -6,9 +8,6 @@ import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box'
 import Grid2 from '@mui/material/Grid2'
 import { PieChart } from '@mui/x-charts/PieChart';
-
-import { useEffect, useState } from 'react';
-import { ChangeFormatChartData } from '@/app/util/FormatChart';
 
 const ChartWrapper = ({ lists }) => {
     const [dataLists, setDataLists] = useState([])

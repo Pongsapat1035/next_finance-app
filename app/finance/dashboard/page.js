@@ -4,6 +4,7 @@ import { getTransectionLists } from '@/app/util/ConvertData';
 import { Suspense } from 'react';
 
 import DashboardPage from '@/app/components/DashboardPage/DashboardPage';
+import DashboardSkeleton from '@/app/components/DashboardPage/skeleton/DashboardSkeleton';
 
 export default async function Page() {
   const userInfo = await getUserInfo()
@@ -13,8 +14,8 @@ export default async function Page() {
   const convertData = getTransectionLists(data)
 
   return (
-    <Suspense fallback={<div>Loading </div>}>
-      <DashboardPage initialData={convertData} />
+    <Suspense fallback={<DashboardSkeleton />}>
+      <DashboardPage initialData={convertData}  />
     </Suspense>
   );
 }

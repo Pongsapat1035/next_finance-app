@@ -1,8 +1,8 @@
 import { createContext, useContext, useState, useEffect } from 'react'
-import { getUserInfo, loadUserConfig } from '@/app/finance/action'
 import { auth } from '@/app/firebase'
+
 import { storeCookie } from '@/app/auth/action'
-import AddModal from '../components/DashboardPage/AddModal'
+import { getUserInfo, loadUserConfig } from '@/app/finance/action'
 
 const AuthContext = createContext()
 
@@ -13,7 +13,6 @@ export function AuthProvider({ children }) {
         income: [],
         spendingLimit: 0
     })
-    const [newTransectionModal, setNewTransectionModal] = useState(false)
 
     const fetchUserInfo = async () => {
         const userInfo = await getUserInfo()
@@ -34,18 +33,10 @@ export function AuthProvider({ children }) {
     useEffect(() => {
         fetchUserInfo()
     }, [])
-    const toggleCreateModal = () => {
-        setNewTransectionModal(!newTransectionModal)
-    }
+
     return (
-        <AuthContext.Provider value={{ user, userConfig, toggleCreateModal }}>
+        <AuthContext.Provider value={{ user, userConfig }}>
             {children}
-            <AddModal
-                state={newTransectionModal}
-                closeModal={toggleCreateModal}
-                category={userConfig}
-                uid={user.uuid}>
-            </AddModal>
         </AuthContext.Provider>
     )
 }

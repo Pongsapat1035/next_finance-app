@@ -1,5 +1,5 @@
 "use client"
-import { useAuth } from "@/app/finance/authContext"
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 
 import TotalIcon from '@/public/icons/account_balance_wallet.png'
@@ -9,7 +9,7 @@ import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack"
 
 export default function TotalBalanceBox({ amout = 0 }) {
-    const { toggleCreateModal } = useAuth()
+    const router = useRouter()
 
     return (
         <Paper>
@@ -27,7 +27,7 @@ export default function TotalBalanceBox({ amout = 0 }) {
                     </Typography>
                     <Typography variant="h3" >{amout.toLocaleString()}</Typography>
                 </Stack>
-                <Button variant="contained" sx={{ borderRadius: 2 }} onClick={toggleCreateModal}>
+                <Button variant="contained" sx={{ borderRadius: 2 }} onClick={() => router.push("/finance/dashboard/create")}>
                     New transection
                 </Button>
             </Stack>

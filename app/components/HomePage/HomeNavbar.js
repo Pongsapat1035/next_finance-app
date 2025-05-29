@@ -7,6 +7,7 @@ import Button from "@mui/material/Button";
 
 export default function HomeNavbar() {
     const router = useRouter()
+    
     return (
         <Grid2 container alignItems="center" justifyContent={"space-between"} paddingY={2}>
             <Box>

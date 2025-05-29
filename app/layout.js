@@ -6,7 +6,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 import './style/main.css'
 import { AlertProvider } from "./alertContext";
-
+import { ConfirmProvider } from "./confirmContext"
 const theme = createTheme({
   palette: {
     primary: {
@@ -147,13 +147,13 @@ export default function RootLayout({ children }) {
       </head>
       <body>
         <ThemeProvider theme={theme}>
-
           <AlertProvider>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              {children}
-            </LocalizationProvider>
+            <ConfirmProvider>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                {children}
+              </LocalizationProvider>
+            </ConfirmProvider>
           </AlertProvider>
-
         </ThemeProvider>
       </body>
     </html>

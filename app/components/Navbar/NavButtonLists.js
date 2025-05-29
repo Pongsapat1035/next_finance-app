@@ -15,7 +15,6 @@ import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import { useEffect, useState } from 'react';
 import ConfirmModal from '@/app/components/ConfirmModal';
 
-
 export default function NavButttonList({ signOut, handleNav }) {
 
     const [activeLink, setActiveLink] = useState({

@@ -1,4 +1,3 @@
-"use client"
 import CloseNavbarIcon from '@/public/icons/first_page.png'
 
 import { styled } from '@mui/material/styles';

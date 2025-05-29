@@ -35,7 +35,7 @@ export default function Page({ params }) {
             justifyContent: "center",
             alignItems: "center",
         }}>
-            <TransectionFrom data={formData}></TransectionFrom>
+            <TransectionFrom data={formData} mode="edit"></TransectionFrom>
         </Stack>
     )
 }

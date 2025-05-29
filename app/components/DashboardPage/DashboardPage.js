@@ -1,39 +1,25 @@
 "use client"
+import { useEffect, useState } from "react";
+
+import { getDashboardData } from '@/app/finance/dashboard/actions';
+import { getAllData } from "@/app/finance/dashboard/actions";
+import { useAuth } from '@/app/finance/authContext';
+import { getTransectionLists } from '@/app/util/ConvertData';
+
+import dayjs from 'dayjs';
 import Grid2 from '@mui/material/Grid2'
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
-
 import TransectionBox from "@/app/components/DashboardPage/TransectionBox";
 import SpendingBox from "@/app/components/DashboardPage/SpendingBox";
 import WeeklyWrapper from "@/app/components/DashboardPage/ChartWraper";
-// import EditModal from '@/app/components/DashboardPage/EditModal';
-
 import TotalBox from '@/app/components/DashboardPage/TotalBox';
 import TotalBalanceBox from './TotalBalanceBox';
-
-import { getDashboardData } from '@/app/finance/dashboard/actions';
-import { useEffect, useState } from "react";
-import { getAllData } from "@/app/finance/dashboard/actions";
-import { useAuth } from '@/app/finance/authContext';
-import dayjs from 'dayjs';
-import { getTransectionLists } from '@/app/util/ConvertData';
 
 function DashboardPage({ initialData }) {
     const [data, setData] = useState(initialData)
     const { user, userConfig } = useAuth()
-
     const [isLoading, setIsLoading] = useState(true)
-    // const [editData, setEditData] = useState({
-    //     id: '',
-    //     data: {
-    //         type: '',
-    //         amout: '',
-    //         category: '',
-    //         month: '',
-    //         description: ''
-    //     }
-    // })
-    const [editModal, setEditModal] = useState(false)
     const [dashboardData, setDashboardData] = useState({
         expend: 0,
         income: 0,
@@ -67,26 +53,6 @@ function DashboardPage({ initialData }) {
         setDashboardData(dashboardData)
     }
 
-    const handleEdit = (data) => {
-        setEditData(data)
-        setEditModal(!editModal)
-    }
-    
-    // const handleCloseEdit = () => {
-    //     setEditModal(false)
-    //     // reset value
-    //     setEditData({
-    //         id: '',
-    //         data: {
-    //             type: '',
-    //             amout: '',
-    //             category: '',
-    //             month: '',
-    //             description: ''
-    //         }
-    //     })
-    // }
-
     useEffect(() => {
         if (data.length > 0) {
             getNewDashboardData()
@@ -117,8 +83,7 @@ function DashboardPage({ initialData }) {
                                 checkLoading={isLoading}
                                 setLoadingSuccess={() => setIsLoading(false)}
                                 lists={data}
-                                handleMonth={handleMonthChange}
-                                handleEdit={handleEdit}>
+                                handleMonth={handleMonthChange}>
                             </TransectionBox>
                         </Stack>
                     </Grid2>
@@ -128,12 +93,6 @@ function DashboardPage({ initialData }) {
                         <WeeklyWrapper totalExpend={dashboardData.expend} lists={data} categoryLists={userConfig.expend}></WeeklyWrapper>
                     </Grid2>
                 </Grid2>
-                {/* <EditModal
-                    state={editModal}
-                    closeModal={handleCloseEdit}
-                    recieveData={editData}
-                    category={userConfig}
-                    uid={user.uuid}></EditModal> */}
             </Box>
         </>
     )

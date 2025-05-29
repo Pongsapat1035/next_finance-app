@@ -3,6 +3,8 @@
 import { doc, collection, getDocs, getDoc, addDoc, setDoc, runTransaction, query, where } from "firebase/firestore";
 import { db } from "@/app/firebase";
 
+import { getMonthText } from "@/app/util/ConvertData";
+
 export async function getAllData(uid, month) {
     try {
         const docRef = collection(db, "financeTrack", uid, month)
@@ -61,7 +63,7 @@ export async function deleteDocFormId(uid, docId, data) {
 
             transaction.delete(doc(db, "financeTrack", uid, month, docId))
         })
-        return { status: 200, msg: 'delete transection success' }
+        return { status: 200, msg: 'delete transection success', redirectUrl: "/finance/dashboard" }
     } catch (error) {
         console.log(error)
         return { status: 400, msg: 'delete transection success' }
@@ -70,28 +72,25 @@ export async function deleteDocFormId(uid, docId, data) {
 
 export async function createTransection(data) {
     try {
-        const uid = data.userid
-        const date = new Date(data.createdDate)
-        const getMonth = date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
+        const uid = data.userId
+        const getMonth = getMonthText(data.createdDate)
 
         const convertData = {
             type: data.type,
             description: data.description,
             category: data.category,
             amout: parseInt(data.amout),
-            createdDate: date,
+            createdDate: new Date(data.createdDate),
         }
-
+        console.log(`uid : ${uid} / month : ${getMonth}`)
         await runTransaction(db, async (transaction) => {
-            // financeTrack/uid/total/month
             const totalDocRef = doc(db, "financeTrack", uid, "total", getMonth)
             const totalDoc = await transaction.get(totalDocRef);
+
             if (!totalDoc.exists()) {
-                // create new total
                 const amout = convertData.amout
                 transaction.set(totalDocRef, ({ [convertData.type]: amout, year: date.getFullYear(), monthIndex: date.getMonth() }))
             } else {
-                // update exit total
                 const newTotal = (totalDoc.data()[convertData.type] || 0) + convertData.amout
                 transaction.update(totalDocRef, { [convertData.type]: newTotal });
             }
@@ -99,11 +98,11 @@ export async function createTransection(data) {
 
         const docRef = collection(db, "financeTrack", uid, getMonth)
         await addDoc(docRef, convertData)
-        return { status: 201, msg: 'create new transection success !!' }
+        return { status: 200, msg: 'create new transection success !!' }
 
     } catch (error) {
         console.log('add error : ', error)
-        return error
+        return { status: 400, msg: error.message }
     }
 }
 
@@ -125,20 +124,19 @@ export async function getTransection(userId, month, id) {
 
 export async function updateData(data) {
     try {
-        const userId = data.userid
-        const docId = data.docid
-        const date = new Date(data.createdDate)
-        const newMonth = date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
-        const prevMonth = new Date(data.prevDate * 1000).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
-
+        const userId = data.userId
+        const docId = data.docId
+        const newMonth = getMonthText(data.createdDate)
+        const prevMonth = getMonthText(data.prevMonth)
+       
         const convertData = {
             type: data.type,
             category: data.category,
             amout: parseInt(data.amout),
-            createdDate: date,
+            createdDate: new Date(data.createdDate),
             description: data.description
         }
-
+        
         // get old doc data
         const prevDocRef = doc(db, "financeTrack", userId, prevMonth, docId)
         const prevDoc = await getDoc(prevDocRef);

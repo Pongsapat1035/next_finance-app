@@ -1,4 +1,6 @@
 "use client"
+import { useRouter } from 'next/navigation';
+import { useState, useEffect } from 'react';
 
 import { styled } from '@mui/material/styles';
 import LinearProgress, { linearProgressClasses } from '@mui/material/LinearProgress';
@@ -7,8 +9,6 @@ import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box'
 import Paper from '@mui/material/Paper'
 import Button from '@mui/material/Button';
-import { useRouter } from 'next/navigation';
-import { useState, useEffect } from 'react';
 
 const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
     height: 10,
@@ -29,7 +29,7 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
     },
 }));
 
-const SpendingBox = ({ spend = 0, limit = 0 }) => {
+const SpendingBox = ({ spend, limit }) => {
 
     const router = useRouter()
     const [progressValue, setProgressValue] = useState(0)
@@ -43,11 +43,11 @@ const SpendingBox = ({ spend = 0, limit = 0 }) => {
         const date = new Date()
         const convertDate = date.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })
         setDateText(convertDate)
-    }, [spend])
+    }, [spend, limit])
 
     return (
         <Paper sx={{ p: 3 }}>
-            <Stack spacing={1}                                  >
+            <Stack spacing={1}>
                 <Stack direction="row" justifyContent="space-between">
                     <Stack>
                         <Typography variant="h5" fontWeight="bold">

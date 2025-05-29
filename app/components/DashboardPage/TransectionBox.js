@@ -10,13 +10,13 @@ import Grid2 from "@mui/material/Grid2";
 import Box from "@mui/material/Box";
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
-import { getYearAndMonthText } from "@/app/util/ConvertData";
+import { getMonthText } from "@/app/util/ConvertData";
 
-const TransectionBox = ({ checkLoading, setLoadingSuccess, lists, handleMonth, handleEdit }) => {
+const TransectionBox = ({ checkLoading, setLoadingSuccess, lists, handleMonth }) => {
     const [date, setDate] = useState(dayjs())
     const [listsData, setListsData] = useState([])
     const skeletoLists = new Array(8).fill('')
-    
+
     const handleChangeMonth = (newDate) => {
         setDate(newDate)
         handleMonth(newDate)
@@ -68,7 +68,7 @@ const TransectionBox = ({ checkLoading, setLoadingSuccess, lists, handleMonth, h
                             :
                             listsData.length > 0 ?
                                 listsData.map((el, index) => (
-                                    <TransectionList key={index} toggleEdit={handleEdit} data={el}></TransectionList>
+                                    <TransectionList key={index} data={el}></TransectionList>
                                 ))
 
                                 :
@@ -84,15 +84,15 @@ const TransectionBox = ({ checkLoading, setLoadingSuccess, lists, handleMonth, h
 
 export default TransectionBox
 
-const TransectionList = ({ toggleEdit, data }) => {
-
+const TransectionList = ({ data }) => {
+    const router = useRouter()
     const transectionData = data.data
     const unixTime = transectionData.timeStamp
-    const month = getYearAndMonthText(unixTime)
+    const month = getMonthText(unixTime * 1000)
 
     const date = new Date(transectionData.timeStamp * 1000)
     const dayText = date.toLocaleDateString("en-us", { weekday: 'short' })
-    const router = useRouter()
+
     const boxStyle = {
         borderBottom: '1px solid',
         borderColor: 'primary.light',

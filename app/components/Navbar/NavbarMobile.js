@@ -1,5 +1,9 @@
 "use client"
 
+import { useAuth } from '../../finance/authContext';
+import { useRouter, usePathname } from 'next/navigation';
+import { useState, useEffect } from 'react';
+
 import IconButton from '@mui/material/IconButton';
 import Grid2 from "@mui/material/Grid2";
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
@@ -8,10 +12,6 @@ import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
 import AssessmentRoundedIcon from '@mui/icons-material/AssessmentRounded';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import ConfirmModal from '@/app/components/ConfirmModal';
-
-import { useAuth } from '../../finance/authContext';
-import { useRouter, usePathname } from 'next/navigation';
-import { useState, useEffect } from 'react';
 
 export default function NavbarMobile({ signOut }) {
     const { toggleCreateModal } = useAuth()
