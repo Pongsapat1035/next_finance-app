@@ -1,6 +1,9 @@
-"use client"
-import { Paper, Typography, Grid2, Button, IconButton } from "@mui/material"
-import { Close, Done } from '@mui/icons-material';
+import Paper from '@mui/material/Paper'
+import Typography from "@mui/material/Typography";
+import Grid2 from "@mui/material/Grid2";
+import IconButton from "@mui/material/IconButton";
+import Close from "@mui/icons-material/Close";
+import Done from "@mui/icons-material/Done"
 
 export default function AlertBadge({ data = {}, handleFunction }) {
     const symbol = data.type === 'error' ? <Close sx={{ color: "#C72424" }}></Close> : <Done sx={{ color: "#5AAE25" }}></Done>
@@ -18,7 +21,7 @@ export default function AlertBadge({ data = {}, handleFunction }) {
         '@media (min-width: 600px)': {
             width: 1 / 3,
             bottom: 30,
-            p:3
+            p: 3
         },
         '@media (min-width: 1024px)': {
             width: 1 / 4

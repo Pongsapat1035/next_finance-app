@@ -1,11 +1,11 @@
 "use client"
+import { useAlert } from "../alertContext"
+import { useRouter } from "next/navigation"
+
 import ModalBox from "./ModalBox"
 import Typography from "@mui/material/Typography"
 import Stack from "@mui/material/Stack"
 import Button from "@mui/material/Button"
-
-import { useAlert } from "../alertContext"
-import { useRouter } from "next/navigation"
 
 export default function ConfirmModal({ state, closeState, header, description, action }) {
     const  { handleAlert } = useAlert()
@@ -13,7 +13,6 @@ export default function ConfirmModal({ state, closeState, header, description, a
 
     const handleSubmit = async () => {
         const response = await action()
-        console.log(response)
         if(response.status === 200) {
             handleAlert("success", response.msg)
             router.push(response.redirectUrl)

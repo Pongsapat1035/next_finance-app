@@ -29,7 +29,7 @@ export async function Register(userData) {
         const userId = response.user.uid
         storeCookie(token)
         CreateUserConfig(userId)
-        console.log('create user success : ', userId)
+
         return { status: 200, message: `Register success!!"`, name }
 
     } catch (error) {
@@ -56,8 +56,7 @@ export async function CreateUserConfig(userId) {
                 income: ['Salary', 'Wages', 'Side Hustles', 'Investment', 'Gifts', 'Other'],
                 spendingLimit: 10000
             }
-            const response = await setDoc(doc(db, 'userConfig', userId), defaultCategory)
-            console.log('resposne set default cate : ', response)
+            await setDoc(doc(db, 'userConfig', userId), defaultCategory)
         }
     } catch (error) {
         console.log('create default category error : ', error)
@@ -65,15 +64,12 @@ export async function CreateUserConfig(userId) {
 }
 
 export async function storeCookie(token) {
-    console.log('recieved token : ', token)
     await cookies().set("authToken", token, { httpOnly: true, secure: true });
-    console.log('store cookie success')
 }
 
 export async function deleteCookie() {
     const cookieStore = await cookies()
     cookieStore.delete('authToken')
-    console.log('delete cookies success')
 }
 
 export const userSignout = async () => {

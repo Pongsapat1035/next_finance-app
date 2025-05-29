@@ -16,13 +16,14 @@ import InputText from './InputText'
 import ggIcon from "@/public/icons/gg_icon.png"
 
 import { useAlert } from '@/app/alertContext';
-
+import { validateEmail, validatePassword, validateName } from "@/app/util/Validation"
 
 export default function AuthForm() {
     const router = useRouter()
     const { handleAlert } = useAlert()
     const [mode, SetMode] = useState(false)
-
+    const [isLoading, setIsLoading] = useState(false)
+    const [googleLoading, setGoogleLoading] = useState(false)
     const [inputValue, setInputValue] = useState({
         email: '',
         password: '',
@@ -30,38 +31,39 @@ export default function AuthForm() {
     })
 
     const [validateInput, setValidateInput] = useState({
-        emailError: false,
-        passError: false,
-        nameError: false,
-        emailMsg: ' ',
-        passMsg: ' ',
-        nameMsg: ' '
+        emailMsg: null,
+        passMsg: null,
+        nameMsg: null
     })
 
     async function LoginWithGoogle() {
         try {
+            setGoogleLoading(true)
             const provider = new GoogleAuthProvider();
             const result = await signInWithPopup(auth, provider)
             const token = await result.user.getIdToken()
             const userId = result.user.uid
             await CreateUserConfig(userId)
-            
+
             await storeCookie(token)
             handleAlert('success', 'Login success')
+            setGoogleLoading(!googleLoading)
             router.push('/finance/dashboard')
+
         } catch (error) {
+            setGoogleLoading(false)
             console.log(error)
         }
     }
-
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         try {
-            if (validateInput.emailError || validateInput.passError || validateInput.nameError) {
-                throw new Error('Validate fail')
-            }
+            setIsLoading(true)
+            const allEmptyError = Object.values(validateInput).every(val => val === null);
+            if (!allEmptyError)
+                throw new Error("Please check all input again!")
 
             const formData = new FormData(e.target);
             const userData = {
@@ -69,97 +71,26 @@ export default function AuthForm() {
                 password: formData.get('password'),
                 name: formData.get('name') || ''
             }
-            if (userData.name === '' || userData.email === '' || userData.name === '') {
-                return
-            }
             const response = mode ? await Register(userData) : await Login(userData)
+
             if (response.status === 200) {
                 handleAlert('success', `Welcome ${response.name}`)
                 router.push('/finance/dashboard')
             } else {
-                handleAlert('error', response.message)
+                throw new Error(response.message)
             }
+
         } catch (error) {
+            setIsLoading(false)
             handleAlert('error', error.message)
             console.log(error)
         }
 
     }
 
-    const validateEmail = (email) => {
-        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-
-        if (!emailRegex.test(email) && email !== '') {
-            setValidateInput(prevState => ({
-                ...prevState,
-                emailError: true,
-                emailMsg: 'Invalid email format (ex. example@mail.com)'
-            }))
-        } else {
-            setValidateInput(prevState => ({
-                ...prevState,
-                emailError: false,
-                emailMsg: ' '
-            }))
-        }
-    }
-
-    const validatePassword = (password) => {
-
-        const hasLowerUpper = /(?=.*[a-z])(?=.*[A-Z])/;  // At least one lowercase and one uppercase letter
-        const hasSpecialChar = /(?=.*[@$!%*?&_-])/;       // At least one special character
-        const hasMinLength = /.{8,}/;                   // At least 8 characters long
-
-        if (password !== '') {
-            if (!hasMinLength.test(password)) {
-                setValidateInput(prevState => ({
-                    ...prevState,
-                    passError: true,
-                    passMsg: 'At least 8 characters long'
-                }))
-            } else if (!hasLowerUpper.test(password)) {
-                setValidateInput(prevState => ({
-                    ...prevState,
-                    passError: true,
-                    passMsg: 'At least one lowercase and one uppercase letter'
-                }))
-            } else if (!hasSpecialChar.test(password)) {
-                setValidateInput(prevState => ({
-                    ...prevState,
-                    passError: true,
-                    passMsg: 'At least one special character'
-                }))
-            } else {
-                setValidateInput(prevState => ({
-                    ...prevState,
-                    passError: false,
-                    passMsg: ' '
-                }))
-            }
-        }
-    }
-
-    const validateName = (name) => {
-        const nameRegex = /^[a-zA-Z0-9]+$/
-        if (!nameRegex.test(name) && name !== '') {
-            setValidateInput(prevState => ({
-                ...prevState,
-                nameError: true,
-                nameMsg: 'using only letters (A-Z, a-z) and numbers (0-9). Spaces and special characters are not allowed.'
-            }))
-        } else {
-            setValidateInput(prevState => ({
-                ...prevState,
-                nameError: false,
-                nameMsg: ' '
-            }))
-        }
-    }
-
     const handleInputChange = (item) => {
         const name = item.name
         const value = item.value
-
         setInputValue(prevState => ({
             ...prevState,
             [name]: value
@@ -167,18 +98,17 @@ export default function AuthForm() {
 
         switch (name) {
             case 'email':
-                validateEmail(value)
+                setValidateInput(prev => ({ ...prev, emailMsg: validateEmail(value) }))
                 break
             case 'password':
-                validatePassword(value)
+                setValidateInput(prev => ({ ...prev, passMsg: validatePassword(value) }))
                 break
             default:
-                validateName(value)
+                setValidateInput(prev => ({ ...prev, nameMsg: validateName(value) }))
         }
     }
 
-    useEffect(() => {
-        // reset error validate when mode change
+    const resetInputAndError = () => {
         setInputValue(prevState => ({
             ...prevState,
             email: '',
@@ -187,13 +117,14 @@ export default function AuthForm() {
         }))
         setValidateInput(prevState => ({
             ...prevState,
-            emailError: false,
-            passError: false,
-            nameError: false,
             emailMsg: ' ',
             passMsg: ' ',
             nameMsg: ' '
         }))
+    }
+
+    useEffect(() => {
+        resetInputAndError()
     }, [mode])
 
     return (
@@ -230,11 +161,11 @@ export default function AuthForm() {
                     </InputText> : ''
                 }
                 <Stack direction="column" spacing={2} sx={{ width: '100%', my: 3 }}>
-                    <Button type='submit' variant="contained" fullWidth >{mode ? 'Sign up' : 'Sign in'}</Button>
+                    <Button type='submit' loading={isLoading} variant="contained" fullWidth >{mode ? 'Sign up' : 'Sign in'}</Button>
                     <Divider sx={{ width: '100%', fontWeight: 'bold' }}>Or</Divider>
-                    <Button variant="contained" fullWidth disableElevation
+                    <Button variant="contained" fullWidth disableElevation loading={googleLoading}
                         sx={{ bgcolor: "#F4F4F4", color: 'primary.main' }}
-                        startIcon={<Image src={ggIcon} width={20} height={20} alt="google-icon"></Image>}
+                        startIcon={!googleLoading ? <Image src={ggIcon} width={20} height={20} alt="google-icon"></Image> : ""}
                         onClick={() => LoginWithGoogle()}>
                         Login with google
                     </Button>

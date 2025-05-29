@@ -44,7 +44,7 @@ function InputBox({ label, nameTag, typeTag, placeHolder, errorMsg, onChange, va
                 {label}
             </InputLabel>
             <InputTag name={nameTag} type={typeTag} placeholder={placeHolder} value={value} onChange={(e) => onChange(e.target)}></InputTag>
-            <FormHelperText>{errorMsg}</FormHelperText>
+            <FormHelperText sx={{ height: 20 }}>{errorMsg}</FormHelperText>
         </FormControl>
     )
 }

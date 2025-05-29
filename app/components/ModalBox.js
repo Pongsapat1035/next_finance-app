@@ -1,5 +1,3 @@
-"use client"
-
 import CloseIcon from '@mui/icons-material/Close';
 import Paper from "@mui/material/Paper";
 import Modal from "@mui/material/Modal";

@@ -25,6 +25,9 @@ export default function Navbar({ signOut }) {
         border: '1px solid rgb(224, 224, 224)',
         transition: 'all 300ms ease-in-out',
         zIndex: 10,
+        [theme.breakpoints.down('md')]: {
+            display: 'none'
+        },
         '&.close-nav': {
             width: '60px',
             height: '60px',
@@ -43,7 +46,7 @@ export default function Navbar({ signOut }) {
     }
 
     return (
-        <NavbarBox className='nav-bar close-nav'>
+        <NavbarBox className='nav-bar close-nav' sx={{}}>
             <Stack height="100%" justifyContent="space-between">
                 <Stack gap={2} >
                     <Stack direction="row" justifyContent="space-between" alignItems="center">

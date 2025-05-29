@@ -12,7 +12,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
 import { getMonthText } from "@/app/util/ConvertData";
 
-const TransectionBox = ({ checkLoading, setLoadingSuccess, lists, handleMonth }) => {
+const TransectionBox = ({ setLoadingSuccess, lists, handleMonth }) => {
     const [date, setDate] = useState(dayjs())
     const [listsData, setListsData] = useState([])
     const skeletoLists = new Array(8).fill('')
@@ -60,21 +60,14 @@ const TransectionBox = ({ checkLoading, setLoadingSuccess, lists, handleMonth })
                 </Grid2>
                 <Grid2 spacing={1} sx={{ flexGrow: 1, overflow: 'scroll', scrollbarWidth: 'none' }}>
                     {
-                        checkLoading ?
-                            skeletoLists.map((_, index) => (
-                                <Box key={index} my={2}>
-                                    <Skeleton variant="rounded" width="100%" height={60} />
-                                </Box>))
+                        listsData.length > 0 ?
+                            listsData.map((el, index) => (
+                                <TransectionList key={index} data={el}></TransectionList>
+                            ))
                             :
-                            listsData.length > 0 ?
-                                listsData.map((el, index) => (
-                                    <TransectionList key={index} data={el}></TransectionList>
-                                ))
-
-                                :
-                                <Stack justifyContent="center" alignItems="center" textAlign="center" sx={{ fontWeight: 'bold', fontSize: '1rem', py: 3 }}>
-                                    😊 "Your transaction history is empty. Let's track your finances!"
-                                </Stack>
+                            <Stack justifyContent="center" alignItems="center" textAlign="center" sx={{ fontWeight: 'bold', fontSize: '1rem', py: 3 }}>
+                                😊 "Your transaction history is empty. Let's track your finances!"
+                            </Stack>
                     }
                 </Grid2>
             </Grid2>

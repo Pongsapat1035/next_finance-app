@@ -22,11 +22,12 @@ export function AuthProvider({ children }) {
             setUserConfig(config)
         }
 
-        // if token expire time < 20 refesh token
-        if (userInfo.expire < 20) {
-            const newToken = await auth.currentUser.getIdToken(true)
-            await storeCookie(newToken)
-        }
+        // // if token expire time < 20 refesh token
+        // if (userInfo.expire < 20) {
+        //     const newToken = await auth.currentUser.getIdToken(true)
+        //     await storeCookie(newToken)
+        // }
+        
         setUser(userInfo)
     }
 

@@ -15,7 +15,7 @@ import { useAlert } from '../alertContext'
 export default function HomeLayout({ children }) {
     const { handleAlert } = useAlert()
     const router = useRouter()
-    const matches = useMediaQuery('(min-width:600px)');
+    // const matches = useMediaQuery('(min-width:600px)');
 
     const handleSignout = async () => {
         try {
@@ -35,11 +35,8 @@ export default function HomeLayout({ children }) {
             <Box width="100vw" bgcolor="background.main" sx={{ height: 'minmax(100vh, auto)' }}>
                 <AuthProvider>
                     <Container>
-                        {
-                            matches ?
-                                <Navbar signOut={handleSignout}></Navbar> :
-                                <NavbarMobile signOut={handleSignout}></NavbarMobile>
-                        }
+                        <Navbar signOut={handleSignout}></Navbar>
+                        <NavbarMobile signOut={handleSignout}></NavbarMobile>
                         {children}
                     </Container>
                 </AuthProvider>

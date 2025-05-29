@@ -1,6 +1,5 @@
 "use client"
 
-import { useAuth } from '../../finance/authContext';
 import { useRouter, usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
 
@@ -14,8 +13,7 @@ import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import ConfirmModal from '@/app/components/ConfirmModal';
 
 export default function NavbarMobile({ signOut }) {
-    const { toggleCreateModal } = useAuth()
-    const route = useRouter()
+    const router = useRouter()
     const pathname = usePathname()
     const [activeLink, setActiveLink] = useState({
         dashboard: false,
@@ -33,10 +31,12 @@ export default function NavbarMobile({ signOut }) {
         py: 1,
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
-        zIndex: 10
+        zIndex: 10,
+        display: 'none',
+        '@media (max-width: 899.95px)': {
+            display: 'flex'
+        },
     }
-
-    const navBtnStyle = { color: activeLink.dashboard ? 'background.paper' : 'text.light' }
 
     useEffect(() => {
         // check pathname and set active style
@@ -66,20 +66,21 @@ export default function NavbarMobile({ signOut }) {
                 }))
         }
     }, [pathname])
+
     return (
         <Grid2 container direction="row" justifyContent="space-around"
             sx={style}>
-            <IconButton aria-label="dashboard-page" onClick={() => route.push('/finance/dashboard')}>
-                <SpaceDashboardRoundedIcon sx={navBtnStyle} />
+            <IconButton aria-label="dashboard-page" onClick={() => router.push('/finance/dashboard')}>
+                <SpaceDashboardRoundedIcon sx={ { color: activeLink.dashboard ? 'background.paper' : 'text.light' }} />
             </IconButton>
-            <IconButton aria-label="report-page" onClick={() => route.push('/finance/report')}>
-                <AssessmentRoundedIcon sx={navBtnStyle} />
+            <IconButton aria-label="report-page" onClick={() => router.push('/finance/report')}>
+                <AssessmentRoundedIcon sx={ { color: activeLink.report ? 'background.paper' : 'text.light' }} />
             </IconButton>
-            <IconButton aria-label="new-transection" sx={{ bgcolor: 'primary.light', p: 1 }} disableRipple onClick={toggleCreateModal}>
+            <IconButton aria-label="new-transection" sx={{ bgcolor: 'primary.light', p: 1 }} disableRipple onClick={() => router.push('/finance/dashboard/create')}>
                 <AddRoundedIcon sx={{ color: 'primary.main', fontSize: '2rem' }} />
             </IconButton>
-            <IconButton aria-label="setting-page" onClick={() => route.push('/finance/setting')}>
-                <SettingsRoundedIcon sx={navBtnStyle} />
+            <IconButton aria-label="setting-page" onClick={() => router.push('/finance/setting')}>
+                <SettingsRoundedIcon sx={ { color: activeLink.setting ? 'background.paper' : 'text.light' }} />
             </IconButton>
             <IconButton aria-label="logout-page" onClick={() => setConfirmSignout(true)}>
                 <LogoutRoundedIcon sx={{ color: 'text.light' }} />

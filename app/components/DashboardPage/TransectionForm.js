@@ -138,16 +138,26 @@ export default function TransectionFrom({ data = null, mode }) {
             setIsLoading(false)
         }, 500);
     }, [])
+    const containerStyle = {
+        width: { xs: "100vw", sm: "60%" },
+        height: { xs: "100vh", sm: "min-content" },
+        borderRadius: { xs: 0, sm: 6 },
+        position: { xs: "fixed", sm: 'static' },
+        top: { xs: 0 },
+        left: { xs: 0 },
+
+    }
 
     return (
-        <Stack direction="column" gap={2} bgcolor="background.paper" borderRadius={5} sx={{ width: "60%" }}>
-            <Grid2 container alignItems="center" paddingBottom={2} p={2} borderBottom={1} borderColor="primary.light">
-                <Grid2 size={1}>
+        <Stack direction="column" gap={2} bgcolor="background.paper"
+            sx={containerStyle}>
+            <Grid2 container alignItems="center" spacing={2} paddingBottom={2} p={2} borderBottom={1} borderColor="primary.light">
+                <Grid2 size={{ xs: 2, sm: 1 }}>
                     <IconButton aria-label="delete" onClick={() => router.push("/finance/dashboard")}>
                         <KeyboardArrowLeftRoundedIcon></KeyboardArrowLeftRoundedIcon>
                     </IconButton>
                 </Grid2>
-                <Grid2 size={11}>
+                <Grid2 size="auto">
                     <Typography variant="h5">
                         {mode === 'create' ? 'Create' : 'Edit'} transection
                     </Typography>
@@ -156,7 +166,7 @@ export default function TransectionFrom({ data = null, mode }) {
             {
                 isLoading ? <FormSkeleton></FormSkeleton> :
                     <form onSubmit={handleSubmit}>
-                        <Grid2 container spacing={2} px={8} py={6} direction={"column"}>
+                        <Grid2 container spacing={2} direction={"column"} px={{ xs: 4, sm: 8 }} py={{ xs: 3, sm: 6 }} >
                             <DatePicker name="date" value={date} maxDate={dayjs()} onChange={(newValue) => setDate(newValue)} />
                             <TextField id="outlined-basic" name="description" value={formData.description} onChange={handleInputChange}
                                 slotProps={{
@@ -170,8 +180,8 @@ export default function TransectionFrom({ data = null, mode }) {
                                 }}
                                 type="text" variant="outlined" placeholder="Description" required />
                             <Grid2 container direction="row" gap={2}>
-                                <Grid2 size={6}>
-                                    <TextField id="outlined-basic" name="amout" value={formData.amout} onChange={handleInputChange}
+                                <Grid2 size={{ xs: 12, sm: 6 }}>
+                                    <TextField id="outlined-basic" fullWidth name="amout" value={formData.amout} onChange={handleInputChange}
                                         slotProps={{
                                             input: {
                                                 startAdornment: (
@@ -183,7 +193,7 @@ export default function TransectionFrom({ data = null, mode }) {
                                         }}
                                         type="number" variant="outlined" placeholder="Amout" required />
                                 </Grid2>
-                                <Grid2 size={6}>
+                                <Grid2 size={{ xs: 12, sm: 6 }}>
                                     <FormControl>
                                         <FormLabel id="demo-row-radio-buttons-group-label">Type</FormLabel>
                                         <RadioGroup

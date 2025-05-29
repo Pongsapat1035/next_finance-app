@@ -11,7 +11,7 @@ if (!admin.apps.length) {
     });
 }
 
-const authAdmin = admin.auth(); // ✅ Server-side auth
+const authAdmin = admin.auth(); 
 
 export async function POST(req) {
     try {
