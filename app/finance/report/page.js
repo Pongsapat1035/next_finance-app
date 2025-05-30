@@ -34,8 +34,8 @@ const ReportPage = () => {
             const convertResponse = JSON.parse(response)
 
             convertResponse.forEach(element => {
-                element.data.amout = parseInt(element.data.amout)
-                element.data.timeStamp = element.data.createdDate.seconds
+                element.amout = parseInt(element.amout)
+                element.timeStamp = element.createdDate.seconds
             });
 
             setLists(convertResponse)

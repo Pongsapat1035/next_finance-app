@@ -16,9 +16,7 @@ export const validateTransectionForm = (formData) => {
     return errorMsg
 }
 
-export const validateRegisterForm = (formData) => {
 
-}
 
 export const validateEmail = (email) => {
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -44,10 +42,22 @@ export const validatePassword = (password) => {
     return null
 }
 
-export const validateName = (name) => {
+export const validateText = (name) => {
     const nameRegex = /^[a-zA-Z0-9]+$/
 
-    if (name === '') return "Name can't be empty"
+    if (name === '') return "Required"
     if (!nameRegex.test(name)) return "using only letters (A-Z, a-z) and numbers (0-9). Spaces and special characters are not allowed."
     return null
+}
+
+export const validateNumber = (num) => {
+    const numberRex = /^[1-9]\d*$/
+    if (num === '') return "Required"
+    if (!numberRex.test(num)) return "Please enter a valid positive number"
+    return null
+}
+
+export const validateOnlyPlainString = () => {
+    // not accept special character
+
 }

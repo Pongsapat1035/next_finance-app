@@ -25,10 +25,10 @@ export default function SettingPage() {
 
     return (
         <Box py={2}>
-            <Grid2 container direction="column" gap={1} p={{ xs: 4,  md: 8 }} sx={{ bgcolor: 'background.paper', borderRadius: '30px' }}>
+            <Grid2 container direction="column" gap={1} p={{ xs: 4, md: 8 }} sx={{ bgcolor: 'background.paper', borderRadius: '30px', height: "100%" }}>
                 <Typography variant="h3" fontWeight="bold" >Setting</Typography>
                 <Grid2 container direction="column" gap={4}>
-                    <SpendingLimitConfig id={userId} limitValue={userConfig.spendingLimit}></SpendingLimitConfig>
+                    <SpendingLimitConfig></SpendingLimitConfig>
                     <Divider />
                     <CategoryForm isLoading={isLoading} lists={userConfig} userId={userId}></CategoryForm>
                 </Grid2>

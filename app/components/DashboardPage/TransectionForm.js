@@ -28,10 +28,12 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import dayjs from 'dayjs';
 import FormSkeleton from "./skeleton/FormSkeleton";
 import { getMonthText } from "@/app/util/ConvertData";
+import { useAlert } from "@/app/alertContext";
 
 export default function TransectionFrom({ data = null, mode }) {
     const router = useRouter()
     const { user, userConfig } = useAuth()
+    const { handleAlert } = useAlert()
     const { handleConfirm } = useConfirm()
     const [date, setDate] = useState(dayjs())
     const [formData, setFormData] = useState({
@@ -65,12 +67,12 @@ export default function TransectionFrom({ data = null, mode }) {
         e.preventDefault()
         try {
             const updateFormData = new FormData(e.target)
-
+            console.log('check submit')
             const result = validateTransectionForm(formData)
             const allEmptyError = Object.values(result).every(val => val === '');
             if (!allEmptyError) {
                 setInputError({ ...result })
-                return
+                throw new Error("Validate input fail")
             }
             const newData = {
                 ...formData,
@@ -79,29 +81,27 @@ export default function TransectionFrom({ data = null, mode }) {
             }
 
             if (mode === 'create') {
-                const response = await createTransection(newData)
-                if (response.status !== 200) {
-                    console.log("can't update")
-                } else {
-                    console.log("create success")
-                    router.push("/finance/dashboard")
-                }
+                const { status, message } = await createTransection(newData)
+                if (status !== 200) throw new Error(message)
+
+                handleAlert('success', message)
+                router.push("/finance/dashboard")
+
             } else {
                 const updateFormData = {
                     ...newData,
                     prevMonth: new Date(data.createdDate),
                     docId: data.id,
                 }
-                const { status } = await updateData(updateFormData)
-                if (status !== 200) {
-                    console.log("can't update")
-                } else {
-                    console.log('update success!')
-                    router.push("/finance/dashboard")
-                }
+                const { status, message } = await updateData(updateFormData)
+                if (status !== 200) throw new Error(message)
+
+                handleAlert('success', message)
+                router.push("/finance/dashboard")
             }
         } catch (error) {
             console.log(error)
+            handleAlert('error', error.message)
         }
     }
 
@@ -138,6 +138,7 @@ export default function TransectionFrom({ data = null, mode }) {
             setIsLoading(false)
         }, 500);
     }, [])
+
     const containerStyle = {
         width: { xs: "100vw", sm: "60%" },
         height: { xs: "100vh", sm: "min-content" },
@@ -168,7 +169,7 @@ export default function TransectionFrom({ data = null, mode }) {
                     <form onSubmit={handleSubmit}>
                         <Grid2 container spacing={2} direction={"column"} px={{ xs: 4, sm: 8 }} py={{ xs: 3, sm: 6 }} >
                             <DatePicker name="date" value={date} maxDate={dayjs()} onChange={(newValue) => setDate(newValue)} />
-                            <TextField id="outlined-basic" name="description" value={formData.description} onChange={handleInputChange}
+                            <TextField id="outlined-basic" name="description" value={formData.description} onChange={handleInputChange} error={inputError.description} helperText={inputError.description}
                                 slotProps={{
                                     input: {
                                         startAdornment: (
@@ -181,7 +182,7 @@ export default function TransectionFrom({ data = null, mode }) {
                                 type="text" variant="outlined" placeholder="Description" required />
                             <Grid2 container direction="row" gap={2}>
                                 <Grid2 size={{ xs: 12, sm: 6 }}>
-                                    <TextField id="outlined-basic" fullWidth name="amout" value={formData.amout} onChange={handleInputChange}
+                                    <TextField id="outlined-basic" fullWidth name="amout" value={formData.amout} onChange={handleInputChange} error={inputError.amout} helperText={inputError.amout}
                                         slotProps={{
                                             input: {
                                                 startAdornment: (
@@ -219,9 +220,9 @@ export default function TransectionFrom({ data = null, mode }) {
                                             userConfig[formData.type].map((data, index) => <MenuItem key={index} value={data}>{data}</MenuItem>) : ''
                                     }
                                 </Select>
-                                {inputError.category !== '' ? <Typography variant="body1" color="error.main">{inputError.category}</Typography> : ''}
+                                {inputError.category !== '' ? <Typography variant="body1" color="error.main" fontSize={12}>{inputError.category}</Typography> : ''}
                             </Stack>
-                            <Button type="submit" variant="contained" sx={{ borderRadius: '8px', mt: '1rem' }}>Create transection</Button>
+                            <Button type="submit" variant="contained" sx={{ borderRadius: '8px', mt: '1rem' }}>{mode === 'edit' ? 'Update' : 'Create'} transection</Button>
                             {
                                 mode === 'edit' ? <Button type="button" variant="contained" onClick={handleDelete} sx={{ borderRadius: '8px', mt: '1rem', backgroundColor: "error.main" }}>Delete transection</Button> : ''
                             }

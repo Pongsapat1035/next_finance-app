@@ -16,7 +16,7 @@ import InputText from './InputText'
 import ggIcon from "@/public/icons/gg_icon.png"
 
 import { useAlert } from '@/app/alertContext';
-import { validateEmail, validatePassword, validateName } from "@/app/util/Validation"
+import { validateEmail, validatePassword, validateText } from "@/app/util/Validation"
 
 export default function AuthForm() {
     const router = useRouter()
@@ -104,7 +104,7 @@ export default function AuthForm() {
                 setValidateInput(prev => ({ ...prev, passMsg: validatePassword(value) }))
                 break
             default:
-                setValidateInput(prev => ({ ...prev, nameMsg: validateName(value) }))
+                setValidateInput(prev => ({ ...prev, nameMsg: validateText(value) }))
         }
     }
 

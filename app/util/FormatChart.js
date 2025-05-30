@@ -2,9 +2,8 @@ export function ChangeFormatChartData(recieveData, maxItemOnChart = 4) {
     const result = {}
 
     recieveData.forEach(element => {
-        const data = element.data
-        if (data.type === 'expend') {
-            result[data.category] = (result[data.category] || 0) + data.amout
+        if (element.type === 'expend') {
+            result[element.category] = (result[element.category] || 0) + element.amout
         }
     });
 

@@ -5,7 +5,6 @@ import Stack from "@mui/material/Stack";
 import IncomeIcon from '@/public/icons/file_download.png'
 import ExpendIcon from '@/public/icons/file_upload.png'
 
-
 export default function TotalBox({ type = 'income', amout = 0 })  {
     return (
         <Paper sx={{ p: 3 }}>

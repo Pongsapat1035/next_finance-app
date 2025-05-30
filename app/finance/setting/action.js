@@ -19,53 +19,52 @@ export async function LoadUserConfig(userId) {
 
 export async function AddCategory(type, data, id) {
     try {
-        // console.log('check recieved data : ', data + '/' + id)
         const docRef = doc(db, "userConfig", id)
         const response = await updateDoc(docRef, {
             [type]: arrayUnion(data)
         });
-        return 'add success'
+        return { status: 200, message: "Add new category success" }
     } catch (error) {
         console.log('error from add cate : ', error)
-        return error
+        return { status: 400, message: error.message }
     }
 }
 
 export async function DeleteCategory(type, data, id) {
     try {
         const docRef = doc(db, "userConfig", id)
-        const response = await updateDoc(docRef, {
+        await updateDoc(docRef, {
             [type]: arrayRemove(data)
         });
-        return 'delete success'
+        return { status: 200, message: `Delete ${data} success` }
     } catch (error) {
         console.log('error from add cate : ', error)
-        return error
+        return { status: 400, message: error.message }
     }
 }
 
 export async function EditCategory(type, data, id) {
     try {
         const docRef = doc(db, "userConfig", id)
-        const response = await updateDoc(docRef, {
+        await updateDoc(docRef, {
             [type]: data
         });
         return { status: 200, message: 'update success' }
     } catch (error) {
         console.log('error from add cate : ', error)
-        return error
+        return { status: 400, message: error.message }
     }
 }
 
 export async function ChangeSpendingLimit(id, data) {
     try {
         const docRef = doc(db, "userConfig", id)
-        const response = await updateDoc(docRef, {
-            spendingLimit: data
+        await updateDoc(docRef, {
+            spendingLimit: parseInt(data)
         });
         return { status: 200, message: 'update spending limit success' }
     } catch (error) {
         console.log('error from add cate : ', error)
-        return error
+        return { status: 400, message: error.message }
     }
 }

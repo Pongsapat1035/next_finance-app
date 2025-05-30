@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { getDashboardData } from '@/app/finance/dashboard/actions';
 import { getAllData } from "@/app/finance/dashboard/actions";
 import { useAuth } from '@/app/finance/authContext';
-import { getTransectionLists } from '@/app/util/ConvertData';
+import { getMonthText, getTransectionLists } from '@/app/util/ConvertData';
 
 import dayjs from 'dayjs';
 import Grid2 from '@mui/material/Grid2'
@@ -21,6 +21,7 @@ function DashboardPage() {
   const [data, setData] = useState([])
   const { user, userConfig } = useAuth()
   const [isLoading, setIsLoading] = useState(true)
+  const [listLoading, setListLoading] = useState(true)
   const [dashboardData, setDashboardData] = useState({
     expend: 0,
     income: 0,
@@ -30,6 +31,7 @@ function DashboardPage() {
 
   const handleMonthChange = (newDate) => {
     if (newDate) {
+      setListLoading(true)
       setMonthPeriod(newDate)
       fetchData(user.uuid, newDate)
     }
@@ -38,18 +40,15 @@ function DashboardPage() {
   const fetchData = async (uid, newDate) => {
     try {
       const selectedMonth = newDate ? newDate : monthPeriod
-      const date = new Date(selectedMonth)
-      const month = date.toLocaleDateString("en-US", { month: 'short', year: 'numeric' })
-
+      const month = getMonthText(selectedMonth)
       const result = await getAllData(uid, month)
 
-      if (result.status === 400) {
-        console.log('error')
-      }
-
-      const convertedResult = getTransectionLists(result)
-
+      if (result.status === 400) throw new Error(result.message)
+      const convertedResult = JSON.parse(result)
+      // const convertedResult = getTransectionLists(result)
+      // console.log('check fetch result : ', convertedResult)
       setData(convertedResult)
+      setListLoading(false)
     } catch (error) {
       console.log(error)
     }
@@ -60,16 +59,13 @@ function DashboardPage() {
     setDashboardData(dashboardData)
   }
 
-
   useEffect(() => {
     if (user && user.uuid) {
-      console.log('check user : ', user)
       fetchData(user.uuid)
       setIsLoading(false)
     }
 
   }, [user])
-
 
   useEffect(() => {
     if (data.length > 0) {
@@ -100,7 +96,7 @@ function DashboardPage() {
                 </Grid2>
               </Grid2>
               <TransectionBox
-                setLoadingSuccess={() => setIsLoading(false)}
+                isLoading={listLoading}
                 lists={data}
                 handleMonth={handleMonthChange}>
               </TransectionBox>

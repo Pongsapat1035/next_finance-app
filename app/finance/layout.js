@@ -7,7 +7,6 @@ import NavbarMobile from "../components/Navbar/NavbarMobile"
 import Navbar from "../components/Navbar/Navbar"
 import Container from '@mui/material/Container'
 import Box from '@mui/material/Box'
-import useMediaQuery from '@mui/material/useMediaQuery';
 
 import { AuthProvider } from './authContext'
 import { useAlert } from '../alertContext'
@@ -15,8 +14,6 @@ import { useAlert } from '../alertContext'
 export default function HomeLayout({ children }) {
     const { handleAlert } = useAlert()
     const router = useRouter()
-    // const matches = useMediaQuery('(min-width:600px)');
-
     const handleSignout = async () => {
         try {
             //signout and redirect to home page
@@ -32,7 +29,7 @@ export default function HomeLayout({ children }) {
 
     return (
         <>
-            <Box width="100vw" bgcolor="background.main" sx={{ height: 'minmax(100vh, auto)' }}>
+            <Box width="100vw" bgcolor="background.main" sx={{ minHeight: '100vh' }}>
                 <AuthProvider>
                     <Container>
                         <Navbar signOut={handleSignout}></Navbar>

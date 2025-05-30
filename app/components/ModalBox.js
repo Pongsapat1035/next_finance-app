@@ -22,7 +22,7 @@ export default function ModalBox({ children, state, closeModal, header }) {
             onClose={() => closeModal()}
             aria-labelledby={"modal-modal-" + header}
             aria-describedby="modal-modal-description"
-            sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', outline: 'none' }}
+            sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', outline: 'none', zIndex: 9 }}
         >
             <Paper sx={style}>
                 <Typography variant="h4" marginBottom="1rem" fontWeight="bold">

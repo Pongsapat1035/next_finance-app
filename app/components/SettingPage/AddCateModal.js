@@ -10,83 +10,91 @@ import CategoryRoundedIcon from '@mui/icons-material/CategoryRounded';
 import Typography from "@mui/material/Typography";
 import { useState } from "react";
 
-export default function AddCateModal({ modalState, closeModal, submit }) {
-    const [data, setData] = useState({
+import { AddCategory } from "@/app/finance/setting/action";
+import { validateText } from "@/app/util/Validation";
+import { useAlert } from "@/app/alertContext";
+import { useAuth } from "@/app/finance/authContext";
+
+export default function AddCateModal({ modalState, closeModal }) {
+    const { user, userConfig, setUserConfig } = useAuth()
+    const { handleAlert } = useAlert()
+    const [formData, setFormData] = useState({
         type: 'select type',
         category: ''
     })
-    const [selectTypeError, setSelectTypeError] = useState({
-        status: false,
-        msg: ' '
-    })
-    const [textError, setTextError] = useState({
-        status: false,
-        msg: ' '
+    const [inputError, setInputError] = useState({
+        type: null,
+        category: null
     })
 
-    const handleTypeChange = (event) => {
-        setData(prevState => ({
+    const handleInputChange = (event) => {
+        const { name, value } = event.target
+        setFormData(prevState => ({
             ...prevState,
-            type: event.target.value
+            [name]: value
         }))
     }
 
-    const handleCategoryChange = (event) => {
-        setData(prevState => ({
-            ...prevState,
-            category: event.target.value
-        }))
-    }
-
-    const handleSubmit = () => {
+    const validateForm = (data) => {
         const { type, category } = data
-        const categoryRex = /^[A-Za-z\s]+$/
-        const checkCateText = categoryRex.test(category)
-        setTextError(false)
-        setSelectTypeError(false)
-        setSelectTypeError((prevState) => ({
-            ...prevState,
-            status: false,
-        }))
-        setTextError((prevState) => ({
-            ...prevState,
-            status: false,
-        }))
-        if (!checkCateText) {
-            setTextError((prevState) => ({
-                ...prevState,
-                status: true,
-                msg: 'Please fill category name'
-            }))
-            return
-        }
+        const categoryLists = userConfig[type]
         if (type === 'select type') {
-            setSelectTypeError((prevState) => ({
-                ...prevState,
-                status: true,
-                msg: 'Please select category type'
-            }))
-            return
+            setInputError((prev) => ({ ...prev, type: "please select type" }))
+            throw new Error(`validate fail`)
         }
 
-        // console.log('store data')
-        submit(type, category)
+        const validateResult = validateText(category)
+        if (validateResult) {
+            setInputError((prev) => ({ ...prev, category: validateResult }))
+            throw new Error(`validate fail`)
+        }
+
+        const checkDuplicate = categoryLists.includes(category)
+        if (checkDuplicate) {
+            setInputError((prev) => ({ ...prev, category: `${category} is already exist` }))
+            throw new Error(`${category} is already exist`)
+        }
+    }
+
+    const handleCreateCategory = async () => {
+        try {
+            setInputError((prev) => ({ ...prev, type: null, category: null }))
+            validateForm(formData)
+
+            const { type, category } = formData
+            const userId = user.uuid
+            const categoryLists = userConfig[type]
+
+            await AddCategory(type, category, userId)
+
+            categoryLists.push(category)
+            setUserConfig((prev) => ({
+                ...prev,
+                [type]: categoryLists
+            }))
+            setFormData((prev) => ({ ...prev, type: 'select type', category: '' }))
+            closeModal()
+            handleAlert('success', `Create ${category} successful`)
+        } catch (error) {
+            handleAlert('error', error.message)
+            console.log('error from add new category : ', error)
+        }
     }
 
     return (
         <ModalBox state={modalState} closeModal={closeModal} header="Create category">
             <Stack spacing={2}>
                 <Select name="type"
-                    value={data.type}
-                    onChange={handleTypeChange}
-                    error={selectTypeError.status}
+                    value={formData.type}
+                    onChange={handleInputChange}
+                    error={inputError.type}
                     fullWidth>
                     <MenuItem value="select type" disabled>Select type</MenuItem>
                     <MenuItem value="expend">Expend</MenuItem>
                     <MenuItem value="income">Income</MenuItem>
                 </Select>
-                {selectTypeError.status ? <Typography variant="body1" color="error.main" mt='10px' textAlign="right">{selectTypeError.msg}</Typography> : ''}
-                <TextField id="outlined-basic" type="text" name="category" onChange={handleCategoryChange} error={textError.status} helperText={textError.msg}
+                {inputError.type ? <Typography variant="body1" color="error.main" textAlign="right" sx={{ fontSize: '0.75rem', mt: 2 }}>{inputError.type}</Typography> : ''}
+                <TextField id="outlined-basic" type="text" name="category" onChange={handleInputChange} error={inputError.category} helperText={inputError.category}
                     slotProps={{
                         input: {
                             startAdornment: (
@@ -98,7 +106,7 @@ export default function AddCateModal({ modalState, closeModal, submit }) {
                     }}
                     variant="outlined" placeholder="Categorty" required>
                 </TextField>
-                <Button variant="square" onClick={handleSubmit}>Add category</Button>
+                <Button variant="square" onClick={handleCreateCategory}>Add category</Button>
             </Stack>
         </ModalBox>
     )

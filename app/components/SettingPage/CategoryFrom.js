@@ -1,49 +1,74 @@
 "use client"
+import { useEffect, useState } from "react"
+import { AddCategory, DeleteCategory } from '@/app/finance/setting/action'
+import { useAlert } from "@/app/alertContext"
+import { useConfirm } from "@/app/confirmContext"
+import { useAuth } from "@/app/finance/authContext"
 
 import Stack from "@mui/material/Stack"
 import Typography from "@mui/material/Typography"
 import Button from "@mui/material/Button"
 import Grid2 from "@mui/material/Grid2"
 import Skeleton from "@mui/material/Skeleton"
-
-import { useState } from "react"
-import { AddCategory, DeleteCategory } from '@/app/finance/setting/action'
-import { useAlert } from "@/app/alertContext"
+import IconButton from '@mui/material/IconButton';
+import EditRoundedIcon from '@mui/icons-material/EditRounded';
+import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 
 import AddCateModal from "@/app/components/SettingPage/AddCateModal"
 import EditCategoryModal from "./EditCategoryModal"
-import ConfirmDeleteModal from "@/app/components/ConfirmModal"
 
-export default function CategoryForm({ isLoading, lists, userId }) {
+export default function CategoryForm({ lists }) {
     const { handleAlert } = useAlert()
-    const [addModalState, setAddModalState] = useState(false)
+    const { handleConfirm } = useConfirm()
+    const { user, userConfig, setUserConfig } = useAuth()
     const skeletoLists = new Array(6).fill('')
+    const [isLoading, setIsLoading] = useState(true)
+    const [userId, setUserId] = useState("")
 
-    const handleCreateCategory = async (type, category) => {
+    const [addModalState, setAddModalState] = useState(false)
+    const [categoryLists, setCategoryLists] = useState({
+        expend: [],
+        income: []
+    })
+
+    const confirmDelete = async (categoryData) => {
         try {
-            setAddModalState(false)
-            const checkDuplicate = lists[type].includes(category)
-            if (checkDuplicate) {
-                handleAlert('error', `Create ${category} fail duplicate category`)
-                return
-            }
-            await AddCategory(type, category, userId)
-            handleAlert('success', `Create ${category} successful`)
-            setTimeout(() => window.location.reload(), 1000)
-        } catch (error) {
-            console.log('error from add new category : ', error)
+            const { type, category } = categoryData
+            const response = await DeleteCategory(type, category, userId)
+
+            const deleteIndex = categoryLists[type].findIndex(el => el === category)
+            const deleteList = categoryLists[type]
+            deleteList.splice(deleteIndex, 1)
+
+            setUserConfig((prev) => ({ ...prev, type: deleteList }))
+            
+            const { status, message } = response
+            if (status !== 200) throw new Error(message)
+            handleAlert("success", message)
+        }
+        catch (error) {
+            console.log(error)
+            handleAlert("error", error.message)
         }
     }
 
-    const handleDelete = async (type, item) => {
-        try {
-            await DeleteCategory(type, item, userId)
-            handleAlert('success', `Delete ${item} successful`)
-            setTimeout(() => window.location.reload(), 1000)
-        } catch (error) {
-            console.log('error from add new category : ', error)
+    const handleDelete = async (type, category) => {
+        const categoryCount = categoryLists[type].length
+        if (categoryCount < 2) {
+            handleAlert('error', `${type} category must have at least 1 category`)
+            return
         }
+        handleConfirm("Delete", `Are you want to delete category : ${category}`, () => confirmDelete({ type, category }))
     }
+
+    useEffect(() => {
+        if (userConfig) {
+            const { expend, income } = userConfig
+            setCategoryLists((prev) => ({ ...prev, expend, income }))
+            setUserId(user.uuid)
+            setIsLoading(false)
+        }
+    }, [userConfig])
 
     return (
         <Stack gap={2}>
@@ -57,35 +82,28 @@ export default function CategoryForm({ isLoading, lists, userId }) {
                     <Typography variant="h6" fontWeight="bold">Expend</Typography>
                     {
                         isLoading ?
-                            skeletoLists.map((item, index) => <Skeleton key={index} variant="rounded" width={230} height={60} />) :
-                            lists.expend.map((item, index) => <CategoryButton key={index} name={item} value={{ data: lists.expend, index, name: item, type: 'expend' }} deleteCategory={handleDelete}></CategoryButton>)
+                            skeletoLists.map((_, index) => <Skeleton key={index} variant="rounded" width={300} height={60} />) :
+                            categoryLists.expend.map((item, index) => <CategoryButton key={index} name={item} type="expend" value={{ data: lists.expend, index, name: item, type: 'expend' }} deleteCategory={handleDelete}></CategoryButton>)
                     }
                 </Grid2>
                 <Grid2 container direction="column" gap={2} size={{ xs: 12, sm: 6 }}>
                     <Typography variant="h6" fontWeight="bold">Income</Typography>
                     {
                         isLoading ?
-                            skeletoLists.map((item, index) => <Skeleton key={index} variant="rounded" width={230} height={60} />) :
-                            lists.income.map((item, index) => <CategoryButton key={index} name={item} value={{ data: lists.income, index, name: item, type: 'income' }} deleteCategory={handleDelete}></CategoryButton>)
+                            skeletoLists.map((_, index) => <Skeleton key={index} variant="rounded" width={300} height={60} />) :
+                            categoryLists.income.map((item, index) => <CategoryButton key={index} name={item} type="income" value={{ data: lists.income, index, name: item, type: 'income' }} deleteCategory={handleDelete}></CategoryButton>)
                     }
                 </Grid2>
             </Grid2>
-            <AddCateModal modalState={addModalState} submit={handleCreateCategory} closeModal={() => setAddModalState(!addModalState)}></AddCateModal>
+            <AddCateModal modalState={addModalState} closeModal={() => setAddModalState(!addModalState)}></AddCateModal>
         </Stack>
     )
 }
 
-import IconButton from '@mui/material/IconButton';
-import EditRoundedIcon from '@mui/icons-material/EditRounded';
-import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 
-const CategoryButton = ({ name, type, value, deleteCategory }) => {
+const CategoryButton = ({ name, type, deleteCategory }) => {
     const [editModalState, setEditModalState] = useState(false)
-    const [confirmDelState, setConfirmDelState] = useState(false)
-    const confirmDelete = () => {
-        setConfirmDelState(false)
-        deleteCategory(value.type, value.name)
-    }
+
     const style = {
         width: { xs: '100%', sm: '80%', ms: '60%' },
         px: 2,
@@ -101,12 +119,11 @@ const CategoryButton = ({ name, type, value, deleteCategory }) => {
                 <IconButton aria-label="edit" onClick={() => setEditModalState(true)}>
                     <EditRoundedIcon />
                 </IconButton>
-                <IconButton aria-label="edit" onClick={() => setConfirmDelState(true)}>
+                <IconButton aria-label="edit" onClick={() => deleteCategory(type, name)}>
                     <DeleteRoundedIcon />
                 </IconButton>
             </Stack>
-            <EditCategoryModal modalState={editModalState} closeModal={() => setEditModalState(false)} value={value}></EditCategoryModal>
-            <ConfirmDeleteModal state={confirmDelState} closeState={() => setConfirmDelState(false)} header="Delete category" action={confirmDelete}></ConfirmDeleteModal>
+            <EditCategoryModal modalState={editModalState} closeModal={() => setEditModalState(false)} value={{ name, type }}></EditCategoryModal>
         </Stack>
     )
 }

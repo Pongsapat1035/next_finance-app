@@ -27,7 +27,7 @@ export function AuthProvider({ children }) {
         //     const newToken = await auth.currentUser.getIdToken(true)
         //     await storeCookie(newToken)
         // }
-        
+
         setUser(userInfo)
     }
 
@@ -36,7 +36,7 @@ export function AuthProvider({ children }) {
     }, [])
 
     return (
-        <AuthContext.Provider value={{ user, userConfig }}>
+        <AuthContext.Provider value={{ user, userConfig, setUserConfig }}>
             {children}
         </AuthContext.Provider>
     )

@@ -8,16 +8,26 @@ import Stack from "@mui/material/Stack"
 import Button from "@mui/material/Button"
 
 export default function ConfirmModal({ state, closeState, header, description, action }) {
-    const  { handleAlert } = useAlert()
+    const { handleAlert } = useAlert()
     const router = useRouter()
 
     const handleSubmit = async () => {
-        const response = await action()
-        if(response.status === 200) {
-            handleAlert("success", response.msg)
-            router.push(response.redirectUrl)
+        try {
+            const response = await action()
+            if (response) {
+                const { status, message, redirectUrl } = response
+                if (status === 200) {
+                    handleAlert("success", message)
+                    if (redirectUrl) router.push(redirectUrl)
+                } else {
+                    throw new Error(message)
+                }
+            }
+        } catch (error) {
+            console.log(error)
+        } finally {
+            closeState()
         }
-        closeState()
     }
     return (
         <ModalBox state={state} header={header} closeModal={closeState} >

@@ -1,5 +1,4 @@
 "use server"
-
 import { doc, collection, getDocs, getDoc, addDoc, setDoc, runTransaction, query, where } from "firebase/firestore";
 import { db } from "@/app/firebase";
 
@@ -10,13 +9,22 @@ export async function getAllData(uid, month) {
         const docRef = collection(db, "financeTrack", uid, month)
         const docSnap = await getDocs(docRef);
         const result = docSnap.docs.map((doc) => {
+            const data = doc.data()
+            const date = data.createdDate.toDate()
+            data.createdDate = date
+            data.date = date.getDate()
+            data.weekDay = date.toLocaleDateString("en-us", { weekday: 'short' })
             const convertData = {
+                ...data,
                 id: doc.id,
-                data: doc.data()
             }
+
             return convertData
         })
-        const convertResult = JSON.stringify(result)
+        const sortedResult = result.sort((a, b) => b.createdDate - a.createdDate)
+
+        console.log('check data : ', sortedResult)
+        const convertResult = JSON.stringify(sortedResult)
         return convertResult
     } catch (error) {
         console.log('error from get doc : ', error)
@@ -25,8 +33,8 @@ export async function getAllData(uid, month) {
 }
 
 export async function getDashboardData(lists) {
-    const expendSum = lists.filter((list) => list.data.type === 'expend').reduce((acc, currectVal) => acc + currectVal.data.amout, 0,)
-    const incomeSum = lists.filter((list) => list.data.type === 'income').reduce((acc, currectVal) => acc + currectVal.data.amout, 0,)
+    const expendSum = lists.filter((list) => list.type === 'expend').reduce((acc, currectVal) => acc + currectVal.amout, 0,)
+    const incomeSum = lists.filter((list) => list.type === 'income').reduce((acc, currectVal) => acc + currectVal.amout, 0,)
     const balance = incomeSum - expendSum
     return {
         income: incomeSum,
@@ -63,10 +71,10 @@ export async function deleteDocFormId(uid, docId, data) {
 
             transaction.delete(doc(db, "financeTrack", uid, month, docId))
         })
-        return { status: 200, msg: 'delete transection success', redirectUrl: "/finance/dashboard" }
+        return { status: 200, message: 'delete transection success', redirectUrl: "/finance/dashboard" }
     } catch (error) {
         console.log(error)
-        return { status: 400, msg: 'delete transection success' }
+        return { status: 400, message: 'delete transection success' }
     }
 }
 
@@ -89,7 +97,7 @@ export async function createTransection(data) {
 
             if (!totalDoc.exists()) {
                 const amout = convertData.amout
-                transaction.set(totalDocRef, ({ [convertData.type]: amout, year: date.getFullYear(), monthIndex: date.getMonth() }))
+                transaction.set(totalDocRef, ({ [convertData.type]: amout, year: convertData.createdDate.getFullYear(), monthIndex: convertData.createdDate.getMonth() }))
             } else {
                 const newTotal = (totalDoc.data()[convertData.type] || 0) + convertData.amout
                 transaction.update(totalDocRef, { [convertData.type]: newTotal });
@@ -98,11 +106,11 @@ export async function createTransection(data) {
 
         const docRef = collection(db, "financeTrack", uid, getMonth)
         await addDoc(docRef, convertData)
-        return { status: 200, msg: 'create new transection success !!' }
+        return { status: 200, message: 'Create new transection success' }
 
     } catch (error) {
         console.log('add error : ', error)
-        return { status: 400, msg: error.message }
+        return { status: 400, message: error.message }
     }
 }
 
@@ -128,7 +136,7 @@ export async function updateData(data) {
         const docId = data.docId
         const newMonth = getMonthText(data.createdDate)
         const prevMonth = getMonthText(data.prevMonth)
-       
+
         const convertData = {
             type: data.type,
             category: data.category,
@@ -136,7 +144,7 @@ export async function updateData(data) {
             createdDate: new Date(data.createdDate),
             description: data.description
         }
-        
+
         // get old doc data
         const prevDocRef = doc(db, "financeTrack", userId, prevMonth, docId)
         const prevDoc = await getDoc(prevDocRef);

@@ -40,7 +40,7 @@ const ChartWrapper = ({ lists }) => {
                             }]}
                             slotProps={{
                                 legend: { hidden: true },
-                              }}
+                            }}
                             width={400}
                             height={200}
                         />

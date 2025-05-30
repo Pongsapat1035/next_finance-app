@@ -31,6 +31,7 @@ export default function AlertBadge({ data = {}, handleFunction }) {
         position: "fixed",
         bottom: 80,
         right: 20,
+        zIndex: 10,
         border: '1px solid rgb(224, 224, 224)'
     }
 
