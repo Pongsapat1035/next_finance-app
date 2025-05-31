@@ -1,36 +1,52 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 💰 next-finance-tracker-app
 
-## Getting Started
+A full-stack finance tracker built with **Next.js**, **Firebase**, and **Material UI** to manage your income and expenses, visualize data with charts, and set financial goals. This project showcases modern web development with SSR, Firebase Authentication, and server components.
 
-First, run the development server:
+## 🔗 Live Demo
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+🌐 [View on Vercel](https://next-finance-app-phi.vercel.app/)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🛠 Tech Stack
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+- **Framework**: Next.js (App Router, Server Components, SSR)
+- **Backend & Auth**: Firebase (Authentication, Firestore, Firebase Admin SDK)
+- **UI**: Material UI (MUI)
+- **Deployment**: Vercel
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🔐 Features
 
-## Learn More
+### 🔒 Authentication
+- Email/password authentication with input validation
+- Google Sign-in supported
+- Session stored in secure HTTP-only cookies
+- Route protection with Firebase Admin token validation using Next.js middleware
 
-To learn more about Next.js, take a look at the following resources:
+### 📊 Dashboard
+- View all your transactions
+- Total boxes for **Income** and **Expenditure**
+- CRUD (Create, Read, Update, Delete) transactions
+- Pie chart showing expense breakdown
+- Monthly spending progress with **Spending Limit Box**
+- Default to current month, switch to other months via dropdown
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 📈 Report Page
+- Overview of total income and expense
+- Bar chart for daily spend/income
+- Category-wise most spent (with percentages)
+- Month selector support
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### ⚙️ Settings
+- Set your own monthly **Spending Limit**
+- Manage categories for income and expense
 
-## Deploy on Vercel
+### 📱 Responsive Design
+- Fully responsive and mobile-friendly
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🧠 What I Learned
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Using Next.js App Router and Server Components
+- Implementing Firebase Admin SDK for token validation
+- Building protected routes with `middleware.ts`
+- Integrating MUI for professional UI/UX
+- Creating interactive charts with dynamic data
+- Managing state with full-stack Firebase integration
