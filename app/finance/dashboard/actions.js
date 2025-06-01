@@ -32,7 +32,7 @@ export async function getAllData(uid, month) {
     }
 }
 
-export async function getDashboardData(lists) {
+export async function getTotalTransection(lists) {
     const expendSum = lists.filter((list) => list.type === 'expend').reduce((acc, currectVal) => acc + currectVal.amout, 0,)
     const incomeSum = lists.filter((list) => list.type === 'income').reduce((acc, currectVal) => acc + currectVal.amout, 0,)
     const balance = incomeSum - expendSum
@@ -45,12 +45,10 @@ export async function getDashboardData(lists) {
 
 export async function getTotalReport(uid, year) {
     try {
-        console.log('recieved data : ', uid + '/' + year)
         const colRef = collection(db, "financeTrack", uid, "total")
-        const docRef = query(colRef, where("year", "==", year))
+        const docRef = query(colRef, where("year", "==", parseInt(year)))
         const docSnap = await getDocs(docRef);
         const result = docSnap.docs.map((doc) => doc.data())
-        console.log(result)
         return result
     } catch (error) {
         console.log('error from get doc : ', error)

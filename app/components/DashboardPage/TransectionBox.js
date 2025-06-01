@@ -98,7 +98,7 @@ const TransectionList = ({ data }) => {
                 <Typography variant="h6" fontWeight="semibold" textAlign="end"
                     color={data.type === 'income' ? 'success.main' : 'error.main'}
                 >
-                    {data.type === 'income' ? data.amout : '-' + data.amout} THB
+                    {data.type === 'income' ? data.amout.toLocaleString() : '-' + data.amout.toLocaleString()} THB
                 </Typography>
             </Grid2>
         </Grid2>

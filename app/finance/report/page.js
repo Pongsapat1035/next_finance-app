@@ -5,26 +5,24 @@ import Typography from "@mui/material/Typography";
 import TotalBadgeWarpper from "../../components/ReportPage/TotalBadgeWarpper";
 import IncomeWarpper from "../../components/ReportPage/IncomeWarpper";
 import ExpendWarpper from "../../components/ReportPage/ExpendWarpper";
-import FinanceOverview from "../../components/ReportPage/YearlyOverview";
+import YearlyOverview from "../../components/ReportPage/YearlyOverview";
 import TransectionChart from "../../components/ReportPage/TransectionChart";
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
 
 import { useEffect, useState } from "react";
 import { useAuth } from '@/app/finance/authContext';
-import { getAllData, getTotalReport } from "@/app/finance/dashboard/actions";
-
+import { getAllData } from "@/app/finance/dashboard/actions";
+import { getMonthText } from "@/app/util/ConvertData";
 
 const ReportPage = () => {
     const { user } = useAuth()
     const [date, setDate] = useState(dayjs())
     const [lists, setLists] = useState([])
-    const [totalLists, setTotalLsits] = useState([])
-    
-    const handleChangeMonth = (data) => {
-        setDate(data)
-        const date = new Date(data)
-        const getMonth = date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
+
+    const handleChangeMonth = (newDate) => {
+        setDate(newDate)
+        const getMonth = getMonthText(newDate)
         fetchData(user.uuid, getMonth)
     }
 
@@ -32,31 +30,17 @@ const ReportPage = () => {
         try {
             const response = await getAllData(uid, month)
             const convertResponse = JSON.parse(response)
-
-            convertResponse.forEach(element => {
-                element.amout = parseInt(element.amout)
-                element.timeStamp = element.createdDate.seconds
-            });
-
             setLists(convertResponse)
         } catch (error) {
             console.log(error)
         }
     }
-    const fetchTotalMonth = async (uid) => {
-        try {
-            const response = await getTotalReport(uid)
-            setTotalLsits(response)
-        } catch (error) {
-            console.log(error)
-        }
-    }
+
     useEffect(() => {
-        // fetch data from first load
         if (user) {
-            const date = new Date()
-            const month = date.toLocaleDateString("en-US", { month: 'short', year: 'numeric' })
-            fetchData(user.uuid, month)
+            const userId = user.uuid
+            const currentMonth = getMonthText()
+            fetchData(userId, currentMonth)
         }
     }, [user])
 
@@ -80,7 +64,7 @@ const ReportPage = () => {
             <IncomeWarpper lists={lists}></IncomeWarpper>
             <ExpendWarpper lists={lists}></ExpendWarpper>
             <Grid2 container size={12} justifyContent="space-between" mb={2}>
-                <FinanceOverview lists={totalLists}></FinanceOverview>
+                <YearlyOverview></YearlyOverview>
             </Grid2>
         </Grid2>
     )

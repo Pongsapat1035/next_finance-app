@@ -1,7 +1,8 @@
 "use client"
-
 import { useRouter, usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
+import { useConfirm } from '@/app/confirmContext';
+import { userSignout } from '@/app/auth/action';
 
 import IconButton from '@mui/material/IconButton';
 import Grid2 from "@mui/material/Grid2";
@@ -10,17 +11,18 @@ import SpaceDashboardRoundedIcon from '@mui/icons-material/SpaceDashboardRounded
 import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
 import AssessmentRoundedIcon from '@mui/icons-material/AssessmentRounded';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
-import ConfirmModal from '@/app/components/ConfirmModal';
 
-export default function NavbarMobile({ signOut }) {
+export default function NavbarMobile() {
     const router = useRouter()
     const pathname = usePathname()
+    const { handleConfirm } = useConfirm()
     const [activeLink, setActiveLink] = useState({
         dashboard: false,
         report: false,
         setting: false
     })
-    const [confirmSignout, setConfirmSignout] = useState(false)
+
+    const handleSignout = () => handleConfirm("Signout", "Are sure to sign out ?", async () => await userSignout())
 
     const style = {
         position: 'fixed',
@@ -82,10 +84,9 @@ export default function NavbarMobile({ signOut }) {
             <IconButton aria-label="setting-page" onClick={() => router.push('/finance/setting')}>
                 <SettingsRoundedIcon sx={ { color: activeLink.setting ? 'background.paper' : 'text.light' }} />
             </IconButton>
-            <IconButton aria-label="logout-page" onClick={() => setConfirmSignout(true)}>
+            <IconButton aria-label="logout-page" onClick={handleSignout}>
                 <LogoutRoundedIcon sx={{ color: 'text.light' }} />
             </IconButton>
-            <ConfirmModal header="Sign out" state={confirmSignout} closeState={() => setConfirmSignout(false)} action={signOut}></ConfirmModal>
         </Grid2>
     )
 }

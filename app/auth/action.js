@@ -14,8 +14,11 @@ export async function Login(userData) {
         storeCookie(token)
         return { status: 200, message: `login success!!`, name }
     } catch (error) {
-        console.log('login error : ', error)
-        return { status: 400, message: error }
+        console.log('login error : ', error.code)
+        const errorCode = error.code
+        let message = error.message
+        if (errorCode === "auth/user-not-found") message = "User not  found"
+        return { status: 400, message }
     }
 }
 
@@ -34,8 +37,8 @@ export async function Register(userData) {
 
     } catch (error) {
         console.log('register error : ', error.code)
-        if(error.code === "auth/email-already-in-use") {
-            return { status: 409, message: "email is already in use" }
+        if (error.code === "auth/email-already-in-use") {
+            return { status: 409, message: "Email is already in use" }
         }
 
         return { status: false, message: error }
@@ -77,7 +80,7 @@ export const userSignout = async () => {
         //signout and redirect to home page
         await signOut(auth)
         await deleteCookie()
-        return { status: 200, message: 'logout success' }
+        return { status: 200, message: 'logout success', redirectUrl: "/" }
     } catch (error) {
         console.log('signout error : ', error)
     }

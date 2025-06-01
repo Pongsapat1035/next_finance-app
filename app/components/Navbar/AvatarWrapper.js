@@ -8,7 +8,7 @@ import { useAuth } from '@/app/finance/authContext'
 import { useEffect, useState } from 'react'
 
 export default function AvatarWrapper() {
-    const user = useAuth()
+    const {user} = useAuth()
     const [username, setUsername] = useState('Username')
 
     useEffect(() => {

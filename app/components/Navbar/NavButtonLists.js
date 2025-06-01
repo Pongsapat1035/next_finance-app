@@ -1,5 +1,9 @@
 "use client"
 import { useRouter, usePathname } from 'next/navigation'
+import { useEffect, useState } from 'react';
+import { useConfirm } from '@/app/confirmContext';
+import { userSignout } from '@/app/auth/action';
+
 import Box from '@mui/material/Box';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -12,19 +16,16 @@ import AssessmentRoundedIcon from '@mui/icons-material/AssessmentRounded';
 import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 
-import { useEffect, useState } from 'react';
-import ConfirmModal from '@/app/components/ConfirmModal';
-
-export default function NavButttonList({ signOut, handleNav }) {
-
+export default function NavButttonList({ handleNav }) {
+    const { handleConfirm } = useConfirm()
     const [activeLink, setActiveLink] = useState({
         dashboard: false,
         report: false,
         setting: false
     })
     const pathname = usePathname()
-    const [confirmSignout, setConfirmSignout] = useState(false)
 
+    const handleSignout = () => handleConfirm("Signout", "Are sure to sign out ?", async () => await userSignout())
 
     useEffect(() => {
         // check pathname and set active style
@@ -63,8 +64,7 @@ export default function NavButttonList({ signOut, handleNav }) {
                 <ListMenu isActive={activeLink.setting} name="Setting" path='/finance/setting' handleNav={handleNav}></ListMenu>
             </List>
             <Divider />
-            <ListMenu isActive={activeLink.setting} name="Logout" handleNav={() => setConfirmSignout(true)}></ListMenu>
-            <ConfirmModal header="Sign out" state={confirmSignout} closeState={() => setConfirmSignout(false)} action={signOut}></ConfirmModal>
+            <ListMenu isActive={activeLink.setting} name="Logout" handleNav={handleSignout}></ListMenu>
         </Box>
     )
 }

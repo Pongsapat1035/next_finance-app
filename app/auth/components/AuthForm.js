@@ -14,6 +14,8 @@ import Stack from '@mui/material/Stack';
 import Divider from '@mui/material/Divider';
 import InputText from './InputText'
 import ggIcon from "@/public/icons/gg_icon.png"
+import LoadingScreen from '@/app/components/LoadingScreen';
+
 
 import { useAlert } from '@/app/alertContext';
 import { validateEmail, validatePassword, validateText } from "@/app/util/Validation"
@@ -35,6 +37,7 @@ export default function AuthForm() {
         passMsg: null,
         nameMsg: null
     })
+    const [loadingScreenState, setLoadingScreenState] = useState(false)
 
     async function LoginWithGoogle() {
         try {
@@ -48,10 +51,12 @@ export default function AuthForm() {
             await storeCookie(token)
             handleAlert('success', 'Login success')
             setGoogleLoading(!googleLoading)
+            setLoadingScreenState(true)
             router.push('/finance/dashboard')
 
         } catch (error) {
             setGoogleLoading(false)
+            setLoadingScreenState(false)
             console.log(error)
         }
     }
@@ -62,7 +67,7 @@ export default function AuthForm() {
         try {
             setIsLoading(true)
             const allEmptyError = Object.values(validateInput).every(val => val === null);
-            if (!allEmptyError)
+            if (!allEmptyError && mode)
                 throw new Error("Please check all input again!")
 
             const formData = new FormData(e.target);
@@ -75,8 +80,10 @@ export default function AuthForm() {
 
             if (response.status === 200) {
                 handleAlert('success', `Welcome ${response.name}`)
+                setLoadingScreenState(true)
                 router.push('/finance/dashboard')
             } else {
+                setLoadingScreenState(false)
                 throw new Error(response.message)
             }
 
@@ -182,6 +189,7 @@ export default function AuthForm() {
                         </Stack>
                 }
             </Grid2>
+            {loadingScreenState ? <LoadingScreen></LoadingScreen> : ""}
         </form>
     )
 }

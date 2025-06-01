@@ -6,6 +6,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import Skeleton from "@mui/material/Skeleton";
 
 import { LineChart } from '@mui/x-charts/LineChart';
 import { useEffect, useState } from "react";
@@ -21,6 +22,7 @@ export default function YearlyOverview() {
     const initialYearLists = Array.from({ length: 5 }, (_, i) => (thisYear - i).toString());
 
     const [year, setYear] = useState(initialYearLists[0])
+    const [isLoading, setIsLoading] = useState(true)
 
     const fetchTotalLists = async (uid, year) => {
         const response = await getTotalReport(uid, year)
@@ -32,9 +34,13 @@ export default function YearlyOverview() {
         } else {
             setChartData([])
         }
+        setTimeout(() => {
+            setIsLoading(false)
+        }, 500);
     }
 
     const handleYearChange = (e) => {
+        setIsLoading(true)
         const newYear = e.target.value
         setYear(newYear)
         fetchTotalLists(user.uuid, newYear)
@@ -97,17 +103,21 @@ export default function YearlyOverview() {
                     </Select>
                 </FormControl>
             </Stack>
-            <LineChart
-                xAxis={[{
-                    dataKey: "monthIndex", valueFormatter: (value) => convertMonthToString(value),
-                }]}
-                series={[
-                    { dataKey: "expend", color: chartColors[1], label: 'expend' },
-                    { dataKey: "income", color: chartColors[3], label: 'Income' }
-                ]}
-                dataset={chartData}
-                height={300}
-            />
+            {
+                isLoading ? <Skeleton variant="rounded" width="100%" height={300}></Skeleton> :
+                    <LineChart
+                        xAxis={[{
+                            dataKey: "monthIndex", valueFormatter: (value) => convertMonthToString(value),
+                        }]}
+                        series={[
+                            { dataKey: "expend", color: chartColors[1], label: 'expend' },
+                            { dataKey: "income", color: chartColors[3], label: 'Income' }
+                        ]}
+                        dataset={chartData}
+                        height={300}
+                    />
+            }
+
         </Grid2>
     )
 

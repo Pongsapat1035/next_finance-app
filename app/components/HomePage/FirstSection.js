@@ -9,6 +9,7 @@ import NextIcon from '@/public/icons/nextjs_icon_dark.svg'
 import FirebaseIcon from '@/public/icons/firebase.svg'
 import MaterialIcon from '@/public/icons/materialui.svg'
 import Image from 'next/image'
+import { Login } from "@/app/auth/action";
 
 export default function FirstSection() {
     const router = useRouter()
@@ -26,6 +27,15 @@ export default function FirstSection() {
             name: 'Material UI'
         }
     ]
+
+    const signInDemo = async () => {
+        try {
+            const { status, message } = await Login({ email: "demo@demo.com", password: "Demo_password" })
+            if (status !== 200) throw new Error(message)
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     return (
         <Grid2 container alignItems="center" justifyContent="center" height="60vh" mb={8} sx={{
@@ -51,7 +61,7 @@ export default function FirstSection() {
                         ))
                     }
                 </Stack>
-                <Button variant='contained' onClick={() => router.push('/auth')} sx={{ px: 4, width: '200px', borderRadius: '10px' }}>Try demo project</Button>
+                <Button variant='contained' onClick={signInDemo} sx={{ px: 4, width: '200px', borderRadius: '10px' }}>Try demo project</Button>
             </Grid2>
         </Grid2>
     )

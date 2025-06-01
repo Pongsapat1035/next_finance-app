@@ -4,13 +4,13 @@ import Skeleton from '@mui/material/Skeleton'
 import Stack from '@mui/material/Stack'
 
 export default function DashboardSkeleton() {
-    const boxStyle = { border: 1, borderColor: "primary.light", borderRadius: "20px", p: 4 }
+    const boxStyle = { border: 1, border: 0, backgroundColor: "background.paper", borderRadius: "20px", p: 4 }
 
     return (
         <Box height="100vh" py={2}>
-            <Grid2 container direction="row" spacing={6} sx={{ width: '100%' }}>
+            <Grid2 container direction="row" spacing={4} sx={{ width: '100%' }}>
                 <Grid2 size={{ xs: 12, sm: 7, lg: 8 }}>
-                    <Stack spacing={6} sx={{ height: '100%' }}>
+                    <Stack spacing={4} sx={{ height: '100%' }}>
                         <Grid2 container direction="row" spacing={2}>
                             <Grid2 size="auto" container sx={boxStyle} justifyContent="space-between">
                                 <Grid2 container direction="column" size={7}>

@@ -3,20 +3,16 @@ import Typography from "@mui/material/Typography";
 import { BarChart } from '@mui/x-charts/BarChart';
 import { useEffect, useState } from "react";
 import { chartColors } from "@/app/util/FormatChart";
+import SummaryChartSkeleton from "./skeleton/SummaryChartSkeleton";
 
 export default function TransectionChart({ lists }) {
     const [chartData, setChartData] = useState([])
     const [dateLists, setDateLists] = useState([])
-   
-    const getDay = (recievedDate) => {
-        const date = new Date(recievedDate * 1000)
-        return date.getDate()
-    }
+    const [isLoading, setIsLoading] = useState(true)
 
-    const convertDataToChart = () => {
-        lists.forEach(item => item.data.day = getDay(item.data.timeStamp))
-        const dateLists = [...new Set(lists.map(item => item.data.day))].sort((a, b) => a - b);
-
+    const convertDataToChart = (recievedList) => {
+        const newLists = JSON.parse(JSON.stringify(recievedList))
+        const dateLists = [...new Set(newLists.map(item => item.date))].sort((a, b) => a - b);
         const data = []
 
         dateLists.forEach((item) => {
@@ -24,36 +20,43 @@ export default function TransectionChart({ lists }) {
                 expend: 0,
                 income: 0
             }
-            const filterLists = lists.filter((el) => el.data.day === item)
+            const filterLists = newLists.filter((el) => el.date === item)
             filterLists.forEach((filterItem) => {
-                const type = filterItem.data.type
-                const amout = filterItem.data.amout
+                const type = filterItem.type
+                const amout = filterItem.amout
                 filterData[type] = (filterData[type] || 0) + amout
             })
             data.push(filterData)
         })
-        // console.log(data)
         setDateLists(dateLists)
         setChartData(data)
     }
 
     useEffect(() => {
-        convertDataToChart()
+        setIsLoading(true)
+        convertDataToChart(lists)
+        setTimeout(() => {
+            setIsLoading(false)
+        }, 500)
     }, [lists])
 
 
     return (
-        <Grid2 size={{ xs: 12 , md: 8 }} bgcolor="background.paper" sx={{ borderRadius: '20px', py: 2, px: 4 }}>
+        <Grid2 size={{ xs: 12, md: 8 }} bgcolor="background.paper" sx={{ borderRadius: '20px', py: 2, px: 4 }}>
             <Typography variant="h5" fontWeight="bold">Summary Chart</Typography>
-            <BarChart
-                dataset={chartData}
-                xAxis={[{ scaleType: 'band', data: dateLists }]}
-                series={[
-                    { dataKey: 'expend', label: 'Expend', color: chartColors[1]  },
-                    { dataKey: 'income', label: 'Income', color: chartColors[3] },
-                ]}
-                height={300}
-            />
+            {
+                isLoading ? <SummaryChartSkeleton></SummaryChartSkeleton> :
+                    <BarChart
+                        dataset={chartData}
+                        xAxis={[{ scaleType: 'band', data: dateLists }]}
+                        series={[
+                            { dataKey: 'expend', label: 'Expend', color: chartColors[1] },
+                            { dataKey: 'income', label: 'Income', color: chartColors[3] },
+                        ]}
+                        height={300}
+                    />
+            }
+
         </Grid2>
     )
 }

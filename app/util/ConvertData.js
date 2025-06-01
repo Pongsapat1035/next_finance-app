@@ -8,7 +8,7 @@ export const getTransectionLists = (rawData) => {
 }
 
 export const getMonthText = (recievedDate) => {
-    const date = new Date(recievedDate)
+    const date = new Date(recievedDate ? recievedDate : new Date())
     const getMonth = date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
     return getMonth
 }

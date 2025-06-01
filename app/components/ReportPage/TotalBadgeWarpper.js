@@ -1,6 +1,8 @@
 import Grid2 from "@mui/material/Grid2"
 import TotalBadge from '@/app/components/ReportPage/TotalBadge';
 import { useEffect, useState } from "react";
+import { getTotalTransection } from "@/app/finance/dashboard/actions";
+
 
 export default function TotalBadgeWarpper({ lists }) {
     const [dashboardData, setDashboardData] = useState({
@@ -9,27 +11,13 @@ export default function TotalBadgeWarpper({ lists }) {
         balance: 0
     })
 
-    useEffect(() => {
-        if (lists.length > 0) {
-            // if have data calculate total
-            const expendSum = lists.filter((list) => list.data.type === 'expend').reduce((acc, currectVal) => acc + currectVal.data.amout, 0,)
-            const incomeSum = lists.filter((list) => list.data.type === 'income').reduce((acc, currectVal) => acc + currectVal.data.amout, 0,)
-            const balance = incomeSum - expendSum
+    const fetchTotalData = async () => {
+        const response = await getTotalTransection(lists)
+        setDashboardData(response)
+    }
 
-            setDashboardData({
-                income: incomeSum,
-                expend: expendSum,
-                balance: balance
-            })
-        } else {
-            // reset to default value
-            setDashboardData((prevState) => ({
-                ...prevState,
-                expend: 0,
-                income: 0,
-                balance: 0
-            }))
-        }
+    useEffect(() => {
+        fetchTotalData()
     }, [lists])
 
     return (

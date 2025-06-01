@@ -10,7 +10,7 @@ import AvatarWrapper from './AvatarWrapper';
 import ContractArea from './ContractArea';
 import NavButttonList from './NavButtonLists';
 
-export default function Navbar({ signOut }) {
+export default function Navbar() {
 
     const NavbarBox = styled(Box)(({ theme }) => ({
         backgroundColor: theme.palette.background.paper,
@@ -58,7 +58,7 @@ export default function Navbar({ signOut }) {
                         </IconButton>
                     </Stack>
                     <AvatarWrapper></AvatarWrapper>
-                    <NavButttonList signOut={signOut} handleNav={handleNav}></NavButttonList>
+                    <NavButttonList handleNav={handleNav}></NavButttonList>
                 </Stack>
                 <ContractArea></ContractArea>
             </Stack>

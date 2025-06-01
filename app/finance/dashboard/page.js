@@ -1,7 +1,7 @@
 "use client"
 import { useEffect, useState } from "react";
 
-import { getDashboardData } from '@/app/finance/dashboard/actions';
+import { getTotalTransection } from '@/app/finance/dashboard/actions';
 import { getAllData } from "@/app/finance/dashboard/actions";
 import { useAuth } from '@/app/finance/authContext';
 import { getMonthText, getTransectionLists } from '@/app/util/ConvertData';
@@ -45,8 +45,6 @@ function DashboardPage() {
 
       if (result.status === 400) throw new Error(result.message)
       const convertedResult = JSON.parse(result)
-      // const convertedResult = getTransectionLists(result)
-      // console.log('check fetch result : ', convertedResult)
       setData(convertedResult)
       setListLoading(false)
     } catch (error) {
@@ -55,7 +53,7 @@ function DashboardPage() {
   }
 
   const getNewDashboardData = async () => {
-    const dashboardData = await getDashboardData(data)
+    const dashboardData = await getTotalTransection(data)
     setDashboardData(dashboardData)
   }
 
