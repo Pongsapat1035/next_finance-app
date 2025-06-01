@@ -7,12 +7,11 @@ import { useEffect, useState } from "react";
 import { chartColors } from "@/app/util/FormatChart";
 import IncomeSkeleton from "./skeleton/IncomeSkeleton";
 
-export default function IncomeWarpper({ lists }) {
+export default function IncomeWarpper({ isLoading,  lists }) {
 
     const [guageLists, setGuageLists] = useState([])
     const [incomeValue, setIncomeValue] = useState(0)
-    const [isLoading, setIsLoading] = useState(true)
-    
+
     const convertGuageData = (totalAmout, recievedData) => {
         const convertResult = Object.entries(recievedData).map((item, index) => {
             const category = item[0]
@@ -41,16 +40,12 @@ export default function IncomeWarpper({ lists }) {
     }
 
     useEffect(() => {
-        setIsLoading(true)
         if (lists.length > 0) {
             changeDataFormat(lists)
         } else {
             setGuageLists([])
             setIncomeValue(0)
         }
-        setTimeout(() => {
-            setIsLoading(false)
-        }, 500)
     }, [lists])
 
     return (

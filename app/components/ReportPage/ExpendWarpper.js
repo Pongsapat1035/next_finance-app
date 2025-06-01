@@ -7,21 +7,16 @@ import { useState, useEffect } from "react";
 import { ChangeFormatChartData } from "@/app/util/FormatChart";
 import PieChartSkeleton from "./skeleton/PieChartSkeleton";
 
-export default function ExpendWarpper({ lists }) {
+export default function ExpendWarpper({ isLoading, lists }) {
     const [dataLists, setDataLists] = useState([])
-    const [isLoading, setIsLoading] = useState(true)
-
+  
     useEffect(() => {
-        setIsLoading(true)
         if (lists.length > 0) {
             const result = ChangeFormatChartData(lists)
             setDataLists(result)
         } else {
             setDataLists([])
         }
-        setTimeout(() => {
-            setIsLoading(false)
-        }, 500);
     }, [lists])
 
     return (

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { getTotalTransection } from '@/app/finance/dashboard/actions';
 import { getAllData } from "@/app/finance/dashboard/actions";
 import { useAuth } from '@/app/finance/authContext';
-import { getMonthText, getTransectionLists } from '@/app/util/ConvertData';
+import { getMonthText } from '@/app/util/ConvertData';
 
 import dayjs from 'dayjs';
 import Grid2 from '@mui/material/Grid2'

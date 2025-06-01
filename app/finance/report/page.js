@@ -19,6 +19,7 @@ const ReportPage = () => {
     const { user } = useAuth()
     const [date, setDate] = useState(dayjs())
     const [lists, setLists] = useState([])
+    const [isLoading, setIsLoading] = useState(true)
 
     const handleChangeMonth = (newDate) => {
         setDate(newDate)
@@ -28,9 +29,11 @@ const ReportPage = () => {
 
     const fetchData = async (uid, month) => {
         try {
+            setIsLoading(true)
             const response = await getAllData(uid, month)
             const convertResponse = JSON.parse(response)
             setLists(convertResponse)
+            setIsLoading(false)
         } catch (error) {
             console.log(error)
         }
@@ -59,10 +62,10 @@ const ReportPage = () => {
                     onChange={handleChangeMonth}
                 />
             </Grid2>
-            <TransectionChart lists={lists}></TransectionChart>
+            <TransectionChart  isLoading={isLoading} lists={lists}></TransectionChart>
             <TotalBadgeWarpper lists={lists}></TotalBadgeWarpper>
-            <IncomeWarpper lists={lists}></IncomeWarpper>
-            <ExpendWarpper lists={lists}></ExpendWarpper>
+            <IncomeWarpper isLoading={isLoading} lists={lists}></IncomeWarpper>
+            <ExpendWarpper isLoading={isLoading} lists={lists}></ExpendWarpper>
             <Grid2 container size={12} justifyContent="space-between" mb={2}>
                 <YearlyOverview></YearlyOverview>
             </Grid2>

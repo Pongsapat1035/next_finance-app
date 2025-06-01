@@ -54,7 +54,7 @@ const SpendingBox = ({ spend, limit }) => {
                             Spending Limit
                         </Typography>
                         <Typography variant="body1" color="text.light">
-                            Data form 1 - {dateText}
+                            Form 1 - {dateText}
                         </Typography>
                     </Stack>
                     <Button variant="outlined" sx={{ height: 40, py: '0px', borderColor: 'primary.light' }} onClick={() => router.push('/finance/report')}>View report</Button>

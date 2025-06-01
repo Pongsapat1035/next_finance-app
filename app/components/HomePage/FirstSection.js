@@ -1,5 +1,4 @@
 "use client"
-import { useRouter } from "next/navigation";
 import Grid2 from "@mui/material/Grid2";
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
@@ -9,10 +8,17 @@ import NextIcon from '@/public/icons/nextjs_icon_dark.svg'
 import FirebaseIcon from '@/public/icons/firebase.svg'
 import MaterialIcon from '@/public/icons/materialui.svg'
 import Image from 'next/image'
+import LoadingScreen from "../LoadingScreen";
+
 import { Login } from "@/app/auth/action";
+import { useState } from "react";
+import { useAlert } from "@/app/alertContext";
+import { useRouter } from "next/navigation";
 
 export default function FirstSection() {
+    const [loadingScreenState, setLoadingScreenState] = useState(false)
     const router = useRouter()
+    const { handleAlert } = useAlert()
     const techStack = [
         {
             icon: NextIcon,
@@ -30,10 +36,16 @@ export default function FirstSection() {
 
     const signInDemo = async () => {
         try {
+            setLoadingScreenState(true)
             const { status, message } = await Login({ email: "demo@demo.com", password: "Demo_password" })
             if (status !== 200) throw new Error(message)
+
+            handleAlert('success', "Welcome to your demo account")
+            router.push('/finance/dashboard')
         } catch (error) {
             console.log(error)
+        } finally {
+            setLoadingScreenState(false)
         }
     }
 
@@ -63,6 +75,9 @@ export default function FirstSection() {
                 </Stack>
                 <Button variant='contained' onClick={signInDemo} sx={{ px: 4, width: '200px', borderRadius: '10px' }}>Try demo project</Button>
             </Grid2>
+            {
+                loadingScreenState ? <LoadingScreen></LoadingScreen> : ""
+            }
         </Grid2>
     )
 }

@@ -29,30 +29,27 @@ export default function NavButttonList({ handleNav }) {
 
     useEffect(() => {
         // check pathname and set active style
-        switch (pathname) {
-            case '/finance/dashboard':
-                setActiveLink(prevState => ({
-                    ...prevState,
-                    dashboard: true,
-                    report: false,
-                    setting: false
-                }))
-                break
-            case '/finance/report':
-                setActiveLink(prevState => ({
-                    ...prevState,
-                    dashboard: false,
-                    report: true,
-                    setting: false
-                }))
-                break
-            default:
-                setActiveLink(prevState => ({
-                    ...prevState,
-                    dashboard: false,
-                    report: false,
-                    setting: true
-                }))
+        if (pathname.includes("dashboard")) {
+            setActiveLink(prevState => ({
+                ...prevState,
+                dashboard: true,
+                report: false,
+                setting: false
+            }))
+        } else if (pathname.includes("report")) {
+            setActiveLink(prevState => ({
+                ...prevState,
+                dashboard: false,
+                report: true,
+                setting: false
+            }))
+        } else {
+            setActiveLink(prevState => ({
+                ...prevState,
+                dashboard: false,
+                report: false,
+                setting: true
+            }))
         }
     }, [pathname])
 

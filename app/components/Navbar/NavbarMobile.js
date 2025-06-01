@@ -42,30 +42,27 @@ export default function NavbarMobile() {
 
     useEffect(() => {
         // check pathname and set active style
-        switch (pathname) {
-            case '/finance/dashboard':
-                setActiveLink(prevState => ({
-                    ...prevState,
-                    dashboard: true,
-                    report: false,
-                    setting: false
-                }))
-                break
-            case '/finance/report':
-                setActiveLink(prevState => ({
-                    ...prevState,
-                    dashboard: false,
-                    report: true,
-                    setting: false
-                }))
-                break
-            default:
-                setActiveLink(prevState => ({
-                    ...prevState,
-                    dashboard: false,
-                    report: false,
-                    setting: true
-                }))
+        if (pathname.includes("dashboard")) {
+            setActiveLink(prevState => ({
+                ...prevState,
+                dashboard: true,
+                report: false,
+                setting: false
+            }))
+        } else if (pathname.includes("report")) {
+            setActiveLink(prevState => ({
+                ...prevState,
+                dashboard: false,
+                report: true,
+                setting: false
+            }))
+        } else {
+            setActiveLink(prevState => ({
+                ...prevState,
+                dashboard: false,
+                report: false,
+                setting: true
+            }))
         }
     }, [pathname])
 
@@ -73,16 +70,16 @@ export default function NavbarMobile() {
         <Grid2 container direction="row" justifyContent="space-around"
             sx={style}>
             <IconButton aria-label="dashboard-page" onClick={() => router.push('/finance/dashboard')}>
-                <SpaceDashboardRoundedIcon sx={ { color: activeLink.dashboard ? 'background.paper' : 'text.light' }} />
+                <SpaceDashboardRoundedIcon sx={{ color: activeLink.dashboard ? 'background.paper' : 'text.light' }} />
             </IconButton>
             <IconButton aria-label="report-page" onClick={() => router.push('/finance/report')}>
-                <AssessmentRoundedIcon sx={ { color: activeLink.report ? 'background.paper' : 'text.light' }} />
+                <AssessmentRoundedIcon sx={{ color: activeLink.report ? 'background.paper' : 'text.light' }} />
             </IconButton>
             <IconButton aria-label="new-transection" sx={{ bgcolor: 'primary.light', p: 1 }} disableRipple onClick={() => router.push('/finance/dashboard/create')}>
                 <AddRoundedIcon sx={{ color: 'primary.main', fontSize: '2rem' }} />
             </IconButton>
             <IconButton aria-label="setting-page" onClick={() => router.push('/finance/setting')}>
-                <SettingsRoundedIcon sx={ { color: activeLink.setting ? 'background.paper' : 'text.light' }} />
+                <SettingsRoundedIcon sx={{ color: activeLink.setting ? 'background.paper' : 'text.light' }} />
             </IconButton>
             <IconButton aria-label="logout-page" onClick={handleSignout}>
                 <LogoutRoundedIcon sx={{ color: 'text.light' }} />

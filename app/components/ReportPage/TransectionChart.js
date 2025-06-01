@@ -5,10 +5,9 @@ import { useEffect, useState } from "react";
 import { chartColors } from "@/app/util/FormatChart";
 import SummaryChartSkeleton from "./skeleton/SummaryChartSkeleton";
 
-export default function TransectionChart({ lists }) {
+export default function TransectionChart({ isLoading, lists }) {
     const [chartData, setChartData] = useState([])
     const [dateLists, setDateLists] = useState([])
-    const [isLoading, setIsLoading] = useState(true)
 
     const convertDataToChart = (recievedList) => {
         const newLists = JSON.parse(JSON.stringify(recievedList))
@@ -33,11 +32,7 @@ export default function TransectionChart({ lists }) {
     }
 
     useEffect(() => {
-        setIsLoading(true)
         convertDataToChart(lists)
-        setTimeout(() => {
-            setIsLoading(false)
-        }, 500)
     }, [lists])
 
 

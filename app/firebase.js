@@ -18,7 +18,7 @@ const auth = getAuth();
 const useEmulator = false
 
 if (useEmulator) {
-    connectFirestoreEmulator(db, '127.0.0.1', 8040);
+    connectFirestoreEmulator(db, '127.0.0.1', 8041);
     connectAuthEmulator(auth, "http://127.0.0.1:9099");
 }
 
