@@ -48,6 +48,7 @@ export default function TransectionFrom({ data = null, mode }) {
         category: ''
     })
     const [isLoading, setIsLoading] = useState(true)
+    const [buttonLoading, setButtonLoading] = useState(false)
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -66,8 +67,8 @@ export default function TransectionFrom({ data = null, mode }) {
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
+            setButtonLoading(true)
             const updateFormData = new FormData(e.target)
-            console.log('check submit')
             const result = validateTransectionForm(formData)
             const allEmptyError = Object.values(result).every(val => val === '');
             if (!allEmptyError) {
@@ -102,6 +103,8 @@ export default function TransectionFrom({ data = null, mode }) {
         } catch (error) {
             console.log(error)
             handleAlert('error', error.message)
+        } finally {
+            setButtonLoading(false)
         }
     }
 
@@ -222,7 +225,7 @@ export default function TransectionFrom({ data = null, mode }) {
                                 </Select>
                                 {inputError.category !== '' ? <Typography variant="body1" color="error.main" fontSize={12}>{inputError.category}</Typography> : ''}
                             </Stack>
-                            <Button type="submit" variant="contained" sx={{ borderRadius: '8px', mt: '1rem' }}>{mode === 'edit' ? 'Update' : 'Create'} transection</Button>
+                            <Button type="submit" variant="contained" loading={buttonLoading} sx={{ borderRadius: '8px', mt: '1rem' }}>{mode === 'edit' ? 'Update' : 'Create'} transection</Button>
                             {
                                 mode === 'edit' ? <Button type="button" variant="contained" onClick={handleDelete} sx={{ borderRadius: '8px', mt: '1rem', backgroundColor: "error.main" }}>Delete transection</Button> : ''
                             }

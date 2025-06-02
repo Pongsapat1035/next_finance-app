@@ -26,6 +26,7 @@ export default function AddCateModal({ modalState, closeModal }) {
         type: null,
         category: null
     })
+    const [isLoading, setIsLoading] = useState(false)
 
     const handleInputChange = (event) => {
         const { name, value } = event.target
@@ -58,6 +59,7 @@ export default function AddCateModal({ modalState, closeModal }) {
 
     const handleCreateCategory = async () => {
         try {
+            setIsLoading(true)
             setInputError((prev) => ({ ...prev, type: null, category: null }))
             validateForm(formData)
 
@@ -78,6 +80,8 @@ export default function AddCateModal({ modalState, closeModal }) {
         } catch (error) {
             handleAlert('error', error.message)
             console.log('error from add new category : ', error)
+        } finally {
+            setIsLoading(false)
         }
     }
 
@@ -106,7 +110,7 @@ export default function AddCateModal({ modalState, closeModal }) {
                     }}
                     variant="outlined" placeholder="Categorty" required>
                 </TextField>
-                <Button variant="square" onClick={handleCreateCategory}>Add category</Button>
+                <Button variant="square" loading={isLoading} onClick={handleCreateCategory}>Add category</Button>
             </Stack>
         </ModalBox>
     )

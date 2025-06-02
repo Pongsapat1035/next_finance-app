@@ -22,6 +22,7 @@ export default function EditCategoryModal({ modalState, closeModal, value }) {
     })
     const [categoryIndex, setCategoryIndex] = useState(0)
     const [inputError, setInputError] = useState(null)
+    const [isLoading, setIsLoading] = useState(false)
 
     const handleChange = (e) => {
         const name = e.target.name
@@ -51,6 +52,7 @@ export default function EditCategoryModal({ modalState, closeModal, value }) {
 
     const handleEditCategory = async () => {
         try {
+            setIsLoading(true)
             setInputError(null)
             validateForm(editData)
 
@@ -70,6 +72,8 @@ export default function EditCategoryModal({ modalState, closeModal, value }) {
         } catch (error) {
             handleAlert('error', error.message)
             console.log('error from edit data : ', error)
+        } finally {
+            setIsLoading(false)
         }
     }
 

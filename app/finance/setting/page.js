@@ -24,7 +24,7 @@ export default function SettingPage() {
     }, [user])
 
     return (
-        <Box py={2}>
+        <Box pt={2} pb={8}>
             <Grid2 container direction="column" gap={1} p={{ xs: 4, md: 8 }} sx={{ bgcolor: 'background.paper', borderRadius: '30px', height: "100%" }}>
                 <Typography variant="h3" fontWeight="bold" >Setting</Typography>
                 <Grid2 container direction="column" gap={4}>
