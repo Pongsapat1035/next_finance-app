@@ -48,10 +48,10 @@ export default function TransectionChart({ isLoading, lists }) {
                             { dataKey: 'expend', label: 'Expend', color: chartColors[1] },
                             { dataKey: 'income', label: 'Income', color: chartColors[3] },
                         ]}
+                      
                         height={300}
                     />
             }
-
         </Grid2>
     )
 }

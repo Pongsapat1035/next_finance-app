@@ -27,6 +27,9 @@ import IconButton from "@mui/material/IconButton";
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import dayjs from 'dayjs';
 import FormSkeleton from "./skeleton/FormSkeleton";
+import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
+
+
 import { getMonthText } from "@/app/util/ConvertData";
 import { useAlert } from "@/app/alertContext";
 
@@ -225,10 +228,19 @@ export default function TransectionFrom({ data = null, mode }) {
                                 </Select>
                                 {inputError.category !== '' ? <Typography variant="body1" color="error.main" fontSize={12}>{inputError.category}</Typography> : ''}
                             </Stack>
-                            <Button type="submit" variant="contained" loading={buttonLoading} sx={{ borderRadius: '8px', mt: '1rem' }}>{mode === 'edit' ? 'Update' : 'Create'} transection</Button>
-                            {
-                                mode === 'edit' ? <Button type="button" variant="contained" onClick={handleDelete} sx={{ borderRadius: '8px', mt: '1rem', backgroundColor: "error.main" }}>Delete transection</Button> : ''
-                            }
+
+                            <Stack sx={{ display: { xs: 'none', sm: 'flex' } }}>
+                                <Button type="submit" variant="contained" loading={buttonLoading} sx={{ borderRadius: '8px', mt: '1rem' }}>{mode === 'edit' ? 'Update' : 'Create'} transection</Button>
+                                {
+                                    mode === 'edit' ? <Button type="button" variant="contained" onClick={handleDelete} sx={{ borderRadius: '8px', mt: '1rem', backgroundColor: "error.main" }}>Delete</Button> : ''
+                                }
+                            </Stack>
+                            <Stack direction="row" justifyContent="end" spacing={3} mt={3} sx={{ display: { xs: 'flex', sm: 'none' } }}>
+                                <Button type="submit" variant="contained" loading={buttonLoading} sx={{ borderRadius: '8px', width: 1 / 3 }}>{mode === 'edit' ? 'Update' : 'Create'} </Button>
+                                {
+                                    mode === 'edit' ? <IconButton type="button" onClick={handleDelete} ><DeleteRoundedIcon></DeleteRoundedIcon></IconButton > : ''
+                                }
+                            </Stack>
                         </Grid2>
                     </form>
             }

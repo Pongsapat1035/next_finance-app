@@ -11,7 +11,7 @@ export default function ModalBox({ children, state, closeModal, header }) {
         py: 6,
         borderRadius: '20px',
         bgcolor: "#FFFEFE",
-        minWidth: '500px',
+        minWidth: '350px',
         width: 1 / 4,
         position: 'relative'
     }

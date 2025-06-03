@@ -81,7 +81,7 @@ function DashboardPage() {
 
   return (
     <>
-      <Box height="100vh" py={2}>
+      <Box sx={{ flexGrow: 1 }}>
         <Grid2 container direction="row" spacing={3} sx={{ width: '100%' }}>
           <Grid2 size={{ xs: 12, sm: 7, lg: 8 }}>
             <Stack spacing={3} sx={{ height: '100%' }}>

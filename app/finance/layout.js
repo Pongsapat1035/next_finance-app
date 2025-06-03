@@ -11,13 +11,16 @@ export default function HomeLayout({ children }) {
         <>
             <Box width="100vw" bgcolor="background.main" sx={{ minHeight: '100vh' }}>
                 <AuthProvider>
-                    <Container>
+                    <Container sx={{ display: 'flex', flexDirection: 'column' }}>
                         <Navbar></Navbar>
-                        <NavbarMobile></NavbarMobile>
                         {children}
+                        <Box height={80} sx={{ display: { xs: 'block', sm: 'none' } }}></Box>
+
                     </Container>
+                    <NavbarMobile></NavbarMobile>
                 </AuthProvider>
             </Box>
+
         </>
     )
 }

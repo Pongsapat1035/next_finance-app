@@ -12,12 +12,12 @@ export default function AlertBadge({ data = {}, handleFunction }) {
     const symbolStyle = {
         borderRadius: '100%',
         bgcolor: bgSymbol,
-        width: 50,
-        height: 50
+        width: { xs: 40, sm: 50 },
+        height: { xs: 40, sm: 50 }
     }
 
     const paperStyle = {
-        width: 3 / 4,
+        width: 4/5,
         '@media (min-width: 600px)': {
             width: 1 / 3,
             bottom: 30,
@@ -45,8 +45,8 @@ export default function AlertBadge({ data = {}, handleFunction }) {
                         </Grid2>
                     </Grid2>
                     <Grid2 size={10}>
-                        <Typography variant="h5" fontWeight="bold">{data.type === 'error' ? 'Error' : 'Success'}</Typography>
-                        <Typography variant="body1" color="text.light">{data.message}</Typography>
+                        <Typography variant="h5" fontSize={{ xs: 18, sm: 24 }} fontWeight="bold">{data.type === 'error' ? 'Error' : 'Success'}</Typography>
+                        <Typography variant="body1" color="text.light" fontSize={{ xs: 14, sm: 18 }}>{data.message}</Typography>
                     </Grid2>
                 </Grid2>
                 <IconButton onClick={handleFunction} size="small" sx={{ position: 'absolute', top: 10, right: 10 }} >

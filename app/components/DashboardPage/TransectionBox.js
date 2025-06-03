@@ -22,7 +22,7 @@ const TransectionBox = ({ isLoading, lists, handleMonth }) => {
     return (
         <Paper sx={{ p: 4, maxHeight: '695px', height: '695px' }}>
             <Grid2 container direction="column" gap={2} height="100%" flexWrap="nowrap">
-                <Grid2 container direction="row" alignItems="center" justifyContent="space-between">
+                <Grid2 container direction={{ xs: "column", sm: "row" }} alignItems={{ xs: 'start', sm: "center" }} spacing={2} justifyContent="space-between">
                     <Typography variant="h5" fontWeight="bold">Transection</Typography>
                     <DatePicker
                         label="Month"
@@ -62,8 +62,6 @@ const TransectionList = ({ data }) => {
     const boxStyle = {
         borderBottom: '1px solid',
         borderColor: 'primary.light',
-        px: 2,
-        py: 1,
         cursor: 'pointer',
         transition: '.5s',
         ':hover': {
@@ -83,11 +81,11 @@ const TransectionList = ({ data }) => {
 
     return (
         <Grid2 container direction="row" alignItems="center" justifyContent="space-between"
-            px={2}
+            px={{xs:0,sm:2}}
             py={1}
             sx={boxStyle} onClick={() => router.push(`/finance/dashboard/${data.id}?month=${month}`)}>
-            <Grid2 container size={2} direction="row" justifyContent="flex-start" px={2} py={{ xs: 0, sm: 1 }} gap={1}>
-                <Typography variant="h5" sx={{ fontSize: { xs: 28, sm: 32 } }}>{data.date}</Typography>
+            <Grid2 container size={2} direction={{xs:'column', sm:'row'}} justifyContent="flex-start" px={{xs:0, sm:2}} py={{ xs: 0, sm: 1 }} gap={1}>
+                <Typography variant="h5" sx={{ fontSize: { xs: 20, sm: 32 } }}>{data.date}</Typography>
                 <Typography variant="body1" fontWeight="bold" color={dayColors[data.weekDay]}>{data.weekDay}</Typography>
             </Grid2>
             <Grid2 container size="grow" direction="column" justifyContent="center" px={{ xs: 1, sm: 4 }}>

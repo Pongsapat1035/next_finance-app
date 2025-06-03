@@ -60,7 +60,7 @@ const ChartWrapper = ({ lists }) => {
     )
 }
 
-const TopCategory = ({ name, color }) => {
+export const TopCategory = ({ name, color}) => {
     return (
         <Grid2 size={6}>
             <Stack direction="row" alignItems="center" spacing={2} paddingLeft={5}>

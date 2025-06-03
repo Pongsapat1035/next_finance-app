@@ -6,10 +6,11 @@ import { PieChart } from '@mui/x-charts/PieChart';
 import { useState, useEffect } from "react";
 import { ChangeFormatChartData } from "@/app/util/FormatChart";
 import PieChartSkeleton from "./skeleton/PieChartSkeleton";
+import { TopCategory } from "../DashboardPage/ChartWraper";
 
 export default function ExpendWarpper({ isLoading, lists }) {
     const [dataLists, setDataLists] = useState([])
-  
+    const [legendState, setLagendState] = useState(false)
     useEffect(() => {
         if (lists.length > 0) {
             const result = ChangeFormatChartData(lists)
@@ -19,8 +20,22 @@ export default function ExpendWarpper({ isLoading, lists }) {
         }
     }, [lists])
 
+    useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth < 500) {
+                setLagendState(true);
+            } else {
+                setLagendState(false)
+            }
+        };
+        handleResize();
+
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
     return (
-        <Grid2 container direction="column" size={{ xs: 12, md: 6 }} p={4} bgcolor="background.paper" borderRadius='15px' gap={1}>
+        <Grid2 container direction="column" size={{ xs: 12, md: 6 }} p={4} bgcolor="background.paper" borderRadius='15px' gap={1} sx={{ overflow: 'hidden' }}>
             <Typography variant="h5" fontWeight="bold">Expend Overview</Typography>
             {
                 isLoading ? <PieChartSkeleton></PieChartSkeleton> :
@@ -39,11 +54,18 @@ export default function ExpendWarpper({ isLoading, lists }) {
                                 },
                             },
                         ]}
+                        slotProps={{
+                            legend: { hidden: legendState },
+                        }}
                         width={400}
                         height={200}
                     />
             }
-
+            <Grid2 container spacing={1} direction="column" sx={{ display: { xs: 'flex', sm: 'none' }}}>
+                {
+                    dataLists.map((item, index) => <TopCategory key={index} name={item.name} color={item.color}></TopCategory>)
+                }
+            </Grid2>
         </Grid2>
     )
 

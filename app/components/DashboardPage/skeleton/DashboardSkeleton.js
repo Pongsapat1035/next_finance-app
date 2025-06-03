@@ -21,7 +21,7 @@ export default function DashboardSkeleton() {
                                     <Skeleton variant="circular" width={80} height={80} />
                                 </Grid2>
                             </Grid2>
-                            <Grid2 size={6} container justifyContent="space-between" sx={boxStyle}>
+                            <Grid2 size={{ xs: 'auto', sm:6 }} container justifyContent="space-between" sx={boxStyle}>
                                 <Grid2 container direction="column" size={7}>
                                     <Skeleton width={200} height={50} variant='rounded'></Skeleton>
                                     <Skeleton width={200} height={30} variant='rounded'></Skeleton>
